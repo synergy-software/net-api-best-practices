@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Sample.API;
 
-namespace Sample.API
+namespace Sample.Web
 {
     public class Program
     {
@@ -18,9 +14,13 @@ namespace Sample.API
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
+                .ConfigureAppConfiguration(
+                    (hostingContext, config) =>
+                    {
+                        var environmentName = hostingContext.HostingEnvironment.EnvironmentName;
+                        config.AddJsonFile($"appsettings.{environmentName}.json", true);
+                        config.AddEnvironmentVariables();
+                    });
     }
 }
