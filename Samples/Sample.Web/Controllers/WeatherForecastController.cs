@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Sample.API;
+using Sample.API.Controllers;
 
-namespace Sample.API.Controllers
+namespace Sample.Web.Controllers
 {
     [ApiController]
-    [Route("api/weather")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/weather")]
     [Produces("application/json")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
+        private static readonly string[] Summaries =
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
@@ -34,12 +35,12 @@ namespace Sample.API.Controllers
         {
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            })
-            .ToArray();
+                {
+                    Date = DateTime.Now.AddDays(index),
+                    TemperatureC = rng.Next(-20, 55),
+                    Summary = Summaries[rng.Next(Summaries.Length)]
+                })
+                .ToArray();
         }
 
         /// <summary>
@@ -63,25 +64,13 @@ namespace Sample.API.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //[ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Create))]
         public ActionResult<TodoItem> Create(TodoItem item)
         {
             //_context.TodoItems.Add(item);
             //_context.SaveChanges();
 
-            return CreatedAtRoute("GetTodo", new { id = item.Id }, item);
+            return CreatedAtRoute("GetTodo", new {id = item.Id}, item);
         }
-    }
-
-    public class TodoItem
-    {
-        public long Id { get; set; }
-
-        // TODO: zamień [Required] na non-nullable
-        [Required]
-        [StringLength(20)]
-        public string Name { get; set; }
-
-        [DefaultValue(false)]
-        public bool IsComplete { get; set; }
     }
 }

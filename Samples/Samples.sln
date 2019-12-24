@@ -7,8 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.Web", "Sample.Web\Sa
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{62717AA5-2F4F-49A6-A92E-CB3E2CAAB05D}"
 	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
 		..\README.md = ..\README.md
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.Services", "Sample.Services\Sample.Services.csproj", "{2C2A8F60-CA18-416F-81A2-F3DBDFC05478}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +23,10 @@ Global
 		{F8A79BC0-CE88-49E0-8C42-A924371E0A05}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F8A79BC0-CE88-49E0-8C42-A924371E0A05}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F8A79BC0-CE88-49E0-8C42-A924371E0A05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C2A8F60-CA18-416F-81A2-F3DBDFC05478}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C2A8F60-CA18-416F-81A2-F3DBDFC05478}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C2A8F60-CA18-416F-81A2-F3DBDFC05478}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C2A8F60-CA18-416F-81A2-F3DBDFC05478}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

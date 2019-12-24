@@ -4,6 +4,9 @@ namespace Sample.API
 {
     public class WeatherForecast
     {
+        /// <summary>
+        /// Date
+        /// </summary>
         public DateTime Date { get; set; }
 
         public int TemperatureC { get; set; }
