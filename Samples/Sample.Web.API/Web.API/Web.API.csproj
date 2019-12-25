@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -18,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Sample.Services\Sample.Services.csproj" />
+    <ProjectReference Include="..\Web.API.Services\Web.API.Services.csproj" />
   </ItemGroup>
 
 </Project>
