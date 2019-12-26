@@ -1,0 +1,19 @@
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using JetBrains.Annotations;
+
+namespace Synergy.Samples.Web.API.Extensions
+{
+    public static class CollectionExtensions
+    {
+        [Pure]
+        public static bool IsEmpty<T>([NotNull] this IEnumerable<T> collection) => collection.Any() == false;
+
+        [Pure]
+        public static bool IsNotEmpty<T>([NotNull] this IEnumerable<T> collection) => collection.Any();
+
+        public static ReadOnlyCollection<T> AsReadOnly<T>(this IEnumerable<T> collection)
+            => collection.ToList().AsReadOnly();
+    }
+}
