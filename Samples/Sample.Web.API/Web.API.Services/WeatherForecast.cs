@@ -5,7 +5,7 @@ namespace Sample.API
     public class WeatherForecast
     {
         /// <summary>
-        /// Date
+        /// Date of forecast
         /// </summary>
         public DateTime Date { get; set; }
 

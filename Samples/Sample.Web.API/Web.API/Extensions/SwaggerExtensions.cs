@@ -25,16 +25,17 @@ namespace Sample.Web.Extensions
                 // Add a swagger document for each discovered API version  
                 foreach (var apiVersion in provider.ApiVersionDescriptions)
                 {
-                    c.SwaggerDoc("v1", GenerateSwaggerVersionInfo(apiVersion, environment));
+                    c.SwaggerDoc(apiVersion.GroupName, GenerateSwaggerVersionInfo(apiVersion, environment));
                 }
 
                 // TODO: Dodaj filtry
 
-                // TODO: Dodaj chodzenie po wszystkich bibliotekach w projekcie w poszukiwaniu plików xml - Librarian
-                // Set the comments path for the Swagger JSON and UI.
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath);
+                foreach (var assembly in Application.GetApplicationAssemblies())
+                {
+                    var xmlFile = $"{assembly.GetName().Name}.xml";
+                    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                    c.IncludeXmlComments(xmlPath);
+                }
 
                 c.CustomSchemaIds(GetSchemaId);
             });
@@ -62,7 +63,7 @@ namespace Sample.Web.Extensions
             };
         }
 
-        private static string GetApiVersionDescription(ApiVersionDescription description, IWebHostEnvironment environment)
+        private static string GetApiVersionDescription(ApiVersionDescription api, IWebHostEnvironment environment)
         {
             // TODO: wydziel klasę / komponent odpowiedzialną za pobranie informacji o aplikacji
             var assembly = Assembly.GetExecutingAssembly();
@@ -71,7 +72,7 @@ namespace Sample.Web.Extensions
             if (environment.IsDevelopment() || environment.IsTests())
                 createdOn = "DEVELOPERS MACHINE";
 
-            return $"<label>API Version</label>: <strong>{description.ApiVersion} {(description.IsDeprecated ? "(DEPRECATED)" : "")}</strong><br/> " +
+            return $"<label>API Version</label>: <strong>{api.ApiVersion} {(api.IsDeprecated ? "(DEPRECATED)" : "")}</strong><br/> " +
                    $"<label>Application Name</label>: <strong>{fileVersionInfo.ProductName}</strong><br/> " +
                    $"<label>Application Version</label>: <strong>{fileVersionInfo.FileVersion}</strong><br/> " +
                    $"<label>Application Created on</label>: <strong>{createdOn}</strong>";
