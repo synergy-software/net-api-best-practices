@@ -1,3 +1,19 @@
+﻿## Development basics
+ * TODO: Use DbC - always think about contract you expose (contract does not only means API contract, but every public method is a contract - even if not exposed outside your application)
+   * Sample contracts library you may use - https://www.nuget.org/packages/Synergy.Contracts/
+ * TODO: Use container - e.g. Windsor Containaer (or any)
+
+## ASP Basics
+ * Add reading configuration hierarchy based on environment - see https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-3.1
+ * Add API versioning - https://github.com/microsoft/aspnet-api-versioning
+   * Even if you don't need versioning now, you will need it later
+   * Setup every controller to be v1 (at the beginning)
+ * Add swagger to your project - e.g. Swashbuckle - see https://docs.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-3.1&tabs=visual-studio
+   * Add versioned swagger documents
+   * Add returned HTTP codes - e.g. using [ProducesResponseType]
+   * TODO: Add test that regenerates JSON API description document and fails when it's changed - e.g. using Ms Test Server - https://docs.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-3.1
+ * TODO: Add logging engine
+ * TODO: Add exception handling
 
 ## Controllers
   * Controller methods should be thin - containing only mapping/composing/dispatching code
