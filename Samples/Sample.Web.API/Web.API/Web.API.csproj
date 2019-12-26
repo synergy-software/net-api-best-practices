@@ -5,9 +5,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Nullable>enable</Nullable>
-    <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
-    <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
+    <AssemblyName>Synergy.Samples.Web.API</AssemblyName>
+    <RootNamespace>Synergy.Samples.Web.API</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
