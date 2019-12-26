@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Synergy.Samples.Web.API.Extensions;
 
 namespace Sample.Web.Extensions
 {
@@ -67,7 +68,7 @@ namespace Sample.Web.Extensions
             var assembly = Assembly.GetExecutingAssembly();
             var fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
             var createdOn = File.GetLastWriteTime(assembly.Location).ToString();
-            if (environment.IsDevelopment())
+            if (environment.IsDevelopment() || environment.IsTests())
                 createdOn = "DEVELOPERS MACHINE";
 
             return $"<label>API Version</label>: <strong>{description.ApiVersion} {(description.IsDeprecated ? "(DEPRECATED)" : "")}</strong><br/> " +
