@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 using Castle.Core.Internal;
 using Microsoft.Extensions.Hosting;
@@ -18,6 +20,15 @@ namespace Synergy.Samples.Web.API.Extensions
             return ReflectionUtil.GetApplicationAssemblies(GetRootAssembly()).AsReadOnly();
         }
 
+        public static Info GetApplicationInfo()
+        {
+            var assembly = GetRootAssembly();
+            var fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
+            var createdOn = File.GetLastWriteTime(assembly.Location);
+
+            return new Info(fileVersionInfo, createdOn);
+        }
+
         /// <summary>
         /// Checks if the current host environment name is <see cref="Application.Environment.Tests"/>.
         /// </summary>
@@ -33,6 +44,20 @@ namespace Synergy.Samples.Web.API.Extensions
         public static class Environment
         {
             public const string Tests = "Tests";
+        }
+
+        public struct Info
+        {
+            public string ProductName { get; }
+            public string FileVersion { get; }
+            public DateTime CreatedOn { get; }
+
+            public Info(FileVersionInfo fileVersionInfo, DateTime createdOn)
+            {
+                ProductName = fileVersionInfo.ProductName;
+                FileVersion = fileVersionInfo.FileVersion;
+                CreatedOn = createdOn;
+            }
         }
     }
 }

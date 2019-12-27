@@ -16,6 +16,11 @@
     <NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <Company>Synergy Marcin Celej</Company>
+    <Product>Synergy Samples</Product>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Synergy.Contracts" Version="2.0.126" />
   </ItemGroup>

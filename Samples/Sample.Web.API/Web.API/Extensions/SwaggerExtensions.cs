@@ -65,16 +65,14 @@ namespace Sample.Web.Extensions
 
         private static string GetApiVersionDescription(ApiVersionDescription api, IWebHostEnvironment environment)
         {
-            // TODO: wydziel klasę / komponent odpowiedzialną za pobranie informacji o aplikacji
-            var assembly = Application.GetRootAssembly();
-            var fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
-            var createdOn = File.GetLastWriteTime(assembly.Location).ToString();
+            var application = Application.GetApplicationInfo();
+            var createdOn = application.CreatedOn.ToString();
             if (environment.IsDevelopment() || environment.IsTests())
                 createdOn = "DEVELOPERS MACHINE";
 
             return $"<label>API Version</label>: <strong>{api.ApiVersion} {(api.IsDeprecated ? "(DEPRECATED)" : "")}</strong><br/> " +
-                   $"<label>Application Name</label>: <strong>{fileVersionInfo.ProductName}</strong><br/> " +
-                   $"<label>Application Version</label>: <strong>{fileVersionInfo.FileVersion}</strong><br/> " +
+                   $"<label>Application Name</label>: <strong>{application.ProductName}</strong><br/> " +
+                   $"<label>Application Version</label>: <strong>{application.FileVersion}</strong><br/> " +
                    $"<label>Application Created on</label>: <strong>{createdOn}</strong>";
         }
 
