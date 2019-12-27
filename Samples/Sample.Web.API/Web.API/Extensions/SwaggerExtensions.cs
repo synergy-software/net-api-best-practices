@@ -66,7 +66,7 @@ namespace Sample.Web.Extensions
         private static string GetApiVersionDescription(ApiVersionDescription api, IWebHostEnvironment environment)
         {
             // TODO: wydziel klasę / komponent odpowiedzialną za pobranie informacji o aplikacji
-            var assembly = Assembly.GetExecutingAssembly();
+            var assembly = Application.GetRootAssembly();
             var fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
             var createdOn = File.GetLastWriteTime(assembly.Location).ToString();
             if (environment.IsDevelopment() || environment.IsTests())

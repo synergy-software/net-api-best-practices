@@ -24,7 +24,7 @@ namespace Synergy.Samples.Web.API.Tests
             return new WebApplicationFactory<TStartup>()
                 .WithWebHostBuilder(configuration =>
                 {
-                    configuration.UseEnvironment(ApplicationEnvironment.Tests);
+                    configuration.UseEnvironment(Application.Environment.Tests);
                 });
         }
 
