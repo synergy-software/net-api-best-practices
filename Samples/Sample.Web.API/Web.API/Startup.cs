@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Sample.Web.Extensions;
 
 namespace Sample.Web
@@ -18,7 +20,13 @@ namespace Sample.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers()
+                .AddNewtonsoftJson(
+                options =>
+                {
+                    options.SerializerSettings.Converters.Add(new StringEnumConverter());
+                    options.SerializerSettings.Formatting = Formatting.Indented;
+                });
             services.AddVersionedApi();
             services.AddVersionedSwagger();
         }
@@ -28,7 +36,10 @@ namespace Sample.Web
             app.UseSwagger()
                .UseVersionedSwaggerUI();
 
-            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
+            // TODO: Add exception handling
+
+            if (env.IsDevelopment()) 
+                app.UseDeveloperExceptionPage();
 
             app.UseHttpsRedirection();
 

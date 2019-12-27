@@ -48,6 +48,7 @@ namespace Sample.Web
                         // Execute all installers in every library in the application
                         container.Install(FromAssembly.InThisApplication(rootAssembly));
                     })
+            //TODO: Configure serilog
         ;
     }
 }
