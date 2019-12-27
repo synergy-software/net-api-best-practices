@@ -1,7 +1,16 @@
+using System.Linq;
+using System.Reflection;
+using Castle.Facilities.TypedFactory;
+using Castle.MicroKernel.Registration;
+using Castle.MicroKernel.Resolvers.SpecializedResolvers;
+using Castle.Windsor;
+using Castle.Windsor.Installer;
+using Castle.Windsor.MsDependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Sample.API;
+using Synergy.Samples.Web.API.Extensions;
 
 namespace Sample.Web
 {
@@ -21,6 +30,27 @@ namespace Sample.Web
                         var environmentName = hostingContext.HostingEnvironment.EnvironmentName;
                         config.AddJsonFile($"appsettings.{environmentName}.json", true);
                         config.AddEnvironmentVariables();
-                    });
+                    })
+                .UseServiceProviderFactory(new WindsorServiceProviderFactory())
+                .ConfigureContainer<WindsorContainer>(
+                    (hostBuilderContext, container) =>
+                    {
+                        container.Kernel.Resolver.AddSubResolver(new CollectionResolver(container.Kernel));
+                        container.AddFacility<TypedFactoryFacility>();
+
+                        var rootAssembly = Application.GetRootAssembly();
+                        container.Register(
+                            Classes
+                                .FromAssemblyInThisApplication(rootAssembly)
+                                .Pick()
+                                .Unless(x => x.GetInterfaces().IsEmpty() || x.IsConstructable() == false)
+                                .WithServiceAllInterfaces()
+                                .LifestyleSingleton()
+                        );
+
+                        // Execute all installers in every library in the application
+                        container.Install(FromAssembly.InThisApplication(rootAssembly));
+                    })
+        ;
     }
 }
