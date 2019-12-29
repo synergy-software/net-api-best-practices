@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using Synergy.Samples.Web.API.Tests.Swagger;
 
 namespace Synergy.Samples.Web.API.Tests
 {
@@ -10,14 +10,15 @@ namespace Synergy.Samples.Web.API.Tests
 
         [Test]
         [TestCase("v1")]
-        public async Task validate_api_contract_changes(string version)
+        public void validate_api_contract_changes(string version)
         {
             // ARRANGE
             var testServer = new TestServer();
             var swagger = new SwaggerClient(testServer);
 
             // ACT
-            await swagger.validate_api_contract_changes(Path + $"swagger-{version}.json", version);
+            swagger.GetSwaggerContract(version)
+                   .ShouldBe(new CompareContractWithPattern(Path + $"swagger-{version}.json", new Ignore("info.description")));
         }
     }
 }
