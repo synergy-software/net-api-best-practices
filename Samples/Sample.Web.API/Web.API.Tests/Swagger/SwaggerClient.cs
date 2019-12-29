@@ -25,7 +25,7 @@ namespace Synergy.Samples.Web.API.Tests
 
             // ASSERT
             var patternContract = ReadSwaggerContractFromSavedPattern(pathToContract);
-            var contracts = new JsonComparer(patternContract, newContract, "info.description");
+            var contracts = new JsonComparer(patternContract, newContract, new Ignore("info.description"));
 
             if (contracts.AreEquivalent == false)
             {

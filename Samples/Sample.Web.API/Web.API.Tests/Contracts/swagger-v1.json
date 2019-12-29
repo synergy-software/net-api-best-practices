@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "Synergy sample API",
-    "description": "<label>API Version</label>: <strong>1.0 </strong><br/> <label>Application Name</label>: <strong>Synergy.Samples.Web.API</strong><br/> <label>Application Version</label>: <strong>1.0.0.0</strong><br/> <label>Application Created on</label>: <strong>DEVELOPERS MACHINE</strong>",
+    "description": "<label>API Version</label>: <strong>1.0 </strong><br/> <label>Application Name</label>: <strong>Synergy Samples</strong><br/> <label>Application Version</label>: <strong>1.0.0.0</strong><br/> <label>Application Created on</label>: <strong>DEVELOPERS MACHINE</strong>",
     "contact": {
       "name": "Synergy software",
       "url": "https://github.com/synergy-software",
@@ -49,6 +49,11 @@
         "requestBody": {
           "description": "",
           "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TodoItem"
+              }
+            },
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/TodoItem"
