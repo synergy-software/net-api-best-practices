@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Synergy.Contracts;
 
-namespace Synergy.Samples.Web.API.Tests.WAPIT 
+namespace Synergy.Samples.Web.API.Tests.WAPIT.Assertions 
 {
     public class CompareOperationWithPattern : IAssertion
     {
@@ -43,7 +43,7 @@ namespace Synergy.Samples.Web.API.Tests.WAPIT
             }
 
             Fail.IfFalse(patterns.AreEquivalent,
-                         Violation.Of($"Operation is different than expected. Verify the differences:\n\n {patterns.GetDifferences()}")
+                         Violation.Of("Operation is different than expected. Verify the differences:\n\n {0}", patterns.GetDifferences())
                         );
         }
 

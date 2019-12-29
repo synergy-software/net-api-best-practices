@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net.Http;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Hosting;
@@ -55,9 +56,11 @@ namespace Synergy.Samples.Web.API.Tests
                 RequestUri = this.PrepareRequestUri(path,  queryParameters)
             };
 
+            Stopwatch timer = Stopwatch.StartNew();
             var response = this.HttpClient.SendAsync(request).Result;
+            timer.Stop();
 
-            return new HttpOperation(this, request, response);
+            return new HttpOperation(this, request, response, timer);
         }
     }
 }

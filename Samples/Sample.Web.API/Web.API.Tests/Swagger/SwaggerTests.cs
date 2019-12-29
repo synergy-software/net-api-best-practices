@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using Synergy.Samples.Web.API.Tests.Swagger;
+using Synergy.Samples.Web.API.Tests.WAPIT.Assertions;
 
 namespace Synergy.Samples.Web.API.Tests
 {
@@ -18,7 +19,16 @@ namespace Synergy.Samples.Web.API.Tests
 
             // ACT
             swagger.GetSwaggerContract(version)
-                   .ShouldBe(new CompareContractWithPattern(Path + $"swagger-{version}.json", new Ignore("info.description")));
+                   .ShouldBe(EqualToPatternIn(version));
+        }
+
+        private static CompareResponseWithPattern EqualToPatternIn(string version)
+        {
+            return new CompareResponseWithPattern(
+                                                  Path + $"swagger-{version}.json",
+                                                  new Ignore("info.description"),
+                                                  CompareResponseWithPattern.Mode.ContractCheck
+                                                 );
         }
     }
 }

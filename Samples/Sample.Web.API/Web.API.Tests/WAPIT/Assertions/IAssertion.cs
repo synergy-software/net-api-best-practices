@@ -1,4 +1,4 @@
-﻿namespace Synergy.Samples.Web.API.Tests.WAPIT
+﻿namespace Synergy.Samples.Web.API.Tests.WAPIT.Assertions
 {
     public interface IAssertion
     {

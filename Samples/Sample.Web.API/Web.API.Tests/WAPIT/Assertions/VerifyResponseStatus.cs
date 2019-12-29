@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using Synergy.Contracts;
 
-namespace Synergy.Samples.Web.API.Tests.WAPIT
+namespace Synergy.Samples.Web.API.Tests.WAPIT.Assertions
 {
     public class VerifyResponseStatus : IAssertion
     {

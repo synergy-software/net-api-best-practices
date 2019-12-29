@@ -2,6 +2,7 @@
 using JetBrains.Annotations;
 using NUnit.Framework;
 using Synergy.Samples.Web.API.Tests.WAPIT;
+using Synergy.Samples.Web.API.Tests.WAPIT.Assertions;
 
 namespace Synergy.Samples.Web.API.Tests.Weather
 {
