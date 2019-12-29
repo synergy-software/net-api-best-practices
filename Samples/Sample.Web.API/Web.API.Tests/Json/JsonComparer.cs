@@ -40,7 +40,7 @@ namespace Synergy.Samples.Web.API.Tests
             return copy;
         }
 
-        public string? GetDifferences()
+        public string? GetDifferences(int maxNoOfDifferences = 10)
         {
             if (AreEquivalent)
                 return null;
@@ -49,12 +49,21 @@ namespace Synergy.Samples.Web.API.Tests
             var patternLines = Pattern.ToString(Formatting.Indented).Split(Environment.NewLine);
             var newLines = toCompare.ToString(Formatting.Indented).Split(Environment.NewLine);
             var maxLine = Math.Max(patternLines.Length, newLines.Length);
+            int differenceNo = 0;
             for (int lineNumber = 0; lineNumber < maxLine; lineNumber++)
             {
+                if (differenceNo > maxNoOfDifferences)
+                {
+                    sb.AppendLine($"Line {lineNumber}:");
+                    sb.AppendLine($"\t... Stopped displaying differences after {maxNoOfDifferences} differences found ...");
+                    break;
+                }
+
                 if (lineNumber >= newLines.Length)
                 {
                     sb.AppendLine($"Line {lineNumber}:");
                     sb.AppendLine($"\tCurrent JSON is shorten than expected");
+                    differenceNo++;
                     break;
                 }
 
@@ -62,6 +71,7 @@ namespace Synergy.Samples.Web.API.Tests
                 {
                     sb.AppendLine($"Line {lineNumber}:");
                     sb.AppendLine($"\tCurrent JSON is longer than expected");
+                    differenceNo++;
                     break;
                 }
 
@@ -72,6 +82,7 @@ namespace Synergy.Samples.Web.API.Tests
                     sb.AppendLine($"Line {lineNumber}:");
                     sb.AppendLine($"\tExpected: {patternLine}");
                     sb.AppendLine($"\tBut was : {actualLine}");
+                    differenceNo++;
                 }
             }
 
