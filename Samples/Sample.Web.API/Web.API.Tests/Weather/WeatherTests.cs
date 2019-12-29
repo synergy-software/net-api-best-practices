@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using JetBrains.Annotations;
 using NUnit.Framework;
-using Synergy.Samples.Web.API.Tests.WAPIT;
+using Sample.API.Controllers;
 using Synergy.Samples.Web.API.Tests.WAPIT.Assertions;
 
 namespace Synergy.Samples.Web.API.Tests.Weather
@@ -25,7 +25,9 @@ namespace Synergy.Samples.Web.API.Tests.Weather
                    .ShouldBe(EqualToPattern("/Patterns/GetWeatherForecast.json").Ignore("$.response.content"))
                    .ShouldBe(InStatus(HttpStatusCode.OK));
 
-            // TODO: Dodaj inne Should'y
+            weather.Create(new TodoItem{Id=123, Name = "do sth"})
+                   .ShouldBe(EqualToPattern("/Patterns/Create.json"))
+                   .ShouldBe(InStatus(HttpStatusCode.Created));
         }
 
         private CompareOperationWithPattern EqualToPattern([PathReference] string file)

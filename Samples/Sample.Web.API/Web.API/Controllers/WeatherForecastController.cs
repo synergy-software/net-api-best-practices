@@ -65,12 +65,12 @@ namespace Sample.Web.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         //[ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Create))]
-        public ActionResult<TodoItem> Create(TodoItem item)
+        public ActionResult<TodoItem> Create([FromBody] TodoItem item)
         {
             //_context.TodoItems.Add(item);
             //_context.SaveChanges();
 
-            return CreatedAtRoute("GetTodo", new {id = item.Id}, item);
+            return Created("forecast", item);
         }
     }
 }

@@ -1,0 +1,20 @@
+{
+  "request": {
+    "method": "POST /api/v1/weather",
+    "headers": {
+      "Cookie": ""
+    }
+  },
+  "response": {
+    "status": "201 Created",
+    "headers": {
+      "Location": "forecast",
+      "api-supported-versions": "1.0"
+    },
+    "content": {
+      "id": 123,
+      "name": "do sth",
+      "isComplete": false
+    }
+  }
+}

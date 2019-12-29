@@ -1,4 +1,5 @@
-﻿using Synergy.Samples.Web.API.Tests.WAPIT;
+﻿using Sample.API.Controllers;
+using Synergy.Samples.Web.API.Tests.WAPIT;
 
 namespace Synergy.Samples.Web.API.Tests.Weather
 {
@@ -13,5 +14,8 @@ namespace Synergy.Samples.Web.API.Tests.Weather
 
         public HttpOperation GetWeatherForecast()
             => _testServer.Get("api/v1/weather/forecast");
+
+        public HttpOperation Create(TodoItem todo)
+            => _testServer.Post("api/v1/weather", content: todo);
     }
 }
