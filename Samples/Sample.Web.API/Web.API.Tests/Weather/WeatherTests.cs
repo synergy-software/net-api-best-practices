@@ -27,10 +27,10 @@ namespace Synergy.Samples.Web.API.Tests.Weather
             // TODO: Dodaj inne Should'y
         }
 
-        private FullOperationPattern EqualToPattern([PathReference] string file)
-            => new FullOperationPattern(Path + file);
+        private CompareOperationWithPattern EqualToPattern([PathReference] string file)
+            => new CompareOperationWithPattern(Path + file);
 
-        private ResponseStatusPattern InStatus(HttpStatusCode status)
-            => new ResponseStatusPattern(status);
+        private VerifyResponseStatus InStatus(HttpStatusCode status)
+            => new VerifyResponseStatus(status);
     }
 }

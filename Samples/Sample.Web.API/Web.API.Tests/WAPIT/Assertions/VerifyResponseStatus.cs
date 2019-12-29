@@ -3,16 +3,16 @@ using Synergy.Contracts;
 
 namespace Synergy.Samples.Web.API.Tests.WAPIT
 {
-    public class ResponseStatusPattern : IPattern
+    public class VerifyResponseStatus : IAssertion
     {
         private readonly HttpStatusCode _expectedStatus;
 
-        public ResponseStatusPattern(HttpStatusCode expectedStatus)
+        public VerifyResponseStatus(HttpStatusCode expectedStatus)
         {
             _expectedStatus = expectedStatus;
         }
 
-        public void Equals(HttpOperation operation)
+        public void Assert(HttpOperation operation)
         {
             var actualStatus = operation.Response.StatusCode;
             Fail.IfNotEqual(_expectedStatus, actualStatus,

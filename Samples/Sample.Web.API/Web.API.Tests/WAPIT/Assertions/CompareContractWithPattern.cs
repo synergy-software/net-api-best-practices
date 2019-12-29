@@ -2,16 +2,17 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Synergy.Contracts;
+using Synergy.Samples.Web.API.Tests.WAPIT;
 
-namespace Synergy.Samples.Web.API.Tests.WAPIT.Patterns
+namespace Synergy.Samples.Web.API.Tests
 {
-    public class OperationResponsePattern : IPattern
+    public class CompareContractWithPattern : IAssertion
     {
         private readonly string _patternFilePath;
         private readonly Ignore? _ignore;
-        private readonly JObject? _savedPattern;
+        private readonly JToken? _savedPattern;
 
-        public OperationResponsePattern(string patternFilePath, Ignore? ignore = null)
+        public CompareContractWithPattern(string patternFilePath, Ignore? ignore = null)
         {
             _patternFilePath = patternFilePath;
             _ignore = ignore;
@@ -22,7 +23,7 @@ namespace Synergy.Samples.Web.API.Tests.WAPIT.Patterns
             }
         }
 
-        public void Equals(HttpOperation operation)
+        public void Assert(HttpOperation operation)
         {
             var current = operation.Response.Content.ReadJson().OrFail("response");
             if (_savedPattern == null)
@@ -31,17 +32,14 @@ namespace Synergy.Samples.Web.API.Tests.WAPIT.Patterns
                 return;
             }
 
-            JsonComparer patterns = new JsonComparer(_savedPattern, current, _ignore);
+            var patterns = new JsonComparer(_savedPattern, current, _ignore);
 
-            if (operation.TestServer.Repair && patterns.AreEquivalent == false)
-            {
-                SaveNewPattern(current);
+            if (patterns.AreEquivalent) 
                 return;
-            }
+            
+            SaveNewPattern(current);
 
-            Fail.IfFalse(patterns.AreEquivalent,
-                         Violation.Of($"Response is different than expected. Verify the differences:\n\n {patterns.GetDifferences()}")
-                        );
+            throw Fail.Because(Violation.Of("Contract is different than expected. Verify the differences:\n\n {0}", patterns.GetDifferences()));
         }
 
         private void SaveNewPattern(JToken current)

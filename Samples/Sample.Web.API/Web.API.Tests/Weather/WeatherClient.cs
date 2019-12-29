@@ -11,6 +11,7 @@ namespace Synergy.Samples.Web.API.Tests.Weather
             _testServer = testServer;
         }
 
-        public HttpOperation GetWeatherForecast() => _testServer.Get("api/v1/weather/forecast");
+        public HttpOperation GetWeatherForecast()
+            => _testServer.Get("api/v1/weather/forecast");
     }
 }

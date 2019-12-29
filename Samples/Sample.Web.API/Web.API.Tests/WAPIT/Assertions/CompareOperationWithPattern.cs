@@ -8,13 +8,13 @@ using Synergy.Contracts;
 
 namespace Synergy.Samples.Web.API.Tests.WAPIT 
 {
-    public class FullOperationPattern : IPattern
+    public class CompareOperationWithPattern : IAssertion
     {
         private readonly string _patternFilePath;
         private readonly Ignore _ignore;
         private readonly JObject? _savedPattern;
 
-        public FullOperationPattern(string patternFilePath, Ignore? ignore = null)
+        public CompareOperationWithPattern(string patternFilePath, Ignore? ignore = null)
         {
             _patternFilePath = patternFilePath;
             _ignore = ignore ?? new Ignore();
@@ -25,7 +25,7 @@ namespace Synergy.Samples.Web.API.Tests.WAPIT
             }
         }
 
-        public void Equals(HttpOperation operation)
+        public void Assert(HttpOperation operation)
         {
             var current = GeneratePattern(operation);
             if (_savedPattern == null)
@@ -94,13 +94,13 @@ namespace Synergy.Samples.Web.API.Tests.WAPIT
             return new JProperty(header.Key, String.Join("; ", header.Value));
         }
 
-        public FullOperationPattern Ignore(params string[] ignores)
+        public CompareOperationWithPattern Ignore(params string[] ignores)
         {
             this._ignore.Append(ignores);
             return this;
         }
 
-        public FullOperationPattern Ignore(Ignore ignore)
+        public CompareOperationWithPattern Ignore(Ignore ignore)
         {
             this._ignore.Append(ignore.Nodes);
             return this;
