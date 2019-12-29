@@ -1,0 +1,46 @@
+{
+  "request": {
+    "method": "GET /api/v1/weather/forecast",
+    "headers": {
+      "Cookie": ""
+    }
+  },
+  "response": {
+    "status": "200 OK",
+    "headers": {
+      "api-supported-versions": "1.0"
+    },
+    "content": [
+      {
+        "date": "2019-12-29T17:48:38.8066359+01:00",
+        "temperatureC": -4,
+        "temperatureF": 25,
+        "summary": "Warm"
+      },
+      {
+        "date": "2019-12-30T17:48:38.8071886+01:00",
+        "temperatureC": 11,
+        "temperatureF": 51,
+        "summary": "Sweltering"
+      },
+      {
+        "date": "2019-12-31T17:48:38.8072138+01:00",
+        "temperatureC": 10,
+        "temperatureF": 49,
+        "summary": "Chilly"
+      },
+      {
+        "date": "2020-01-01T17:48:38.8072147+01:00",
+        "temperatureC": -18,
+        "temperatureF": 0,
+        "summary": "Cool"
+      },
+      {
+        "date": "2020-01-02T17:48:38.8072152+01:00",
+        "temperatureC": 52,
+        "temperatureF": 125,
+        "summary": "Cool"
+      }
+    ]
+  }
+}
