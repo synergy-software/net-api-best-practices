@@ -26,7 +26,8 @@ namespace Synergy.Samples.Web.API.Tests.WAPIT.Assertions
 
         public void Assert(HttpOperation operation)
         {
-            var current = operation.Response.Content.ReadJson().OrFail("response");
+            // TODO: Add non-nullable annotations to OrFail() - and other contract methods
+            var current = operation.Response.Content.ReadJson().OrFail("response")!;
             if (_savedPattern == null)
             {
                 SaveNewPattern(current);
