@@ -21,58 +21,62 @@ namespace Synergy.Samples.Web.API.Tests
 
         protected abstract HttpClient Start();
 
-        public Uri PrepareRequestUri(string path, [CanBeNull] object? parameterToGet = null)
-        {
-            Fail.IfWhitespace(path, nameof(path));
-
-            var uriBuilder = new UriBuilder
-            {
-                Path = path,
-                Host = HttpClient.BaseAddress.Host,
-                Port = HttpClient.BaseAddress.Port
-            };
-
-            if (parameterToGet != null)
-                uriBuilder.Query = QueryBuilder.Build(parameterToGet);
-
-            return uriBuilder.Uri;
-        }
-
         public HttpOperation Get(string path, [CanBeNull] object? urlParameters = null)
+            => Send(HttpMethod.Get, path, urlParameters);
+
+        public HttpOperation Post(string path, [CanBeNull] object? urlParameters = null, object? body = null)
+            => Send(HttpMethod.Post, path, urlParameters, body);
+
+        public HttpOperation Put(string path, [CanBeNull] object? urlParameters = null, object? body = null)
+            => Send(HttpMethod.Put, path, urlParameters, body);
+
+        public HttpOperation Patch(string path, [CanBeNull] object? urlParameters = null, object? body = null)
+            => Send(HttpMethod.Patch, path, urlParameters, body);
+
+        public HttpOperation Delete(string path, [CanBeNull] object? urlParameters = null)
+            => Send(HttpMethod.Delete, path, urlParameters);
+
+        private HttpOperation Send(HttpMethod httpMethod, string path, object? urlParameters, object? body = null)
         {
-            var request = CreateHttpRequest(HttpMethod.Get, path, urlParameters);
-            return Send(request);
+            var request = CreateHttpRequest(httpMethod, path, urlParameters, body);
+            var timer = Stopwatch.StartNew();
+            var response = HttpClient.SendAsync(request).Result;
+            timer.Stop();
+
+            return new HttpOperation(this, request, response, timer);
         }
 
-        public HttpOperation Post(string path, [CanBeNull] object? urlParameters = null, object? content = null)
-        {
-            var request = CreateHttpRequest(HttpMethod.Post, path, urlParameters, content);
-            return Send(request);
-        }
-
-        private HttpRequestMessage CreateHttpRequest(HttpMethod httpMethod, string path, object? queryParameters, object? content = null)
+        private HttpRequestMessage CreateHttpRequest(HttpMethod httpMethod, string path, object? urlParameters, object? body = null)
         {
             var request = new HttpRequestMessage
                           {
                               Method = httpMethod,
-                              RequestUri = this.PrepareRequestUri(path, queryParameters)
+                              RequestUri = PrepareRequestUri(path, urlParameters)
                           };
 
-            if (content != null)
+            if (body != null)
             {
-                request.Content = new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json");
+                request.Content = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
             }
 
             return request;
         }
 
-        private HttpOperation Send(HttpRequestMessage request)
+        private Uri PrepareRequestUri(string path, [CanBeNull] object? parameterToGet = null)
         {
-            Stopwatch timer = Stopwatch.StartNew();
-            var response = this.HttpClient.SendAsync(request).Result;
-            timer.Stop();
+            Fail.IfWhitespace(path, nameof(path));
 
-            return new HttpOperation(this, request, response, timer);
+            var uriBuilder = new UriBuilder
+                             {
+                                 Path = path,
+                                 Host = HttpClient.BaseAddress.Host,
+                                 Port = HttpClient.BaseAddress.Port
+                             };
+
+            if (parameterToGet != null)
+                uriBuilder.Query = QueryBuilder.Build(parameterToGet);
+
+            return uriBuilder.Uri;
         }
     }
 }
