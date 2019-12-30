@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using Synergy.Samples.Web.API.Tests.Infrastructure;
 using Synergy.Samples.Web.API.Tests.Swagger;
 using Synergy.Samples.Web.API.Tests.WAPIT.Assertions;
 
@@ -14,7 +15,7 @@ namespace Synergy.Samples.Web.API.Tests
         public void validate_api_contract_changes(string version)
         {
             // ARRANGE
-            var testServer = new TestServer();
+            var testServer = new SampleTestServer();
             var swagger = new SwaggerClient(testServer);
 
             // ACT

@@ -3,35 +3,23 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
 using JetBrains.Annotations;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
-using Sample.Web;
 using Synergy.Contracts;
-using Synergy.Samples.Web.API.Extensions;
 using Synergy.Samples.Web.API.Tests.WAPIT;
 
 namespace Synergy.Samples.Web.API.Tests
 {
-    public class TestServer
+    public abstract class TestServer
     {
-        private HttpClient HttpClient { get; }
+        public HttpClient HttpClient { get; }
         public bool Repair { get; set; }
 
-        public TestServer()
+        protected TestServer()
         {
-            var applicationFactory = StartupTestServerUsing<Startup>();
-            HttpClient = applicationFactory.CreateClient();
+            HttpClient = Start();
         }
 
-        private WebApplicationFactory<TStartup> StartupTestServerUsing<TStartup>() where TStartup : class
-        {
-            return new WebApplicationFactory<TStartup>()
-                .WithWebHostBuilder(configuration =>
-                {
-                    configuration.UseEnvironment(Application.Environment.Tests);
-                });
-        }
+        protected abstract HttpClient Start();
 
         public Uri PrepareRequestUri(string path, [CanBeNull] object? parameterToGet = null)
         {
@@ -50,9 +38,9 @@ namespace Synergy.Samples.Web.API.Tests
             return uriBuilder.Uri;
         }
 
-        public HttpOperation Get(string path, [CanBeNull] object? queryParameters = null)
+        public HttpOperation Get(string path, [CanBeNull] object? urlParameters = null)
         {
-            var request = CreateHttpRequest(HttpMethod.Get, path, queryParameters);
+            var request = CreateHttpRequest(HttpMethod.Get, path, urlParameters);
             return Send(request);
         }
 
@@ -65,10 +53,11 @@ namespace Synergy.Samples.Web.API.Tests
         private HttpRequestMessage CreateHttpRequest(HttpMethod httpMethod, string path, object? queryParameters, object? content = null)
         {
             var request = new HttpRequestMessage
-                                     {
-                                         Method = httpMethod,
-                                         RequestUri = this.PrepareRequestUri(path, queryParameters)
-                                     };
+                          {
+                              Method = httpMethod,
+                              RequestUri = this.PrepareRequestUri(path, queryParameters)
+                          };
+
             if (content != null)
             {
                 request.Content = new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json");

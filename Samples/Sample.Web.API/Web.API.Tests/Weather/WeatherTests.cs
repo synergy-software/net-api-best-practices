@@ -2,6 +2,7 @@
 using JetBrains.Annotations;
 using NUnit.Framework;
 using Sample.API.Controllers;
+using Synergy.Samples.Web.API.Tests.Infrastructure;
 using Synergy.Samples.Web.API.Tests.WAPIT.Assertions;
 
 namespace Synergy.Samples.Web.API.Tests.Weather
@@ -15,12 +16,12 @@ namespace Synergy.Samples.Web.API.Tests.Weather
         public void get_weather()
         {
             // ARRANGE
-            var testServer = new TestServer();
+            var testServer = new SampleTestServer();
             var weather = new WeatherClient(testServer);
 
             testServer.Repair = false;
 
-            // ACT
+            // SCENARIO
             weather.GetWeatherForecast()
                    .ShouldBe(EqualToPattern("/Patterns/GetWeatherForecast.json").Ignore("$.response.content"))
                    .ShouldBe(InStatus(HttpStatusCode.OK));

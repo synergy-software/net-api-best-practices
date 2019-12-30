@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using Synergy.Contracts;
@@ -8,7 +9,7 @@ namespace Synergy.Samples.Web.API.Tests.WAPIT
 {
     public class HttpOperation
     {
-        public Stopwatch Timer { get; }
+        public TimeSpan Duration { get; }
         public readonly TestServer TestServer;
         public readonly HttpRequestMessage Request;
         public readonly HttpResponseMessage Response;
@@ -16,7 +17,7 @@ namespace Synergy.Samples.Web.API.Tests.WAPIT
 
         public HttpOperation(TestServer testServer, HttpRequestMessage request, HttpResponseMessage response, Stopwatch timer)
         {
-            Timer = timer;
+            Duration = timer.Elapsed;
             TestServer = testServer.OrFail(nameof(testServer));
             Request = request.OrFail(nameof(request));
             Response = response.OrFail(nameof(response));
