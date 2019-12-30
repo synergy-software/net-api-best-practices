@@ -9,6 +9,7 @@ namespace Synergy.Samples.Web.API.Tests.WAPIT
 {
     public class HttpOperation
     {
+        public string? Description { get; private set; }
         public TimeSpan Duration { get; }
         public readonly TestServer TestServer;
         public readonly HttpRequestMessage Request;
@@ -27,6 +28,12 @@ namespace Synergy.Samples.Web.API.Tests.WAPIT
         {
             Assertions.Add(assertion);
             assertion.Assert(this);
+            return this;
+        }
+
+        public HttpOperation Details(string details)
+        {
+            this.Description = details.OrFailIfWhiteSpace(nameof(details));
             return this;
         }
     }
