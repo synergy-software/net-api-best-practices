@@ -5,15 +5,14 @@ using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Synergy.Contracts;
-using Synergy.Samples.Web.API.Tests.WAPIT.Features;
 
 namespace Synergy.Samples.Web.API.Tests.WAPIT.Assertions 
 {
-    public class CompareOperationWithPattern : IAssertion, IExpectation
+    public class CompareOperationWithPattern : IAssertion
     {
         private readonly string _patternFilePath;
         private readonly Ignore _ignore;
-        private readonly JObject? _savedPattern;
+        private JToken? _savedPattern;
         public string? ExpectedResult {get; private set; }
 
         public CompareOperationWithPattern(string patternFilePath, Ignore? ignore = null)
@@ -51,6 +50,7 @@ namespace Synergy.Samples.Web.API.Tests.WAPIT.Assertions
 
         private void SaveNewPattern(JObject current)
         {
+            _savedPattern = current;
             File.WriteAllText(_patternFilePath, current.ToString(Formatting.Indented));
         }
 
@@ -65,8 +65,7 @@ namespace Synergy.Samples.Web.API.Tests.WAPIT.Assertions
         private static IEnumerable<JProperty> GetRequestProperties(HttpOperation operation)
         {
             var request = operation.Request;
-            var requestMethod = $"{request.Method} {request.RequestUri.ToString().Replace("http://localhost", "")}";
-            yield return new JProperty("method", requestMethod);
+            yield return new JProperty("method", request.GetRequestedUrl());
 
             var requestJson = request.Content.ReadJson();
             if (requestJson != null)

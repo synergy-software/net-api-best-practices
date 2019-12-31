@@ -14,5 +14,8 @@ namespace Synergy.Samples.Web.API.Tests.WAPIT
 
             return JToken.Parse(str);
         }
+
+        public static string GetRequestedUrl(this HttpRequestMessage request)
+            => $"{request.Method} {request.RequestUri.ToString().Replace("http://localhost", "")}";
     }
 }
