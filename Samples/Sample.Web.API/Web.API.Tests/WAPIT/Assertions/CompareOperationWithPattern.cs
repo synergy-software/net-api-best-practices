@@ -5,14 +5,16 @@ using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Synergy.Contracts;
+using Synergy.Samples.Web.API.Tests.WAPIT.Features;
 
 namespace Synergy.Samples.Web.API.Tests.WAPIT.Assertions 
 {
-    public class CompareOperationWithPattern : IAssertion
+    public class CompareOperationWithPattern : IAssertion, IExpectation
     {
         private readonly string _patternFilePath;
         private readonly Ignore _ignore;
         private readonly JObject? _savedPattern;
+        public string? ExpectedResult {get; private set; }
 
         public CompareOperationWithPattern(string patternFilePath, Ignore? ignore = null)
         {
@@ -69,7 +71,7 @@ namespace Synergy.Samples.Web.API.Tests.WAPIT.Assertions
             var requestJson = request.Content.ReadJson();
             if (requestJson != null)
             {
-                yield return new JProperty("content", requestJson);
+                yield return new JProperty("body", requestJson);
             }
 
             var headers = request.Headers.Select(GetHeader);
@@ -86,7 +88,7 @@ namespace Synergy.Samples.Web.API.Tests.WAPIT.Assertions
             yield return new JProperty("headers", new JObject(headers));
 
             var responseJson = response.Content.ReadJson();
-            yield return new JProperty("content", responseJson);
+            yield return new JProperty("body", responseJson);
         }
 
         private static JProperty GetHeader(KeyValuePair<string, IEnumerable<string>> header)
@@ -103,6 +105,12 @@ namespace Synergy.Samples.Web.API.Tests.WAPIT.Assertions
         public CompareOperationWithPattern Ignore(Ignore ignore)
         {
             this._ignore.Append(ignore.Nodes);
+            return this;
+        }
+
+        public IAssertion Expected(string expected)
+        {
+            this.ExpectedResult = expected.OrFailIfWhiteSpace(nameof(expected));
             return this;
         }
     }

@@ -38,12 +38,14 @@ namespace Synergy.Samples.Web.API.Tests
 
         private HttpOperation Send(HttpMethod httpMethod, string path, object? urlParameters, object? body = null)
         {
+            var requestedOperation = CreateHttpRequest(httpMethod, path, urlParameters, body);
+
             var request = CreateHttpRequest(httpMethod, path, urlParameters, body);
             var timer = Stopwatch.StartNew();
             var response = HttpClient.SendAsync(request).Result;
             timer.Stop();
 
-            return new HttpOperation(this, request, response, timer);
+            return new HttpOperation(this, requestedOperation, response, timer);
         }
 
         private HttpRequestMessage CreateHttpRequest(HttpMethod httpMethod, string path, object? urlParameters, object? body = null)

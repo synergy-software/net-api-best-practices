@@ -23,11 +23,14 @@ namespace Synergy.Samples.Web.API.Tests.Weather
 
             // SCENARIO
             weather.GetWeatherForecast()
-                   .ShouldBe(EqualToPattern("/Patterns/GetWeatherForecast.json").Ignore("$.response.content"))
+                   .ShouldBe(EqualToPattern("/Patterns/GetWeatherForecast.json")
+                            .Ignore("$.response.body")
+                            .Expected("Weather forecast is returned"))
                    .ShouldBe(InStatus(HttpStatusCode.OK));
 
-            weather.Create(new TodoItem{Id=123, Name = "do sth"})
-                   .ShouldBe(EqualToPattern("/Patterns/Create.json"))
+            weather.Create(new TodoItem {Id = 123, Name = "do sth"})
+                   .ShouldBe(EqualToPattern("/Patterns/Create.json")
+                                .Expected("Item is created and its details are returned"))
                    .ShouldBe(InStatus(HttpStatusCode.Created));
         }
 

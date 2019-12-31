@@ -1,11 +1,13 @@
 ﻿using System.Net;
 using Synergy.Contracts;
+using Synergy.Samples.Web.API.Tests.WAPIT.Features;
 
 namespace Synergy.Samples.Web.API.Tests.WAPIT.Assertions
 {
-    public class VerifyResponseStatus : IAssertion
+    public class VerifyResponseStatus : IAssertion, IExpectation
     {
         private readonly HttpStatusCode _expectedStatus;
+        public string? ExpectedResult => $"Returned HTTP status code is {(int)_expectedStatus} {_expectedStatus}";
 
         public VerifyResponseStatus(HttpStatusCode expectedStatus)
         {

@@ -2,15 +2,17 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Synergy.Contracts;
+using Synergy.Samples.Web.API.Tests.WAPIT.Features;
 
 namespace Synergy.Samples.Web.API.Tests.WAPIT.Assertions
 {
-    public class CompareResponseWithPattern : IAssertion
+    public class CompareResponseWithPattern : IAssertion, IExpectation
     {
         private readonly string _patternFilePath;
         private readonly Ignore? _ignore;
         private readonly Mode _mode;
         private readonly JObject? _savedPattern;
+        public string? ExpectedResult {get; private set; }
 
         public CompareResponseWithPattern(string patternFilePath, Ignore? ignore = null, Mode mode = Mode.Default)
         {
@@ -69,6 +71,12 @@ namespace Synergy.Samples.Web.API.Tests.WAPIT.Assertions
         {
             ContractCheck = 1,
             Default = 2
+        }
+
+        public IAssertion Expected(string expected)
+        {
+            this.ExpectedResult = expected.OrFailIfWhiteSpace(nameof(expected));
+            return this;
         }
     }
 }
