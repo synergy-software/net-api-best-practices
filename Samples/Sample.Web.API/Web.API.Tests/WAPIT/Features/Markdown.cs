@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 
 namespace Synergy.Samples.Web.API.Tests.WAPIT.Features
@@ -39,14 +40,17 @@ namespace Synergy.Samples.Web.API.Tests.WAPIT.Features
 
                     foreach (var operation in step.Operations)
                     {
+                        report.AppendLine($"### {scenario.No}.{step.No}.{step.No}. {GetOperationRequestTitle(operation)}");
                         report.AppendLine();
+                        //report.AppendLine($"<details><summary>Details</summary>");
+                        //report.AppendLine();
                         InsertRequest(report, operation);
                         report.AppendLine();
                         InsertResponse(report, operation);
                         report.AppendLine();
                         InsertOperationResponseStatusTable(report, operation);
                         report.AppendLine();
-                        report.AppendLine("</details>");
+                        //report.AppendLine("</details>");
                     }
 
                     report.AppendLine();
@@ -76,7 +80,8 @@ namespace Synergy.Samples.Web.API.Tests.WAPIT.Features
 
         private string GetUrlTo(string header)
         {
-            return header.ToLower().Replace(".", "").Replace(" ", "-");
+            var url = header.ToLower().Replace(" ", "-");
+            return Regex.Replace(url, "[^a-zA-Z0-9_-]+", "", RegexOptions.Compiled);
         }
 
         private static void InsertScenarioStatusTable(StringBuilder report, Scenario scenario)
@@ -104,8 +109,6 @@ namespace Synergy.Samples.Web.API.Tests.WAPIT.Features
             // TODO: Read the request details from saved pattern (if exists) instead of operation 
             var request = operation.Request;
 
-            report.AppendLine($"<details><summary>{GetOperationRequestTitle(operation)}</summary>");
-            report.AppendLine();
             report.AppendLine("- Request");
             report.AppendLine("```");
             report.AppendLine(request.GetRequestedUrl());
