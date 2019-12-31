@@ -14,10 +14,10 @@ namespace Synergy.Samples.Web.API.Tests.Weather
 
         public HttpOperation GetWeatherForecast()
             => _testServer.Get("api/v1/weather/forecast")
-                          .Details("Gets weather forecast");
+                          .Details("Get weather forecast");
 
         public HttpOperation Create(TodoItem todo)
             => _testServer.Post("api/v1/weather", body: todo)
-                          .Details($"Creates a new TODO item named '{todo.Name}'");
+                          .Details($"Create a new TODO item named '{todo.Name}'");
     }
 }
