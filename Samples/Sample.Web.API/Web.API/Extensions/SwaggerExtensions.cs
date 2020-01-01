@@ -32,7 +32,8 @@ namespace Sample.Web.Extensions
                 {
                     var xmlFile = $"{assembly.GetName().Name}.xml";
                     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                    c.IncludeXmlComments(xmlPath);
+                    if (File.Exists(xmlPath))
+                        c.IncludeXmlComments(xmlPath);
                 }
 
                 c.CustomSchemaIds(GetSchemaId);

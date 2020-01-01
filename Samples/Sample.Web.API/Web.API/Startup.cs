@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Sample.Web.Extensions;
+using Synergy.Samples.Web.API.Extensions;
 
 namespace Sample.Web
 {
@@ -21,12 +22,13 @@ namespace Sample.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers()
-                .AddNewtonsoftJson(
-                options =>
-                {
-                    options.SerializerSettings.Converters.Add(new StringEnumConverter());
-                    options.SerializerSettings.Formatting = Formatting.Indented;
-                });
+                    .ConfigureApiBehaviorOptions(options => { options.SuppressModelStateInvalidFilter = true; })
+                    .AddNewtonsoftJson(options =>
+                                       {
+                                           options.SerializerSettings.Converters.Add(new StringEnumConverter());
+                                           options.SerializerSettings.Formatting = Formatting.Indented;
+                                       });
+
             services.AddVersionedApi();
             services.AddVersionedSwagger();
         }
@@ -36,10 +38,10 @@ namespace Sample.Web
             app.UseSwagger()
                .UseVersionedSwaggerUI();
 
-            // TODO: Add exception handling
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
 
-            if (env.IsDevelopment()) 
-                app.UseDeveloperExceptionPage();
+            //if (env.IsDevelopment())
+            //    app.UseDeveloperExceptionPage();
 
             app.UseHttpsRedirection();
 
