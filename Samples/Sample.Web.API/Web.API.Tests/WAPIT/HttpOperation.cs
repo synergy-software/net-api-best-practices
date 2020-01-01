@@ -24,8 +24,6 @@ namespace Synergy.Samples.Web.API.Tests.WAPIT
             Response = response.OrFail(nameof(response));
         }
 
-        // TODO: Dodaj możliwość asertowania konwencji - np. standardowy wygląd operacji CREATE
-
         public HttpOperation ShouldBe(IAssertion assertion)
         {
             Assertions.Add(assertion);

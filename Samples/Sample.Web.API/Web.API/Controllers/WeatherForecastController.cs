@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Sample.API;
 using Sample.API.Controllers;
+using Synergy.Contracts;
 
 namespace Sample.Web.Controllers
 {
@@ -67,8 +68,7 @@ namespace Sample.Web.Controllers
         //[ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Create))]
         public ActionResult<TodoItem> Create([FromBody] TodoItem item)
         {
-            //_context.TodoItems.Add(item);
-            //_context.SaveChanges();
+            Fail.IfWhitespace(item.Name, nameof(item.Name));
 
             return Created("forecast", item);
         }

@@ -3,6 +3,7 @@ using JetBrains.Annotations;
 using NUnit.Framework;
 using Sample.API.Controllers;
 using Synergy.Samples.Web.API.Tests.Infrastructure;
+using Synergy.Samples.Web.API.Tests.WAPIT;
 using Synergy.Samples.Web.API.Tests.WAPIT.Assertions;
 using Synergy.Samples.Web.API.Tests.WAPIT.Features;
 
@@ -13,6 +14,7 @@ namespace Synergy.Samples.Web.API.Tests.Weather
     {
         private const string Path = @"../../../Weather";
         private readonly Feature feature = new Feature("Manage weather through API");
+        private readonly Ignore ignoreError = new Ignore("$.response.body.errorId");
 
         [Test]
         public void get_weather()
@@ -25,6 +27,7 @@ namespace Synergy.Samples.Web.API.Tests.Weather
             // SCENARIO
             GetWeatherForecast(weather);
             CreateItem(weather);
+            TryToCreateItemWithEmptyName(weather);
 
             if (testServer.Repair)
             {
@@ -43,10 +46,10 @@ namespace Synergy.Samples.Web.API.Tests.Weather
                    .ShouldBe(EqualToPattern("/Patterns/GetWeatherForecast.json")
                             .Ignore("$.response.body")
                             .Expected("Weather forecast is returned"))
-                   .ShouldBe(InStatus(HttpStatusCode.OK));
+                   .ShouldBe(ApiConventionFor.GettingList());
         }
 
-        private void CreateItem(WeatherClient weather)
+        private int CreateItem(WeatherClient weather)
         {
             var scenario = feature.Scenario("Create an item");
 
@@ -54,13 +57,44 @@ namespace Synergy.Samples.Web.API.Tests.Weather
                    .InStep(scenario.Step("Create TODO item"))
                    .ShouldBe(EqualToPattern("/Patterns/Create.json")
                                 .Expected("Item is created and its details are returned"))
-                   .ShouldBe(ApiConventionFor.Create());
+                   .ShouldBe(ApiConventionFor.Create())
+                   .Response.Content.Read("id", out int id);
+
+            return id;
+        }
+
+        private void TryToCreateItemWithEmptyName(WeatherClient weather)
+        {
+            var scenario = feature.Scenario("Try to create an item without a name");
+
+            #pragma warning disable CS8625
+            weather.Create(new TodoItem {Id = 123, Name = null})
+                   .InStep(scenario.Step("Create TODO item with a null name"))
+                   .ShouldBe(EqualToPattern("/Patterns/TryToCreateNullName.json")
+                            .Ignore(ignoreError)
+                            .Expected("Item is NOT created and error is returned"))
+                   .ShouldBe(InStatus(HttpStatusCode.BadRequest));
+            #pragma warning restore CS8625
+
+            weather.Create(new TodoItem {Id = 123, Name = ""})
+                   .InStep(scenario.Step("Create TODO item with an empty name"))
+                   .ShouldBe(EqualToPattern("/Patterns/TryToCreateEmptyName.json")
+                            .Ignore(ignoreError)
+                            .Expected("Item is NOT created and error is returned"))
+                   .ShouldBe(InStatus(HttpStatusCode.BadRequest));
+
+            weather.Create(new TodoItem {Id = 123, Name = "  "})
+                   .InStep(scenario.Step("Create TODO item with an whitespace name"))
+                   .ShouldBe(EqualToPattern("/Patterns/TryToCreateWhitespaceName.json")
+                            .Ignore(ignoreError)
+                            .Expected("Item is NOT created and error is returned"))
+                   .ShouldBe(InStatus(HttpStatusCode.BadRequest));
         }
 
         private CompareOperationWithPattern EqualToPattern([PathReference] string file)
             => new CompareOperationWithPattern(Path + file);
 
-        private VerifyResponseStatus InStatus(HttpStatusCode status)
-            => new VerifyResponseStatus(status);
+        private static VerifyResponseStatus InStatus(HttpStatusCode expected) 
+            => new VerifyResponseStatus(expected);
     }
 }

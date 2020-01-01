@@ -1,0 +1,21 @@
+{
+  "request": {
+    "method": "POST /api/v1/weather",
+    "body": {
+      "Id": 123,
+      "Name": "",
+      "IsComplete": false
+    },
+    "headers": {}
+  },
+  "response": {
+    "status": "400 Bad Request",
+    "headers": {
+      "api-supported-versions": "1.0"
+    },
+    "body": {
+      "message": "'Name' is whitespace",
+      "errorId": "ed2464934da6442b8c3ca186a3430242"
+    }
+  }
+}

@@ -2,6 +2,7 @@
 
 1. [Get weather forecast](#1-get-weather-forecast-1-step)
 1. [Create an item](#2-create-an-item-1-step)
+1. [Try to create an item without a name](#3-try-to-create-an-item-without-a-name-3-steps)
 
 ## 1. Get weather forecast (1 step)
 
@@ -59,6 +60,7 @@ api-supported-versions: 1.0
 | Expected Results  | Status |
 | - | - |
 | Weather forecast is returned | OK |
+| HTTP request method is GET | OK |
 | Returned HTTP status code is 200 (OK) | OK |
 
 
@@ -101,5 +103,104 @@ api-supported-versions: 1.0
 | HTTP request method is POST | OK |
 | Returned HTTP status code is 201 (Created) | OK |
 | Location header (pointing to newly created element) is returned with response. | OK |
+
+
+
+## 3. Try to create an item without a name (3 steps)
+
+| # | Step Actions | Status |
+| - | - | - |
+| 1 | Create TODO item with a null name | OK |
+| 2 | Create TODO item with an empty name | OK |
+| 3 | Create TODO item with an whitespace name | OK |
+
+### 3.1. Create TODO item with a null name (1 request)
+
+### 3.1.1. Request to [Create a new TODO item named '']
+
+- Request
+```
+POST /api/v1/weather
+{
+  "Id": 123,
+  "Name": null,
+  "IsComplete": false
+}
+```
+
+- Response
+```
+HTTP/1.1 400 BadRequest
+api-supported-versions: 1.0
+{
+  "message": "'Name' is whitespace",
+  "errorId": "1b04144902a2459caaf83ed2d0a48cfc"
+}
+```
+
+| Expected Results  | Status |
+| - | - |
+| Item is NOT created and error is returned | OK |
+| Returned HTTP status code is 400 (BadRequest) | OK |
+
+
+### 3.2. Create TODO item with an empty name (1 request)
+
+### 3.2.2. Request to [Create a new TODO item named '']
+
+- Request
+```
+POST /api/v1/weather
+{
+  "Id": 123,
+  "Name": "",
+  "IsComplete": false
+}
+```
+
+- Response
+```
+HTTP/1.1 400 BadRequest
+api-supported-versions: 1.0
+{
+  "message": "'Name' is whitespace",
+  "errorId": "e4807873ab084d3792fab7c600e608c0"
+}
+```
+
+| Expected Results  | Status |
+| - | - |
+| Item is NOT created and error is returned | OK |
+| Returned HTTP status code is 400 (BadRequest) | OK |
+
+
+### 3.3. Create TODO item with an whitespace name (1 request)
+
+### 3.3.3. Request to [Create a new TODO item named '  ']
+
+- Request
+```
+POST /api/v1/weather
+{
+  "Id": 123,
+  "Name": "  ",
+  "IsComplete": false
+}
+```
+
+- Response
+```
+HTTP/1.1 400 BadRequest
+api-supported-versions: 1.0
+{
+  "message": "'Name' is whitespace",
+  "errorId": "878c2e8633344d73bb072c18545d3f8b"
+}
+```
+
+| Expected Results  | Status |
+| - | - |
+| Item is NOT created and error is returned | OK |
+| Returned HTTP status code is 400 (BadRequest) | OK |
 
 
