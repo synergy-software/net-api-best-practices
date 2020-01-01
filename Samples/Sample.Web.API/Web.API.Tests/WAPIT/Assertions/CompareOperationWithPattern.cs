@@ -8,12 +8,11 @@ using Synergy.Contracts;
 
 namespace Synergy.Samples.Web.API.Tests.WAPIT.Assertions 
 {
-    public class CompareOperationWithPattern : IAssertion
+    public class CompareOperationWithPattern : Assertion
     {
         private readonly string _patternFilePath;
         private readonly Ignore _ignore;
         private JToken? _savedPattern;
-        public string? ExpectedResult {get; private set; }
 
         public CompareOperationWithPattern(string patternFilePath, Ignore? ignore = null)
         {
@@ -26,7 +25,7 @@ namespace Synergy.Samples.Web.API.Tests.WAPIT.Assertions
             }
         }
 
-        public void Assert(HttpOperation operation)
+        public override void Assert(HttpOperation operation)
         {
             var current = GeneratePattern(operation);
             if (_savedPattern == null)
@@ -104,12 +103,6 @@ namespace Synergy.Samples.Web.API.Tests.WAPIT.Assertions
         public CompareOperationWithPattern Ignore(Ignore ignore)
         {
             this._ignore.Append(ignore.Nodes);
-            return this;
-        }
-
-        public IAssertion Expected(string expected)
-        {
-            this.ExpectedResult = expected.OrFailIfWhiteSpace(nameof(expected));
             return this;
         }
     }

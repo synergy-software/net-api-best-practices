@@ -98,6 +98,8 @@ api-supported-versions: 1.0
 | Expected Results  | Status |
 | - | - |
 | Item is created and its details are returned | OK |
+| HTTP request method is POST | OK |
 | Returned HTTP status code is 201 (Created) | OK |
+| Location header (pointing to newly created element) is returned with response. | OK |
 
 

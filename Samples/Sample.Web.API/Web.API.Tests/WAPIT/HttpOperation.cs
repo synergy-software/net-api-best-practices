@@ -24,10 +24,22 @@ namespace Synergy.Samples.Web.API.Tests.WAPIT
             Response = response.OrFail(nameof(response));
         }
 
+        // TODO: Dodaj możliwość asertowania konwencji - np. standardowy wygląd operacji CREATE
+
         public HttpOperation ShouldBe(IAssertion assertion)
         {
             Assertions.Add(assertion);
             assertion.Assert(this);
+            return this;
+        }
+
+        public HttpOperation ShouldBe(IEnumerable<IAssertion> assertions)
+        {
+            foreach (var assertion in assertions)
+            {
+                this.ShouldBe(assertion);
+            }
+
             return this;
         }
 

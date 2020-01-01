@@ -54,7 +54,7 @@ namespace Synergy.Samples.Web.API.Tests.Weather
                    .InStep(scenario.Step("Create TODO item"))
                    .ShouldBe(EqualToPattern("/Patterns/Create.json")
                                 .Expected("Item is created and its details are returned"))
-                   .ShouldBe(InStatus(HttpStatusCode.Created));
+                   .ShouldBe(ApiConventionFor.Create());
         }
 
         private CompareOperationWithPattern EqualToPattern([PathReference] string file)

@@ -5,13 +5,12 @@ using Synergy.Contracts;
 
 namespace Synergy.Samples.Web.API.Tests.WAPIT.Assertions
 {
-    public class CompareResponseWithPattern : IAssertion
+    public class CompareResponseWithPattern : Assertion
     {
         private readonly string _patternFilePath;
         private readonly Ignore? _ignore;
         private readonly Mode _mode;
         private JToken? _savedPattern;
-        public string? ExpectedResult {get; private set; }
 
         public CompareResponseWithPattern(string patternFilePath, Ignore? ignore = null, Mode mode = Mode.Default)
         {
@@ -25,7 +24,7 @@ namespace Synergy.Samples.Web.API.Tests.WAPIT.Assertions
             }
         }
 
-        public void Assert(HttpOperation operation)
+        public override void Assert(HttpOperation operation)
         {
             // TODO: Add non-nullable annotations to OrFail() - and other contract methods
             var current = operation.Response.Content.ReadJson().OrFail("response")!;
@@ -71,12 +70,6 @@ namespace Synergy.Samples.Web.API.Tests.WAPIT.Assertions
         {
             ContractCheck = 1,
             Default = 2
-        }
-
-        public IAssertion Expected(string expected)
-        {
-            this.ExpectedResult = expected.OrFailIfWhiteSpace(nameof(expected));
-            return this;
         }
     }
 }
