@@ -30,6 +30,8 @@ namespace Synergy.Samples.Web.API.Tests.Weather
             {
                 new Markdown(feature).GenerateReportTo(Path + "/Weather.md");
             }
+
+            Assert.IsFalse(testServer.Repair, "Test server is in repair mode. Do not leave it like that.");
         }
 
         private void GetWeatherForecast(WeatherClient weather)

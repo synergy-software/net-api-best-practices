@@ -111,7 +111,7 @@ namespace Synergy.Samples.Web.API.Tests.WAPIT.Features
 
             report.AppendLine("- Request");
             report.AppendLine("```");
-            report.AppendLine(request.GetRequestedUrl());
+            report.AppendLine(request.GetRequestFullMethod());
             InsertHeaders(report, request.Headers);
 
             var requestBody = request.Content.ReadJson();

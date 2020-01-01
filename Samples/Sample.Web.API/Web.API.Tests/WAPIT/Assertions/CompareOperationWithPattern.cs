@@ -65,7 +65,7 @@ namespace Synergy.Samples.Web.API.Tests.WAPIT.Assertions
         private static IEnumerable<JProperty> GetRequestProperties(HttpOperation operation)
         {
             var request = operation.Request;
-            yield return new JProperty("method", request.GetRequestedUrl());
+            yield return new JProperty("method", request.GetRequestFullMethod());
 
             var requestJson = request.Content.ReadJson();
             if (requestJson != null)
