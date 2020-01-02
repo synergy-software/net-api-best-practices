@@ -2,14 +2,18 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Synergy.Contracts;
+using Synergy.Web.Api.Testing.Features;
 using Synergy.Web.Api.Testing.Json;
 
-namespace Synergy.Web.Api.Testing.Assertions 
+namespace Synergy.Web.Api.Testing.Assertions
 {
-    public class CompareOperationWithPattern : Assertion
+    public class CompareOperationWithPattern : Assertion, IHttpRequestStorage, IHttpResponseStorage
     {
         private readonly string _patternFilePath;
         private readonly Ignore _ignore;
@@ -35,7 +39,7 @@ namespace Synergy.Web.Api.Testing.Assertions
                 return;
             }
 
-            JsonComparer patterns = new JsonComparer(_savedPattern, current, _ignore);
+            var patterns = new JsonComparer(_savedPattern, current, _ignore);
 
             if (operation.TestServer.Repair && patterns.AreEquivalent == false)
             {
@@ -81,7 +85,7 @@ namespace Synergy.Web.Api.Testing.Assertions
         {
             var response = operation.Response;
 
-            yield return new JProperty("status", $"{(int)response.StatusCode} {response.ReasonPhrase}");
+            yield return new JProperty("status", $"{(int) response.StatusCode} {response.ReasonPhrase}");
 
             var headers = response.Headers.Select(GetHeader);
             yield return new JProperty("headers", new JObject(headers));
@@ -92,19 +96,57 @@ namespace Synergy.Web.Api.Testing.Assertions
 
         private static JProperty GetHeader(KeyValuePair<string, IEnumerable<string>> header)
         {
-            return new JProperty(header.Key, String.Join("; ", header.Value));
+            return new JProperty(header.Key, string.Join("; ", header.Value));
         }
 
         public CompareOperationWithPattern Ignore(params string[] ignores)
         {
-            this._ignore.Append(ignores);
+            _ignore.Append(ignores);
             return this;
         }
 
         public CompareOperationWithPattern Ignore(Ignore ignore)
         {
-            this._ignore.Append(ignore.Nodes);
+            _ignore.Append(ignore.Nodes);
             return this;
+        }
+
+        HttpRequestMessage IHttpRequestStorage.GetSavedRequest()
+        {
+            Fail.IfNull(_savedPattern, nameof(_savedPattern));
+
+            var fullMethod = _savedPattern!.SelectToken("$.request.method").Value<string>();
+            var method = fullMethod.Substring(0, fullMethod.IndexOf(" "));
+            var url = fullMethod.Substring(fullMethod.IndexOf(" "));
+            var request = new HttpRequestMessage(new HttpMethod(method), url);
+
+            var body = _savedPattern!.SelectToken("$.request.body");
+            if (body != null)
+            {
+                var payload = body.ToString();
+                request.Content = new StringContent(payload, Encoding.UTF8, "application/json");
+            }
+
+            return request;
+        }
+
+        HttpResponseMessage IHttpResponseStorage.GetSavedResponse()
+        {
+            Fail.IfNull(_savedPattern, nameof(_savedPattern));
+
+            var fullStatus = _savedPattern!.SelectToken("$.response.status").Value<string>();
+            var status = fullStatus.Substring(0, fullStatus.IndexOf(" "));
+            var statusCode = Enum.Parse<HttpStatusCode>(status);
+            var response = new HttpResponseMessage(statusCode);
+            var body = _savedPattern!.SelectToken("$.response.body").ToString();
+            response.Content = new StringContent(body, Encoding.UTF8, "application/json");
+            var headers = _savedPattern!.SelectTokens("$.response.headers.*");
+            foreach (var header in headers)
+            {
+                response.Headers.Add(header.Path.Replace("response.headers.", ""), header.Value<string>());
+            }
+
+            return response;
         }
     }
 }

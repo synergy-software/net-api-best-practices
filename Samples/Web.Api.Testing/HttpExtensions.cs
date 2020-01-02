@@ -28,6 +28,11 @@ namespace Synergy.Web.Api.Testing
 
         [Pure]
         public static string GetRequestFullMethod(this HttpRequestMessage request)
-            => $"{request.Method} {request.RequestUri.ToString().Replace("http://localhost", "")}";
+            => $"{request.Method} {request.GetRequestRelativeUrl()}";
+
+        
+        [Pure]
+        public static string GetRequestRelativeUrl(this HttpRequestMessage request)
+            => request.RequestUri.ToString().Replace("http://localhost", "");
     }
 }

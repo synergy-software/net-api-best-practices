@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
@@ -106,8 +107,7 @@ namespace Synergy.Web.Api.Testing.Features
 
         private static void InsertRequest(StringBuilder report, HttpOperation operation)
         {
-            // TODO: Read the request details from saved pattern (if exists) instead of operation 
-            var request = operation.Request;
+            var request = GetHttpRequestFrom(operation);
 
             report.AppendLine("- Request");
             report.AppendLine("```");
@@ -123,6 +123,21 @@ namespace Synergy.Web.Api.Testing.Features
             report.AppendLine("```");
         }
 
+        private static HttpRequestMessage GetHttpRequestFrom(HttpOperation operation)
+        {
+            var pattern = operation.Assertions.FirstOrDefault(a => a is IHttpRequestStorage);
+            if (pattern != null)
+            {
+                //
+                // Info: If there is saved request it will be used instead of the new one
+                //       - it prevents too many changes in markdown as saved pattern is rarely changed
+                //
+                return ((IHttpRequestStorage) pattern).GetSavedRequest();
+            }
+
+            return operation.Request;
+        }
+
         private static string GetOperationRequestTitle(HttpOperation operation)
         {
             var description = operation.Description;
@@ -134,8 +149,7 @@ namespace Synergy.Web.Api.Testing.Features
 
         private static void InsertResponse(StringBuilder report, HttpOperation operation)
         {
-            // TODO: Read the response details from saved pattern (if exists) instead of operation
-            var response = operation.Response;
+            var response = GetHttpResponseFrom(operation);
 
             report.AppendLine("- Response");
             report.AppendLine("```");
@@ -144,6 +158,21 @@ namespace Synergy.Web.Api.Testing.Features
             var responseBody = response.Content.ReadJson()!;
             report.AppendLine(responseBody.ToString(Formatting.Indented));
             report.AppendLine("```");
+        }
+
+        private static HttpResponseMessage GetHttpResponseFrom(HttpOperation operation)
+        {
+            var pattern = operation.Assertions.FirstOrDefault(a => a is IHttpResponseStorage);
+            if (pattern != null)
+            {
+                //
+                // Info: If there is saved response it will be used instead of the new one
+                //       - it prevents too many changes in markdown as saved pattern is rarely changed
+                //
+                return ((IHttpResponseStorage) pattern).GetSavedResponse();
+            }
+
+            return operation.Response;
         }
 
         private static void InsertHeaders(StringBuilder report, IEnumerable<KeyValuePair<string, IEnumerable<string>>> headers)
