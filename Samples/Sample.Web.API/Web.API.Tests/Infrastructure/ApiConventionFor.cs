@@ -4,11 +4,18 @@ using System.Net;
 using System.Net.Http;
 using Synergy.Contracts;
 using Synergy.Web.Api.Testing.Assertions;
+using Newtonsoft.Json.Linq;
 
 namespace Synergy.Samples.Web.API.Tests.Infrastructure
 {
     public static class ApiConventionFor
     {
+        private static IEnumerable<IAssertion> CreationRequest()
+        {
+            yield return new VerifyRequestMethod(HttpMethod.Post)
+               .Expected("Convention: HTTP request method is POST");
+        }
+
         /// <summary>
         /// Gets set of assertions that verify if creation operation meets convention.
         /// E.g. if created element is returned properly from Web API or if POST method is used, etc.
@@ -23,14 +30,9 @@ namespace Synergy.Samples.Web.API.Tests.Infrastructure
             yield return new VerifyResponseStatus(HttpStatusCode.Created)
                .Expected("Convention: Returned HTTP status code is 201 (Created)");
 
-            yield return new VerifyResponseHeader("Location", value => Fail.IfWhitespace(value, Violation.Of("There is no 'Location' header returned")))
+            yield return new VerifyResponseHeader("Location",
+                                                  value => Fail.IfWhitespace(value, Violation.Of("There is no 'Location' header returned")))
                .Expected("Convention: Location header (pointing to newly created element) is returned with response.");
-        }
-
-        private static IEnumerable<IAssertion> CreationRequest()
-        {
-            yield return new VerifyRequestMethod(HttpMethod.Post)
-               .Expected("Convention: HTTP request method is POST");
         }
 
         public static IEnumerable<IAssertion> GettingList()
@@ -55,7 +57,18 @@ namespace Synergy.Samples.Web.API.Tests.Infrastructure
             yield return new VerifyResponseStatus(HttpStatusCode.BadRequest)
                .Expected("Convention: Returned HTTP status code is 400 (Bad Request)");
 
-            // TODO: Add validation of error JSON
+            yield return new VerifyResponseBody("message", token => ValidateIfNodeExists(token, "message"))
+               .Expected("Convention: error JSON contains \"message\" node");
+
+            yield return new VerifyResponseBody("errorId", token => ValidateIfNodeExists(token, "errorId"))
+               .Expected("Convention: error JSON contains \"errorId\" node");
+        }
+
+        private static void ValidateIfNodeExists(JToken? token, string node)
+        {
+            token.FailIfNull(Violation.Of($"\"{node}\" is not present"));
+            var value = token.Value<string>();
+            Fail.IfWhitespace(value, Violation.Of($"\"{node}\" is empty"));
         }
     }
 }

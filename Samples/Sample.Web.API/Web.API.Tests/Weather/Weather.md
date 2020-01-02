@@ -16,7 +16,7 @@
 
 - Request
 ```
-GET /api/v1/weather/forecast
+GET  /api/v1/weather/forecast
 ```
 
 - Response
@@ -25,34 +25,34 @@ HTTP/1.1 200 OK
 api-supported-versions: 1.0
 [
   {
-    "date": "2020-01-03T13:17:47.3382464+01:00",
-    "temperatureC": 30,
-    "temperatureF": 85,
-    "summary": "Sweltering"
-  },
-  {
-    "date": "2020-01-04T13:17:47.3387738+01:00",
-    "temperatureC": 37,
-    "temperatureF": 98,
-    "summary": "Sweltering"
-  },
-  {
-    "date": "2020-01-05T13:17:47.3387819+01:00",
-    "temperatureC": 48,
-    "temperatureF": 118,
+    "date": "2019-12-31T09:51:26.6591506+01:00",
+    "temperatureC": 44,
+    "temperatureF": 111,
     "summary": "Hot"
   },
   {
-    "date": "2020-01-06T13:17:47.3387827+01:00",
-    "temperatureC": 38,
-    "temperatureF": 100,
-    "summary": "Balmy"
+    "date": "2020-01-01T09:51:26.6596757+01:00",
+    "temperatureC": 3,
+    "temperatureF": 37,
+    "summary": "Freezing"
   },
   {
-    "date": "2020-01-07T13:17:47.3387833+01:00",
-    "temperatureC": 54,
-    "temperatureF": 129,
-    "summary": "Warm"
+    "date": "2020-01-02T09:51:26.6596869+01:00",
+    "temperatureC": -9,
+    "temperatureF": 16,
+    "summary": "Mild"
+  },
+  {
+    "date": "2020-01-03T09:51:26.6596878+01:00",
+    "temperatureC": 25,
+    "temperatureF": 76,
+    "summary": "Mild"
+  },
+  {
+    "date": "2020-01-04T09:51:26.6596884+01:00",
+    "temperatureC": 36,
+    "temperatureF": 96,
+    "summary": "Chilly"
   }
 ]
 ```
@@ -77,7 +77,7 @@ api-supported-versions: 1.0
 
 - Request
 ```
-POST /api/v1/weather
+POST  /api/v1/weather
 {
   "Id": 123,
   "Name": "do sth",
@@ -120,7 +120,7 @@ api-supported-versions: 1.0
 
 - Request
 ```
-POST /api/v1/weather
+POST  /api/v1/weather
 {
   "Id": 123,
   "Name": null,
@@ -134,7 +134,7 @@ HTTP/1.1 400 BadRequest
 api-supported-versions: 1.0
 {
   "message": "'Name' is whitespace",
-  "errorId": "b105a27b56aa4f6eb5bb197f60a8200a"
+  "errorId": "af865c36848d45cd8dbf3da716563ee0"
 }
 ```
 
@@ -143,6 +143,8 @@ api-supported-versions: 1.0
 | Item is NOT created and error is returned | OK |
 | Convention: HTTP request method is POST | OK |
 | Convention: Returned HTTP status code is 400 (Bad Request) | OK |
+| Convention: error JSON contains "message" node | OK |
+| Convention: error JSON contains "errorId" node | OK |
 
 
 ### 3.2. Create TODO item with an empty name (1 request)
@@ -151,7 +153,7 @@ api-supported-versions: 1.0
 
 - Request
 ```
-POST /api/v1/weather
+POST  /api/v1/weather
 {
   "Id": 123,
   "Name": "",
@@ -165,7 +167,7 @@ HTTP/1.1 400 BadRequest
 api-supported-versions: 1.0
 {
   "message": "'Name' is whitespace",
-  "errorId": "c91273938f094db983deda45a20e2a46"
+  "errorId": "ed2464934da6442b8c3ca186a3430242"
 }
 ```
 
@@ -174,6 +176,8 @@ api-supported-versions: 1.0
 | Item is NOT created and error is returned | OK |
 | Convention: HTTP request method is POST | OK |
 | Convention: Returned HTTP status code is 400 (Bad Request) | OK |
+| Convention: error JSON contains "message" node | OK |
+| Convention: error JSON contains "errorId" node | OK |
 
 
 ### 3.3. Create TODO item with an whitespace name (1 request)
@@ -182,7 +186,7 @@ api-supported-versions: 1.0
 
 - Request
 ```
-POST /api/v1/weather
+POST  /api/v1/weather
 {
   "Id": 123,
   "Name": "  ",
@@ -196,7 +200,7 @@ HTTP/1.1 400 BadRequest
 api-supported-versions: 1.0
 {
   "message": "'Name' is whitespace",
-  "errorId": "0add7eea071d403fa667154933c3e7c6"
+  "errorId": "dc05a23bb0744b19b9b8157ba9a06529"
 }
 ```
 
@@ -205,5 +209,7 @@ api-supported-versions: 1.0
 | Item is NOT created and error is returned | OK |
 | Convention: HTTP request method is POST | OK |
 | Convention: Returned HTTP status code is 400 (Bad Request) | OK |
+| Convention: error JSON contains "message" node | OK |
+| Convention: error JSON contains "errorId" node | OK |
 
 
