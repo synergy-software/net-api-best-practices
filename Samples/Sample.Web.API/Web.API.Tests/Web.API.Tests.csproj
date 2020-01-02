@@ -18,7 +18,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Web.Api.Testing\Web.Api.Testing.csproj" />
     <ProjectReference Include="..\Web.API\Web.API.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="WAPIT\" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Synergy.Samples.Web.API.Extensions;
 
 namespace Synergy.Samples.Web.API.Tests
 {
@@ -24,7 +23,7 @@ namespace Synergy.Samples.Web.API.Tests
         public static Ignore ResponseBody(params string[] nodes)
         {
             var ignore = new Ignore();
-            if (nodes.IsEmpty())
+            if (nodes.Any() == false)
                 ignore.Append(new[] {"$.response.body"});
             ignore.Append(nodes.Select(node=> $"$.response.body.{node}"));
             return ignore;
