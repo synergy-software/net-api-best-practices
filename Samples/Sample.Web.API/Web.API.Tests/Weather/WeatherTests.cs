@@ -6,6 +6,7 @@ using Synergy.Samples.Web.API.Tests.Infrastructure;
 using Synergy.Samples.Web.API.Tests.WAPIT;
 using Synergy.Samples.Web.API.Tests.WAPIT.Assertions;
 using Synergy.Samples.Web.API.Tests.WAPIT.Features;
+using static Synergy.Samples.Web.API.Tests.Ignore;
 
 namespace Synergy.Samples.Web.API.Tests.Weather
 {
@@ -14,7 +15,7 @@ namespace Synergy.Samples.Web.API.Tests.Weather
     {
         private const string Path = @"../../../Weather";
         private readonly Feature feature = new Feature("Manage weather through API");
-        private readonly Ignore ignoreError = new Ignore("$.response.body.errorId");
+        private readonly Ignore ignoreError = ResponseBody("errorId");
 
         [Test]
         public void get_weather()
@@ -44,7 +45,7 @@ namespace Synergy.Samples.Web.API.Tests.Weather
             weather.GetWeatherForecast()
                    .InStep(scenario.Step("Retrieve weather forecast"))
                    .ShouldBe(EqualToPattern("/Patterns/GetWeatherForecast.json")
-                            .Ignore("$.response.body")
+                            .Ignore(ResponseBody())
                             .Expected("Weather forecast is returned"))
                    .ShouldBe(ApiConventionFor.GettingList());
         }
