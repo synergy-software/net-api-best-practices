@@ -25,34 +25,34 @@ HTTP/1.1 200 OK
 api-supported-versions: 1.0
 [
   {
-    "date": "2020-01-03T12:57:18.7256736+01:00",
-    "temperatureC": 44,
-    "temperatureF": 111,
-    "summary": "Freezing"
-  },
-  {
-    "date": "2020-01-04T12:57:18.7262556+01:00",
-    "temperatureC": -1,
-    "temperatureF": 31,
+    "date": "2020-01-03T13:17:47.3382464+01:00",
+    "temperatureC": 30,
+    "temperatureF": 85,
     "summary": "Sweltering"
   },
   {
-    "date": "2020-01-05T12:57:18.7262647+01:00",
-    "temperatureC": 2,
-    "temperatureF": 35,
+    "date": "2020-01-04T13:17:47.3387738+01:00",
+    "temperatureC": 37,
+    "temperatureF": 98,
     "summary": "Sweltering"
   },
   {
-    "date": "2020-01-06T12:57:18.7262655+01:00",
-    "temperatureC": 26,
-    "temperatureF": 78,
+    "date": "2020-01-05T13:17:47.3387819+01:00",
+    "temperatureC": 48,
+    "temperatureF": 118,
+    "summary": "Hot"
+  },
+  {
+    "date": "2020-01-06T13:17:47.3387827+01:00",
+    "temperatureC": 38,
+    "temperatureF": 100,
+    "summary": "Balmy"
+  },
+  {
+    "date": "2020-01-07T13:17:47.3387833+01:00",
+    "temperatureC": 54,
+    "temperatureF": 129,
     "summary": "Warm"
-  },
-  {
-    "date": "2020-01-07T12:57:18.7262671+01:00",
-    "temperatureC": 45,
-    "temperatureF": 112,
-    "summary": "Sweltering"
   }
 ]
 ```
@@ -134,14 +134,15 @@ HTTP/1.1 400 BadRequest
 api-supported-versions: 1.0
 {
   "message": "'Name' is whitespace",
-  "errorId": "a027ea18bab14e6a96ca54d0db75d05d"
+  "errorId": "b105a27b56aa4f6eb5bb197f60a8200a"
 }
 ```
 
 | Expected Results  | Status |
 | - | - |
 | Item is NOT created and error is returned | OK |
-| Returned HTTP status code is 400 (BadRequest) | OK |
+| Convention: HTTP request method is POST | OK |
+| Convention: Returned HTTP status code is 400 (Bad Request) | OK |
 
 
 ### 3.2. Create TODO item with an empty name (1 request)
@@ -164,14 +165,15 @@ HTTP/1.1 400 BadRequest
 api-supported-versions: 1.0
 {
   "message": "'Name' is whitespace",
-  "errorId": "04205e055c064e2b89aaf561c474643e"
+  "errorId": "c91273938f094db983deda45a20e2a46"
 }
 ```
 
 | Expected Results  | Status |
 | - | - |
 | Item is NOT created and error is returned | OK |
-| Returned HTTP status code is 400 (BadRequest) | OK |
+| Convention: HTTP request method is POST | OK |
+| Convention: Returned HTTP status code is 400 (Bad Request) | OK |
 
 
 ### 3.3. Create TODO item with an whitespace name (1 request)
@@ -194,13 +196,14 @@ HTTP/1.1 400 BadRequest
 api-supported-versions: 1.0
 {
   "message": "'Name' is whitespace",
-  "errorId": "59238ad3538347279000f0afc36118c9"
+  "errorId": "0add7eea071d403fa667154933c3e7c6"
 }
 ```
 
 | Expected Results  | Status |
 | - | - |
 | Item is NOT created and error is returned | OK |
-| Returned HTTP status code is 400 (BadRequest) | OK |
+| Convention: HTTP request method is POST | OK |
+| Convention: Returned HTTP status code is 400 (Bad Request) | OK |
 
 

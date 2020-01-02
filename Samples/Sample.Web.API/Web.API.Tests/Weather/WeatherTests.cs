@@ -75,7 +75,7 @@ namespace Synergy.Samples.Web.API.Tests.Weather
                    .ShouldBe(EqualToPattern("/Patterns/TryToCreateNullName.json")
                             .Ignore(ignoreError)
                             .Expected("Item is NOT created and error is returned"))
-                   .ShouldBe(InStatus(HttpStatusCode.BadRequest));
+                   .ShouldBe(ApiConventionFor.CreateWithValidationError());
             #pragma warning restore CS8625
 
             weather.Create(new TodoItem {Id = 123, Name = ""})
@@ -83,14 +83,14 @@ namespace Synergy.Samples.Web.API.Tests.Weather
                    .ShouldBe(EqualToPattern("/Patterns/TryToCreateEmptyName.json")
                             .Ignore(ignoreError)
                             .Expected("Item is NOT created and error is returned"))
-                   .ShouldBe(InStatus(HttpStatusCode.BadRequest));
+                   .ShouldBe(ApiConventionFor.CreateWithValidationError());
 
             weather.Create(new TodoItem {Id = 123, Name = "  "})
                    .InStep(scenario.Step("Create TODO item with an whitespace name"))
                    .ShouldBe(EqualToPattern("/Patterns/TryToCreateWhitespaceName.json")
                             .Ignore(ignoreError)
                             .Expected("Item is NOT created and error is returned"))
-                   .ShouldBe(InStatus(HttpStatusCode.BadRequest));
+                   .ShouldBe(ApiConventionFor.CreateWithValidationError());
         }
 
         private CompareOperationWithPattern EqualToPattern([PathReference] string file)

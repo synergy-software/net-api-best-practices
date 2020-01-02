@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using Synergy.Contracts;
@@ -15,8 +16,8 @@ namespace Synergy.Samples.Web.API.Tests.Infrastructure
         public static IEnumerable<IAssertion> Create()
         {
             // Request
-            yield return new VerifyRequestMethod(HttpMethod.Post)
-               .Expected("Convention: HTTP request method is POST");
+            foreach (var assertion in CreationRequest()) 
+                yield return assertion;
 
             // Response
             yield return new VerifyResponseStatus(HttpStatusCode.Created)
@@ -24,6 +25,12 @@ namespace Synergy.Samples.Web.API.Tests.Infrastructure
 
             yield return new VerifyResponseHeader("Location", value => Fail.IfWhitespace(value, Violation.Of("There is no 'Location' header returned")))
                .Expected("Convention: Location header (pointing to newly created element) is returned with response.");
+        }
+
+        private static IEnumerable<IAssertion> CreationRequest()
+        {
+            yield return new VerifyRequestMethod(HttpMethod.Post)
+               .Expected("Convention: HTTP request method is POST");
         }
 
         public static IEnumerable<IAssertion> GettingList()
@@ -35,6 +42,20 @@ namespace Synergy.Samples.Web.API.Tests.Infrastructure
             // Response
             yield return new VerifyResponseStatus(HttpStatusCode.OK)
                .Expected("Convention: Returned HTTP status code is 200 (OK)");
+        }
+
+        public static IEnumerable<IAssertion> CreateWithValidationError()
+        {
+            return CreationRequest()
+               .Concat(BadRequest());
+        }
+
+        private static IEnumerable<IAssertion> BadRequest()
+        {
+            yield return new VerifyResponseStatus(HttpStatusCode.BadRequest)
+               .Expected("Convention: Returned HTTP status code is 400 (Bad Request)");
+
+            // TODO: Add validation of error JSON
         }
     }
 }
