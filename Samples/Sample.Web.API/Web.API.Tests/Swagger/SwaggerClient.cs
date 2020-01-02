@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Synergy.Samples.Web.API.Tests.WAPIT;
+using Synergy.Web.Api.Testing;
 
 namespace Synergy.Samples.Web.API.Tests.Swagger
 {

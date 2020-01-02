@@ -4,7 +4,7 @@ using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Synergy.Samples.Web.API.Tests 
+namespace Synergy.Web.Api.Testing.Json 
 {
     public class JsonComparer
     {

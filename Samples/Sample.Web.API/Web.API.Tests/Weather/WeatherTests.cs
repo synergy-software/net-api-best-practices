@@ -3,10 +3,11 @@ using JetBrains.Annotations;
 using NUnit.Framework;
 using Sample.API.Controllers;
 using Synergy.Samples.Web.API.Tests.Infrastructure;
-using Synergy.Samples.Web.API.Tests.WAPIT;
-using Synergy.Samples.Web.API.Tests.WAPIT.Assertions;
-using Synergy.Samples.Web.API.Tests.WAPIT.Features;
-using static Synergy.Samples.Web.API.Tests.Ignore;
+using Synergy.Web.Api.Testing;
+using Synergy.Web.Api.Testing.Assertions;
+using Synergy.Web.Api.Testing.Features;
+using Synergy.Web.Api.Testing.Json;
+using static Synergy.Web.Api.Testing.Json.Ignore;
 
 namespace Synergy.Samples.Web.API.Tests.Weather
 {

@@ -3,7 +3,7 @@ using JetBrains.Annotations;
 using Newtonsoft.Json.Linq;
 using Synergy.Contracts;
 
-namespace Synergy.Samples.Web.API.Tests.WAPIT
+namespace Synergy.Web.Api.Testing
 {
     public static class HttpExtensions
     {

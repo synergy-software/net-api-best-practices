@@ -2,8 +2,9 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Synergy.Contracts;
+using Synergy.Web.Api.Testing.Json;
 
-namespace Synergy.Samples.Web.API.Tests.WAPIT.Assertions
+namespace Synergy.Web.Api.Testing.Assertions
 {
     public class CompareResponseWithPattern : Assertion
     {

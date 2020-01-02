@@ -2,7 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using Synergy.Contracts;
-using Synergy.Samples.Web.API.Tests.WAPIT.Assertions;
+using Synergy.Web.Api.Testing.Assertions;
 
 namespace Synergy.Samples.Web.API.Tests.Infrastructure
 {

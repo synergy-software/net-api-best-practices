@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 
-namespace Synergy.Samples.Web.API.Tests.WAPIT.Features
+namespace Synergy.Web.Api.Testing.Features
 {
     public class Markdown
     {

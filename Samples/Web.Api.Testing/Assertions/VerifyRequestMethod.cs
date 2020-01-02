@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
 using Synergy.Contracts;
 
-namespace Synergy.Samples.Web.API.Tests.WAPIT.Assertions
+namespace Synergy.Web.Api.Testing.Assertions
 {
     public class VerifyRequestMethod : Assertion
     {

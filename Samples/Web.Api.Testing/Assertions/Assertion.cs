@@ -1,7 +1,7 @@
 ﻿using Synergy.Contracts;
-using Synergy.Samples.Web.API.Tests.WAPIT.Features;
+using Synergy.Web.Api.Testing.Features;
 
-namespace Synergy.Samples.Web.API.Tests.WAPIT.Assertions
+namespace Synergy.Web.Api.Testing.Assertions
 {
     public abstract class Assertion : IAssertion
     {

@@ -25,34 +25,34 @@ HTTP/1.1 200 OK
 api-supported-versions: 1.0
 [
   {
-    "date": "2020-01-01T17:45:42.6175116+01:00",
-    "temperatureC": 50,
-    "temperatureF": 121,
-    "summary": "Mild"
+    "date": "2020-01-03T12:57:18.7256736+01:00",
+    "temperatureC": 44,
+    "temperatureF": 111,
+    "summary": "Freezing"
   },
   {
-    "date": "2020-01-02T17:45:42.6178945+01:00",
-    "temperatureC": 10,
-    "temperatureF": 49,
+    "date": "2020-01-04T12:57:18.7262556+01:00",
+    "temperatureC": -1,
+    "temperatureF": 31,
     "summary": "Sweltering"
   },
   {
-    "date": "2020-01-03T17:45:42.6179+01:00",
-    "temperatureC": 24,
-    "temperatureF": 75,
-    "summary": "Mild"
-  },
-  {
-    "date": "2020-01-04T17:45:42.6179005+01:00",
-    "temperatureC": 31,
-    "temperatureF": 87,
+    "date": "2020-01-05T12:57:18.7262647+01:00",
+    "temperatureC": 2,
+    "temperatureF": 35,
     "summary": "Sweltering"
   },
   {
-    "date": "2020-01-05T17:45:42.6179009+01:00",
-    "temperatureC": 13,
-    "temperatureF": 55,
-    "summary": "Chilly"
+    "date": "2020-01-06T12:57:18.7262655+01:00",
+    "temperatureC": 26,
+    "temperatureF": 78,
+    "summary": "Warm"
+  },
+  {
+    "date": "2020-01-07T12:57:18.7262671+01:00",
+    "temperatureC": 45,
+    "temperatureF": 112,
+    "summary": "Sweltering"
   }
 ]
 ```
@@ -60,8 +60,8 @@ api-supported-versions: 1.0
 | Expected Results  | Status |
 | - | - |
 | Weather forecast is returned | OK |
-| HTTP request method is GET | OK |
-| Returned HTTP status code is 200 (OK) | OK |
+| Convention: HTTP request method is GET | OK |
+| Convention: Returned HTTP status code is 200 (OK) | OK |
 
 
 
@@ -100,9 +100,9 @@ api-supported-versions: 1.0
 | Expected Results  | Status |
 | - | - |
 | Item is created and its details are returned | OK |
-| HTTP request method is POST | OK |
-| Returned HTTP status code is 201 (Created) | OK |
-| Location header (pointing to newly created element) is returned with response. | OK |
+| Convention: HTTP request method is POST | OK |
+| Convention: Returned HTTP status code is 201 (Created) | OK |
+| Convention: Location header (pointing to newly created element) is returned with response. | OK |
 
 
 
@@ -134,7 +134,7 @@ HTTP/1.1 400 BadRequest
 api-supported-versions: 1.0
 {
   "message": "'Name' is whitespace",
-  "errorId": "1b04144902a2459caaf83ed2d0a48cfc"
+  "errorId": "a027ea18bab14e6a96ca54d0db75d05d"
 }
 ```
 
@@ -164,7 +164,7 @@ HTTP/1.1 400 BadRequest
 api-supported-versions: 1.0
 {
   "message": "'Name' is whitespace",
-  "errorId": "e4807873ab084d3792fab7c600e608c0"
+  "errorId": "04205e055c064e2b89aaf561c474643e"
 }
 ```
 
@@ -194,7 +194,7 @@ HTTP/1.1 400 BadRequest
 api-supported-versions: 1.0
 {
   "message": "'Name' is whitespace",
-  "errorId": "878c2e8633344d73bb072c18545d3f8b"
+  "errorId": "59238ad3538347279000f0afc36118c9"
 }
 ```
 

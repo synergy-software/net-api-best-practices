@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace Synergy.Samples.Web.API.Tests
+namespace Synergy.Web.Api.Testing.Json
 {
     public class Ignore
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using Synergy.Contracts;
 
-namespace Synergy.Samples.Web.API.Tests
+namespace Synergy.Web.Api.Testing
 {
     internal static class QueryBuilder
     {

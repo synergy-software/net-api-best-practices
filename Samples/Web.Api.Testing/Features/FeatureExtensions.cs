@@ -1,6 +1,6 @@
 ﻿using JetBrains.Annotations;
 
-namespace Synergy.Samples.Web.API.Tests.WAPIT.Features
+namespace Synergy.Web.Api.Testing.Features
 {
     public static class FeatureExtensions
     {

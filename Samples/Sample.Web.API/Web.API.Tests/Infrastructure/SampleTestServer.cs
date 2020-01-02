@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Sample.Web;
 using Synergy.Samples.Web.API.Extensions;
+using Synergy.Web.Api.Testing;
 
 namespace Synergy.Samples.Web.API.Tests.Infrastructure
 {

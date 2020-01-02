@@ -5,9 +5,8 @@ using System.Text;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 using Synergy.Contracts;
-using Synergy.Samples.Web.API.Tests.WAPIT;
 
-namespace Synergy.Samples.Web.API.Tests
+namespace Synergy.Web.Api.Testing
 {
     public abstract class TestServer
     {
