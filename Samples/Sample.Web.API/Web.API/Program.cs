@@ -1,4 +1,3 @@
-using Castle.Facilities.TypedFactory;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.Resolvers.SpecializedResolvers;
 using Castle.Windsor;
@@ -18,7 +17,7 @@ namespace Sample.Web
             CreateHostBuilder(args).Build().Run();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
+        private static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
                 .ConfigureAppConfiguration(
@@ -33,7 +32,6 @@ namespace Sample.Web
                     (hostBuilderContext, container) =>
                     {
                         container.Kernel.Resolver.AddSubResolver(new CollectionResolver(container.Kernel));
-                        container.AddFacility<TypedFactoryFacility>();
 
                         var rootAssembly = Application.GetRootAssembly();
                         container.Register(

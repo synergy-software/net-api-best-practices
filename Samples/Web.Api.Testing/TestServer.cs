@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Net.Http;
+using System.Net.Mime;
 using System.Text;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
@@ -57,7 +58,7 @@ namespace Synergy.Web.Api.Testing
 
             if (body != null)
             {
-                request.Content = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
+                request.Content = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, MediaTypeNames.Application.Json);
             }
 
             return request;

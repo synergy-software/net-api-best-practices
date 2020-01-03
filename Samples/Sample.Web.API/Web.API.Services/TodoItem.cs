@@ -9,6 +9,7 @@ namespace Sample.API.Controllers {
         // TODO: zamień [Required] na non-nullable
         [Required]
         [StringLength(20)]
+        // TODO: [JsonPropertyName("type")]
         public string Name { get; set; }
 
         [DefaultValue(false)]

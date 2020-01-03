@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -13,7 +14,7 @@ namespace Sample.Web.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/weather")]
-    [Produces("application/json")]
+    [Produces(MediaTypeNames.Application.Json)]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries =

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Mime;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -124,7 +125,7 @@ namespace Synergy.Web.Api.Testing.Assertions
             if (body != null)
             {
                 var payload = body.ToString();
-                request.Content = new StringContent(payload, Encoding.UTF8, "application/json");
+                request.Content = new StringContent(payload, Encoding.UTF8, MediaTypeNames.Application.Json);
             }
 
             return request;
@@ -139,7 +140,7 @@ namespace Synergy.Web.Api.Testing.Assertions
             var statusCode = Enum.Parse<HttpStatusCode>(status);
             var response = new HttpResponseMessage(statusCode);
             var body = _savedPattern!.SelectToken("$.response.body").ToString();
-            response.Content = new StringContent(body, Encoding.UTF8, "application/json");
+            response.Content = new StringContent(body, Encoding.UTF8, MediaTypeNames.Application.Json);
             var headers = _savedPattern!.SelectTokens("$.response.headers.*");
             foreach (var header in headers)
             {

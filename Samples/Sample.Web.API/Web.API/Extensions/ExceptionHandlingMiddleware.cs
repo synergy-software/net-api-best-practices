@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
@@ -38,11 +39,27 @@ namespace Synergy.Samples.Web.API.Extensions
 
             // TODO: Depending on exception type change returned status code
             context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-            context.Response.ContentType = "application/json";
+            context.Response.ContentType = MediaTypeNames.Application.Json;
             var payload = JsonConvert.SerializeObject(details);
             return context.Response.WriteAsync(payload);
         }
 
+        // TODO: Rozważ zwracanie struktury ProblemDetails - zgodnie z https://tools.ietf.org/html/rfc7807
+        // new ProblemDetails(){ Type = "link do kontrolera z opisem problemu"}
+        // + możliwość zwrócenia wyjątku, który będzie opisywał dokładnie jaki jest problem - lista problemów znana w systemie i śledzona na poziomie Developera
+        // + strategia obsługi ValidationErrors - może przez klasę ValidationProblemDetails:
+        // https://httpstatuses.com/400 - link do opisu błądów
+        //{
+        //    "errors": {
+        //        "Name": [
+        //        "The Name field is required."
+        //            ]
+        //    },
+        //    "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+        //    "title": "One or more validation errors occurred.",
+        //    "status": 400,
+        //    "traceId": "|78d9159-4e0a9444dbc9fd14."
+        //}
         private class ErrorDetails
         {
             [JsonConstructor]
