@@ -5,17 +5,17 @@
       "Id": 123,
       "Name": null,
       "IsComplete": false
-    },
-    "headers": {}
+    }
   },
   "response": {
     "status": "400 Bad Request",
     "headers": {
       "api-supported-versions": "1.0"
     },
+    "Content-Type": "application/json",
     "body": {
       "message": "'Name' is whitespace",
-      "errorId": "af865c36848d45cd8dbf3da716563ee0"
+      "traceId": "0HLSG9REJHPO6"
     }
   }
 }

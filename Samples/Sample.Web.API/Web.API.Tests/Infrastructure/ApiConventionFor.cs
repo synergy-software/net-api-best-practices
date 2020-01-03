@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Mime;
 using Synergy.Contracts;
 using Synergy.Web.Api.Testing.Assertions;
 using Newtonsoft.Json.Linq;
@@ -33,6 +34,8 @@ namespace Synergy.Samples.Web.API.Tests.Infrastructure
             yield return new VerifyResponseHeader("Location",
                                                   value => Fail.IfWhitespace(value, Violation.Of("There is no 'Location' header returned")))
                .Expected("Convention: Location header (pointing to newly created element) is returned with response.");
+
+            yield return ResponseContentTypeIsJson();
         }
 
         public static IEnumerable<IAssertion> GettingList()
@@ -44,6 +47,14 @@ namespace Synergy.Samples.Web.API.Tests.Infrastructure
             // Response
             yield return new VerifyResponseStatus(HttpStatusCode.OK)
                .Expected("Convention: Returned HTTP status code is 200 (OK)");
+
+            yield return ResponseContentTypeIsJson();
+        }
+
+        private static IAssertion ResponseContentTypeIsJson()
+        {
+            return new VerifyResponseContentType(MediaTypeNames.Application.Json)
+               .Expected($"Convention: Returned HTTP Content-Type is \"{MediaTypeNames.Application.Json}\"");
         }
 
         public static IEnumerable<IAssertion> CreateWithValidationError()
@@ -60,8 +71,8 @@ namespace Synergy.Samples.Web.API.Tests.Infrastructure
             yield return new VerifyResponseBody("message", token => ValidateIfNodeExists(token, "message"))
                .Expected("Convention: error JSON contains \"message\" node");
 
-            yield return new VerifyResponseBody("errorId", token => ValidateIfNodeExists(token, "errorId"))
-               .Expected("Convention: error JSON contains \"errorId\" node");
+            yield return new VerifyResponseBody("traceId", token => ValidateIfNodeExists(token, "traceId"))
+               .Expected("Convention: error JSON contains \"traceId\" node");
         }
 
         private static void ValidateIfNodeExists(JToken? token, string node)

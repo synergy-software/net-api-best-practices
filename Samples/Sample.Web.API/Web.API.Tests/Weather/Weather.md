@@ -25,34 +25,34 @@ HTTP/1.1 200 OK
 api-supported-versions: 1.0
 [
   {
-    "date": "2019-12-31T09:51:26.6591506+01:00",
-    "temperatureC": 44,
-    "temperatureF": 111,
+    "date": "2020-01-04T14:00:06.0784313+01:00",
+    "temperatureC": 33,
+    "temperatureF": 91,
+    "summary": "Balmy"
+  },
+  {
+    "date": "2020-01-05T14:00:06.0787814+01:00",
+    "temperatureC": 18,
+    "temperatureF": 64,
     "summary": "Hot"
   },
   {
-    "date": "2020-01-01T09:51:26.6596757+01:00",
-    "temperatureC": 3,
-    "temperatureF": 37,
-    "summary": "Freezing"
+    "date": "2020-01-06T14:00:06.0787866+01:00",
+    "temperatureC": -10,
+    "temperatureF": 15,
+    "summary": "Balmy"
   },
   {
-    "date": "2020-01-02T09:51:26.6596869+01:00",
-    "temperatureC": -9,
-    "temperatureF": 16,
-    "summary": "Mild"
+    "date": "2020-01-07T14:00:06.078787+01:00",
+    "temperatureC": 52,
+    "temperatureF": 125,
+    "summary": "Warm"
   },
   {
-    "date": "2020-01-03T09:51:26.6596878+01:00",
+    "date": "2020-01-08T14:00:06.0787874+01:00",
     "temperatureC": 25,
     "temperatureF": 76,
-    "summary": "Mild"
-  },
-  {
-    "date": "2020-01-04T09:51:26.6596884+01:00",
-    "temperatureC": 36,
-    "temperatureF": 96,
-    "summary": "Chilly"
+    "summary": "Balmy"
   }
 ]
 ```
@@ -62,6 +62,7 @@ api-supported-versions: 1.0
 | Weather forecast is returned | OK |
 | Convention: HTTP request method is GET | OK |
 | Convention: Returned HTTP status code is 200 (OK) | OK |
+| Convention: Returned HTTP Content-Type is "application/json" | OK |
 
 
 
@@ -103,6 +104,7 @@ api-supported-versions: 1.0
 | Convention: HTTP request method is POST | OK |
 | Convention: Returned HTTP status code is 201 (Created) | OK |
 | Convention: Location header (pointing to newly created element) is returned with response. | OK |
+| Convention: Returned HTTP Content-Type is "application/json" | OK |
 
 
 
@@ -134,7 +136,7 @@ HTTP/1.1 400 BadRequest
 api-supported-versions: 1.0
 {
   "message": "'Name' is whitespace",
-  "errorId": "af865c36848d45cd8dbf3da716563ee0"
+  "traceId": "0HLSG9REJHPO6"
 }
 ```
 
@@ -144,7 +146,7 @@ api-supported-versions: 1.0
 | Convention: HTTP request method is POST | OK |
 | Convention: Returned HTTP status code is 400 (Bad Request) | OK |
 | Convention: error JSON contains "message" node | OK |
-| Convention: error JSON contains "errorId" node | OK |
+| Convention: error JSON contains "traceId" node | OK |
 
 
 ### 3.2. Create TODO item with an empty name (1 request)
@@ -167,7 +169,7 @@ HTTP/1.1 400 BadRequest
 api-supported-versions: 1.0
 {
   "message": "'Name' is whitespace",
-  "errorId": "ed2464934da6442b8c3ca186a3430242"
+  "traceId": "0HLSG9REJHPO7"
 }
 ```
 
@@ -177,7 +179,7 @@ api-supported-versions: 1.0
 | Convention: HTTP request method is POST | OK |
 | Convention: Returned HTTP status code is 400 (Bad Request) | OK |
 | Convention: error JSON contains "message" node | OK |
-| Convention: error JSON contains "errorId" node | OK |
+| Convention: error JSON contains "traceId" node | OK |
 
 
 ### 3.3. Create TODO item with an whitespace name (1 request)
@@ -200,7 +202,7 @@ HTTP/1.1 400 BadRequest
 api-supported-versions: 1.0
 {
   "message": "'Name' is whitespace",
-  "errorId": "dc05a23bb0744b19b9b8157ba9a06529"
+  "traceId": "0HLSG9REJHPO8"
 }
 ```
 
@@ -210,6 +212,6 @@ api-supported-versions: 1.0
 | Convention: HTTP request method is POST | OK |
 | Convention: Returned HTTP status code is 400 (Bad Request) | OK |
 | Convention: error JSON contains "message" node | OK |
-| Convention: error JSON contains "errorId" node | OK |
+| Convention: error JSON contains "traceId" node | OK |
 
 

@@ -16,7 +16,7 @@ namespace Synergy.Samples.Web.API.Tests.Weather
     {
         private const string Path = @"../../../Weather";
         private readonly Feature feature = new Feature("Manage weather through API");
-        private readonly Ignore ignoreError = ResponseBody("errorId");
+        private readonly Ignore ignoreError = ResponseBody("traceId");
 
         [Test]
         public void get_weather()

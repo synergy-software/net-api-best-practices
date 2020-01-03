@@ -78,8 +78,9 @@ namespace Synergy.Web.Api.Testing.Assertions
                 yield return new JProperty("body", requestJson);
             }
 
-            var headers = request.Headers.Select(GetHeader);
-            yield return new JProperty("headers", new JObject(headers));
+            var headers = request.Headers.Select(GetHeader).ToList();
+            if (headers.Count > 0)
+                yield return new JProperty("headers", new JObject(headers));
         }
 
         private static IEnumerable<JProperty> GetResponseProperties(HttpOperation operation)
@@ -88,8 +89,12 @@ namespace Synergy.Web.Api.Testing.Assertions
 
             yield return new JProperty("status", $"{(int) response.StatusCode} {response.ReasonPhrase}");
 
-            var headers = response.Headers.Select(GetHeader);
-            yield return new JProperty("headers", new JObject(headers));
+            var headers = response.Headers.Select(GetHeader).ToList();
+            if (headers.Count > 0)
+                yield return new JProperty("headers", new JObject(headers));
+
+            var contentType = response.Content.Headers.ContentType;
+            yield return new JProperty("Content-Type", contentType.MediaType);
 
             var responseJson = response.Content.ReadJson();
             yield return new JProperty("body", responseJson);

@@ -1,43 +1,43 @@
 {
   "request": {
-    "method": "GET /api/v1/weather/forecast",
-    "headers": {}
+    "method": "GET /api/v1/weather/forecast"
   },
   "response": {
     "status": "200 OK",
     "headers": {
       "api-supported-versions": "1.0"
     },
+    "Content-Type": "application/json",
     "body": [
       {
-        "date": "2019-12-31T09:51:26.6591506+01:00",
-        "temperatureC": 44,
-        "temperatureF": 111,
+        "date": "2020-01-04T14:00:06.0784313+01:00",
+        "temperatureC": 33,
+        "temperatureF": 91,
+        "summary": "Balmy"
+      },
+      {
+        "date": "2020-01-05T14:00:06.0787814+01:00",
+        "temperatureC": 18,
+        "temperatureF": 64,
         "summary": "Hot"
       },
       {
-        "date": "2020-01-01T09:51:26.6596757+01:00",
-        "temperatureC": 3,
-        "temperatureF": 37,
-        "summary": "Freezing"
+        "date": "2020-01-06T14:00:06.0787866+01:00",
+        "temperatureC": -10,
+        "temperatureF": 15,
+        "summary": "Balmy"
       },
       {
-        "date": "2020-01-02T09:51:26.6596869+01:00",
-        "temperatureC": -9,
-        "temperatureF": 16,
-        "summary": "Mild"
+        "date": "2020-01-07T14:00:06.078787+01:00",
+        "temperatureC": 52,
+        "temperatureF": 125,
+        "summary": "Warm"
       },
       {
-        "date": "2020-01-03T09:51:26.6596878+01:00",
+        "date": "2020-01-08T14:00:06.0787874+01:00",
         "temperatureC": 25,
         "temperatureF": 76,
-        "summary": "Mild"
-      },
-      {
-        "date": "2020-01-04T09:51:26.6596884+01:00",
-        "temperatureC": 36,
-        "temperatureF": 96,
-        "summary": "Chilly"
+        "summary": "Balmy"
       }
     ]
   }

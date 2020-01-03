@@ -22,8 +22,4 @@
     <ProjectReference Include="..\Web.API\Web.API.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="WAPIT\" />
-  </ItemGroup>
-
 </Project>

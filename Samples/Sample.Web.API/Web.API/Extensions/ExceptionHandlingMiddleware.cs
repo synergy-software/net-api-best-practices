@@ -31,11 +31,12 @@ namespace Synergy.Samples.Web.API.Extensions
 
         private Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
-            var errorId = Guid.NewGuid().ToString().Replace("-", "");
+            var traceId = context.TraceIdentifier;
             // TODO: Log the error id so it would be esier to find the exception occurence when someone sends the id
+            // TODO: How to log correlationId
 
             // TODO: Depending on exception type decide to return (or not) exception details to the client
-            var details = new ErrorDetails(errorId, exception.Message);
+            var details = new ErrorDetails(traceId, exception.Message);
 
             // TODO: Depending on exception type change returned status code
             context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
@@ -45,7 +46,7 @@ namespace Synergy.Samples.Web.API.Extensions
         }
 
         // TODO: Rozważ zwracanie struktury ProblemDetails - zgodnie z https://tools.ietf.org/html/rfc7807
-        // new ProblemDetails(){ Type = "link do kontrolera z opisem problemu"}
+        // new ProblemDetails(){ Type = "link do kontrolera z opisem problemu"} Dodatkowo zwracaj conten-type=application/problem+json
         // + możliwość zwrócenia wyjątku, który będzie opisywał dokładnie jaki jest problem - lista problemów znana w systemie i śledzona na poziomie Developera
         // + strategia obsługi ValidationErrors - może przez klasę ValidationProblemDetails:
         // https://httpstatuses.com/400 - link do opisu błądów
@@ -63,17 +64,17 @@ namespace Synergy.Samples.Web.API.Extensions
         private class ErrorDetails
         {
             [JsonConstructor]
-            public ErrorDetails(string errorId, string message)
+            public ErrorDetails(string traceId, string message)
             {
-                ErrorId = errorId;
+                TraceId = traceId;
                 Message = message;
             }
 
             [JsonProperty("message")]
             public string Message { get; }
 
-            [JsonProperty("errorId")]
-            public string ErrorId { get; }
+            [JsonProperty("traceId")]
+            public string TraceId { get; }
         }
     }
 }
