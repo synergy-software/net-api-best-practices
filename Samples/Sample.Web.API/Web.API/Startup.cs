@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 using Sample.Web.Extensions;
 using Synergy.Samples.Web.API.Extensions;
 
@@ -26,6 +27,7 @@ namespace Sample.Web
                                        {
                                            options.SerializerSettings.Converters.Add(new StringEnumConverter());
                                            options.SerializerSettings.Formatting = Formatting.Indented;
+                                           options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                                        });
 
             services.AddVersionedApi();
