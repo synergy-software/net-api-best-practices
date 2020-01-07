@@ -36,7 +36,10 @@ namespace Synergy.Samples.Web.API.Extensions
         /// <returns>True if the environment name is <see cref="Application.Environment.Tests"/>, otherwise false.</returns>
         public static bool IsTests(this IHostEnvironment hostEnvironment)
         {
-            if (hostEnvironment == null) throw new ArgumentNullException(nameof(hostEnvironment));
+            if (hostEnvironment == null)
+            {
+                throw new ArgumentNullException(nameof(hostEnvironment));
+            }
 
             return hostEnvironment.IsEnvironment(Environment.Tests);
         }

@@ -25,12 +25,13 @@ namespace Sample.Web
         {
             services.AddControllers()
                     .ConfigureApiBehaviorOptions(options => { options.SuppressModelStateInvalidFilter = true; })
-                    .AddNewtonsoftJson(options =>
-                                       {
-                                           options.SerializerSettings.Converters.Add(new StringEnumConverter());
-                                           options.SerializerSettings.Formatting = Formatting.Indented;
-                                           options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                                       });
+                    .AddNewtonsoftJson(
+                         options =>
+                         {
+                             options.SerializerSettings.Converters.Add(new StringEnumConverter());
+                             options.SerializerSettings.Formatting = Formatting.Indented;
+                             options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                         });
 
             services.AddVersionedApi();
             services.AddVersionedSwagger();

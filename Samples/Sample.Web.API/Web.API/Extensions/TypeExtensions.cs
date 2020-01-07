@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Synergy.Samples.Web.API.Extensions 
+namespace Synergy.Samples.Web.API.Extensions
 {
     public static class TypeExtensions
     {

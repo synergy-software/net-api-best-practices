@@ -10,7 +10,7 @@ namespace Synergy.Samples.Web.API.Extensions
     // TODO: Add swagger filter that shows the possible error 
     public class ExceptionHandlingMiddleware
     {
-        private RequestDelegate next;
+        private readonly RequestDelegate next;
 
         public ExceptionHandlingMiddleware(RequestDelegate next)
         {
@@ -39,7 +39,7 @@ namespace Synergy.Samples.Web.API.Extensions
             var details = new ErrorDetails(traceId, exception.Message);
 
             // TODO: Depending on exception type change returned status code
-            context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            context.Response.StatusCode = (int) HttpStatusCode.BadRequest;
             context.Response.ContentType = MediaTypeNames.Application.Json;
             var payload = JsonConvert.SerializeObject(details);
             return context.Response.WriteAsync(payload);

@@ -14,52 +14,55 @@ namespace Sample.Web.Extensions
     {
         public static void AddVersionedSwagger(this IServiceCollection services)
         {
-            services.AddSwaggerGen(c =>
-            {
-                var serviceProvider = services.BuildServiceProvider();
-                var provider = serviceProvider.GetRequiredService<IApiVersionDescriptionProvider>();
-                var environment = serviceProvider.GetRequiredService<IWebHostEnvironment>();
-
-                // Add a swagger document for each discovered API version  
-                foreach (var apiVersion in provider.ApiVersionDescriptions)
+            services.AddSwaggerGen(
+                c =>
                 {
-                    c.SwaggerDoc(apiVersion.GroupName, GenerateSwaggerVersionInfo(apiVersion, environment));
-                }
+                    var serviceProvider = services.BuildServiceProvider();
+                    var provider = serviceProvider.GetRequiredService<IApiVersionDescriptionProvider>();
+                    var environment = serviceProvider.GetRequiredService<IWebHostEnvironment>();
 
-                // TODO: Dodaj filtry
+                    // Add a swagger document for each discovered API version  
+                    foreach (var apiVersion in provider.ApiVersionDescriptions)
+                    {
+                        c.SwaggerDoc(apiVersion.GroupName, GenerateSwaggerVersionInfo(apiVersion, environment));
+                    }
 
-                foreach (var assembly in Application.GetApplicationAssemblies())
-                {
-                    var xmlFile = $"{assembly.GetName().Name}.xml";
-                    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                    if (File.Exists(xmlPath))
-                        c.IncludeXmlComments(xmlPath);
-                }
+                    // TODO: Dodaj filtry
 
-                c.CustomSchemaIds(GetSchemaId);
-            });
+                    foreach (var assembly in Application.GetApplicationAssemblies())
+                    {
+                        var xmlFile = $"{assembly.GetName().Name}.xml";
+                        var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                        if (File.Exists(xmlPath))
+                        {
+                            c.IncludeXmlComments(xmlPath);
+                        }
+                    }
+
+                    c.CustomSchemaIds(GetSchemaId);
+                });
         }
 
         private static OpenApiInfo GenerateSwaggerVersionInfo(ApiVersionDescription api, IWebHostEnvironment environment)
         {
             return new OpenApiInfo
-            {
-                Version = api.ApiVersion.ToString(),
-                Title = "Synergy sample API",
-                Description = GetApiVersionDescription(api, environment),
-                //TermsOfService = new Uri("https://github.com/synergy-software/net-api-best-practices/blob/master/LICENSE"),
-                Contact = new OpenApiContact
-                {
-                    Name = "Synergy software",
-                    Email = "synergy@todo.com",
-                    Url = new Uri("https://github.com/synergy-software")
-                },
-                License = new OpenApiLicense
-                {
-                    Name = "Use under MIT License",
-                    Url = new Uri("https://github.com/synergy-software/net-api-best-practices/blob/master/LICENSE")
-                }
-            };
+                   {
+                       Version = api.ApiVersion.ToString(),
+                       Title = "Synergy sample API",
+                       Description = GetApiVersionDescription(api, environment),
+                       //TermsOfService = new Uri("https://github.com/synergy-software/net-api-best-practices/blob/master/LICENSE"),
+                       Contact = new OpenApiContact
+                                 {
+                                     Name = "Synergy software",
+                                     Email = "synergy@todo.com",
+                                     Url = new Uri("https://github.com/synergy-software")
+                                 },
+                       License = new OpenApiLicense
+                                 {
+                                     Name = "Use under MIT License",
+                                     Url = new Uri("https://github.com/synergy-software/net-api-best-practices/blob/master/LICENSE")
+                                 }
+                   };
         }
 
         private static string GetApiVersionDescription(ApiVersionDescription api, IWebHostEnvironment environment)
@@ -67,7 +70,9 @@ namespace Sample.Web.Extensions
             var application = Application.GetApplicationInfo();
             var createdOn = application.CreatedOn.ToString();
             if (environment.IsDevelopment() || environment.IsTests())
+            {
                 createdOn = "DEVELOPERS MACHINE";
+            }
 
             return $"<label>API Version</label>: <strong>{api.ApiVersion} {(api.IsDeprecated ? "(DEPRECATED)" : "")}</strong><br/> " +
                    $"<label>Application Name</label>: <strong>{application.ProductName}</strong><br/> " +
@@ -96,8 +101,7 @@ namespace Sample.Web.Extensions
                     {
                         c.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
                     }
-                }
-            );
+                });
         }
     }
 }

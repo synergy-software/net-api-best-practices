@@ -26,7 +26,7 @@ namespace Sample.Web
                         .WriteTo.Console()
                         .WriteTo.RollingFile(
                              new JsonFormatter(),
-                             $"Log/Sample-{{Date}}.txt",
+                             "Log/Sample-{Date}.txt",
                              fileSizeLimitBytes: 100 * 1024 * 1024,
                              retainedFileCountLimit: 5)
                         .CreateLogger();
