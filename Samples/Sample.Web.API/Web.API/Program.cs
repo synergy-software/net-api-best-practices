@@ -1,3 +1,4 @@
+using System;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.Resolvers.SpecializedResolvers;
 using Castle.Windsor;
@@ -6,6 +7,9 @@ using Castle.Windsor.MsDependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Serilog;
+using Serilog.Events;
+using Serilog.Formatting.Json;
 using Synergy.Samples.Web.API.Extensions;
 
 namespace Sample.Web
@@ -14,39 +18,63 @@ namespace Sample.Web
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            Log.Logger = new LoggerConfiguration()
+                        .MinimumLevel.Debug()
+                        .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                        .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
+                        .Enrich.FromLogContext()
+                        .WriteTo.Console()
+                        .WriteTo.RollingFile(
+                             new JsonFormatter(),
+                             $"Log/Sample-{{Date}}.txt",
+                             fileSizeLimitBytes: 100 * 1024 * 1024,
+                             retainedFileCountLimit: 5)
+                        .CreateLogger();
+
+            try
+            {
+                Log.Information("Starting web host");
+                CreateHostBuilder(args).Build().Run();
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Host terminated unexpectedly");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
         }
 
         private static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
                 .ConfigureAppConfiguration(
-                    (hostingContext, config) =>
-                    {
-                        var environmentName = hostingContext.HostingEnvironment.EnvironmentName;
-                        config.AddJsonFile($"appsettings.{environmentName}.json", true);
-                        config.AddEnvironmentVariables();
-                    })
+                     (hostingContext, config) =>
+                     {
+                         var environmentName = hostingContext.HostingEnvironment.EnvironmentName;
+                         config.AddJsonFile($"appsettings.{environmentName}.json", true);
+                         config.AddEnvironmentVariables();
+                     })
                 .UseServiceProviderFactory(new WindsorServiceProviderFactory())
                 .ConfigureContainer<WindsorContainer>(
-                    (hostBuilderContext, container) =>
-                    {
-                        container.Kernel.Resolver.AddSubResolver(new CollectionResolver(container.Kernel));
+                     (hostBuilderContext, container) =>
+                     {
+                         container.Kernel.Resolver.AddSubResolver(new CollectionResolver(container.Kernel));
 
-                        var rootAssembly = Application.GetRootAssembly();
-                        container.Register(
-                            Classes
+                         var rootAssembly = Application.GetRootAssembly();
+                         container.Register(
+                             Classes
                                 .FromAssemblyInThisApplication(rootAssembly)
                                 .Pick()
                                 .Unless(x => x.GetInterfaces().IsEmpty() || x.IsConstructable() == false)
                                 .WithServiceAllInterfaces()
                                 .LifestyleSingleton()
-                        );
+                             );
 
-                        // Execute all installers in every library in the application
-                        container.Install(FromAssembly.InThisApplication(rootAssembly));
-                    })
-            //TODO: Configure serilog
-        ;
+                         // Execute all installers in every library in the application
+                         container.Install(FromAssembly.InThisApplication(rootAssembly));
+                     });
     }
 }
