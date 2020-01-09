@@ -1,4 +1,5 @@
 using System;
+using Castle.Facilities.TypedFactory;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.Resolvers.SpecializedResolvers;
 using Castle.Windsor;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
+using Serilog.Exceptions;
 using Serilog.Formatting.Json;
 using Synergy.Samples.Web.API.Extensions;
 
@@ -18,11 +20,15 @@ namespace Sample.Web
     {
         public static void Main(string[] args)
         {
+            // TODO: Add logging to Seq
             Log.Logger = new LoggerConfiguration()
                         .MinimumLevel.Debug()
                         .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
                         .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
                         .Enrich.FromLogContext()
+                        .Enrich.WithMachineName()
+                        .Enrich.WithEnvironmentUserName()
+                        .Enrich.WithExceptionDetails()
                         .WriteTo.Console()
                         .WriteTo.RollingFile(
                              new JsonFormatter(),
@@ -33,7 +39,7 @@ namespace Sample.Web
 
             try
             {
-                Log.Information("Starting web host");
+                Log.Information("Starting web host on machine {" + EnvironmentLogProperties.MachineName + "}");
                 CreateHostBuilder(args).Build().Run();
             }
             catch (Exception ex)
@@ -62,6 +68,7 @@ namespace Sample.Web
                      (hostBuilderContext, container) =>
                      {
                          container.Kernel.Resolver.AddSubResolver(new CollectionResolver(container.Kernel));
+                         container.AddFacility<TypedFactoryFacility>();
 
                          var rootAssembly = Application.GetRootAssembly();
                          container.Register(

@@ -5,6 +5,7 @@ using System.IO;
 using System.Reflection;
 using Castle.Core.Internal;
 using Microsoft.Extensions.Hosting;
+using Synergy.Contracts;
 
 namespace Synergy.Samples.Web.API.Extensions
 {
@@ -36,10 +37,7 @@ namespace Synergy.Samples.Web.API.Extensions
         /// <returns>True if the environment name is <see cref="Application.Environment.Tests"/>, otherwise false.</returns>
         public static bool IsTests(this IHostEnvironment hostEnvironment)
         {
-            if (hostEnvironment == null)
-            {
-                throw new ArgumentNullException(nameof(hostEnvironment));
-            }
+            Fail.IfNull(hostEnvironment, nameof(hostEnvironment));
 
             return hostEnvironment.IsEnvironment(Environment.Tests);
         }

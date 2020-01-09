@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "GET /api/v1/users"
+  },
+  "response": {
+    "status": "200 OK",
+    "headers": {
+      "api-supported-versions": "1.0"
+    },
+    "Content-Type": "application/json",
+    "body": {}
+  }
+}

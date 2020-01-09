@@ -15,34 +15,28 @@
     "version": "1.0"
   },
   "paths": {
-    "/api/v1/weather/forecast": {
+    "/api/v1/users": {
       "get": {
         "tags": [
-          "WeatherForecast"
+          "Users"
         ],
-        "summary": "Returns weather forecast.",
+        "summary": "Returns all users stored in the system.",
         "responses": {
           "200": {
             "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WeatherForecast"
-                  },
-                  "nullable": true
+                  "$ref": "#/components/schemas/GetUsersQueryResult"
                 }
               }
             }
           }
         }
-      }
-    },
-    "/api/v1/weather": {
+      },
       "post": {
         "tags": [
-          "WeatherForecast"
+          "Users"
         ],
         "summary": "Creates a TodoItem.",
         "description": "Sample request:\r\n            \r\n    POST /api/weather\r\n    {\r\n       \"id\": 1,\r\n       \"name\": \"Item1\",\r\n       \"isComplete\": true\r\n    }",
@@ -98,28 +92,8 @@
   },
   "components": {
     "schemas": {
-      "WeatherForecast": {
+      "GetUsersQueryResult": {
         "type": "object",
-        "properties": {
-          "date": {
-            "type": "string",
-            "description": "Date of forecast",
-            "format": "date-time"
-          },
-          "temperatureC": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "temperatureF": {
-            "type": "integer",
-            "format": "int32",
-            "readOnly": true
-          },
-          "summary": {
-            "type": "string",
-            "nullable": true
-          }
-        },
         "nullable": true
       },
       "TodoItem": {

@@ -1,6 +1,6 @@
 {
   "request": {
-    "method": "POST /api/v1/weather",
+    "method": "POST /api/v1/users",
     "body": {
       "Id": 123,
       "Name": null,
@@ -15,7 +15,7 @@
     "Content-Type": "application/json",
     "body": {
       "message": "'Name' is whitespace",
-      "traceId": "0HLSG9REJHPO6"
+      "traceId": "0HLSK6TN9RHOJ"
     }
   }
 }

@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -37,18 +39,16 @@ namespace Sample.Web
             services.AddVersionedSwagger();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime hostApplicationLifetime, ILogger<Startup> logger)
         {
+            logger.LogDebug("Configuring request logging engine");
+
+            // TODO: Additionaly log (trace/debug level) full request and response - with dedicated middleware/filter
             app.UseSerilogRequestLogging(
                 options =>
                 {
-                    // Customize the message template
                     options.MessageTemplate = "HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms";
-
-                    // Emit debug-level events instead of the defaults
-                    options.GetLevel = (httpContext, elapsed, ex) => LogEventLevel.Debug;
-
-                    // Attach additional properties to the request completion event
+                    options.GetLevel = (httpContext, elapsed, ex) => LogEventLevel.Information;
                     options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
                                                       {
                                                           diagnosticContext.Set("RequestHost", httpContext.Request.Host.Value);
@@ -58,20 +58,19 @@ namespace Sample.Web
                                                       };
                 });
 
+            logger.LogDebug("Configuring Swagger UI (Open API) engine");
             app.UseSwagger()
                .UseVersionedSwaggerUI();
 
+            logger.LogDebug("Configuring Exception handling");
             app.UseMiddleware<ExceptionHandlingMiddleware>();
 
             //if (env.IsDevelopment())
             //    app.UseDeveloperExceptionPage();
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }

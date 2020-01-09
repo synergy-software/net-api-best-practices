@@ -3,19 +3,20 @@ using JetBrains.Annotations;
 using NUnit.Framework;
 using Sample.API.Controllers;
 using Synergy.Samples.Web.API.Tests.Infrastructure;
+using Synergy.Samples.Web.API.Tests.Weather;
 using Synergy.Web.Api.Testing;
 using Synergy.Web.Api.Testing.Assertions;
 using Synergy.Web.Api.Testing.Features;
 using Synergy.Web.Api.Testing.Json;
 using static Synergy.Web.Api.Testing.Json.Ignore;
 
-namespace Synergy.Samples.Web.API.Tests.Weather
+namespace Synergy.Samples.Web.API.Tests.Users
 {
     [TestFixture]
-    public class WeatherTests
+    public class UsersScenario
     {
-        private const string Path = @"../../../Weather";
-        private readonly Feature feature = new Feature("Manage weather through API");
+        private const string Path = @"../../../Users";
+        private readonly Feature feature = new Feature("Manage users through API");
         private readonly Ignore ignoreError = ResponseBody("traceId");
 
         [Test]
@@ -23,39 +24,39 @@ namespace Synergy.Samples.Web.API.Tests.Weather
         {
             // ARRANGE
             var testServer = new SampleTestServer();
-            var weather = new WeatherClient(testServer);
+            var users = new UsersClient(testServer);
             testServer.Repair = false;
 
             // SCENARIO
-            GetWeatherForecast(weather);
-            CreateItem(weather);
-            TryToCreateItemWithEmptyName(weather);
+            GetUsers(users);
+            CreateItem(users);
+            TryToCreateItemWithEmptyName(users);
 
             if (testServer.Repair)
             {
-                new Markdown(feature).GenerateReportTo(Path + "/Weather.md");
+                new Markdown(feature).GenerateReportTo(Path + "/Users.md");
+                Assert.IsFalse(testServer.Repair, "Test server is in repair mode. Do not leave it like that.");
             }
-
-            Assert.IsFalse(testServer.Repair, "Test server is in repair mode. Do not leave it like that.");
         }
 
-        private void GetWeatherForecast(WeatherClient weather)
+        private void GetUsers(UsersClient users)
         {
-            var scenario = feature.Scenario("Get weather forecast");
+            var scenario = feature.Scenario("Get users forecast");
 
-            weather.GetWeatherForecast()
-                   .InStep(scenario.Step("Retrieve weather forecast"))
-                   .ShouldBe(EqualToPattern("/Patterns/GetWeatherForecast.json")
-                            .Ignore(ResponseBody())
-                            .Expected("Weather forecast is returned"))
-                   .ShouldBe(ApiConventionFor.GettingList());
+            users.GetAll()
+                 .InStep(scenario.Step("Retrieve users forecast"))
+                 .ShouldBe(
+                      EqualToPattern("/Patterns/GetUsers.json")
+                         .Expected("Empty users list is returned")
+                      )
+                 .ShouldBe(ApiConventionFor.GettingList());
         }
 
-        private int CreateItem(WeatherClient weather)
+        private int CreateItem(UsersClient users)
         {
             var scenario = feature.Scenario("Create an item");
 
-            weather.Create(new TodoItem {Id = 123, Name = "do sth"})
+            users.Create(new TodoItem {Id = 123, Name = "do sth"})
                    .InStep(scenario.Step("Create TODO item"))
                    .ShouldBe(EqualToPattern("/Patterns/Create.json")
                                 .Expected("Item is created and its details are returned"))
@@ -65,12 +66,12 @@ namespace Synergy.Samples.Web.API.Tests.Weather
             return id;
         }
 
-        private void TryToCreateItemWithEmptyName(WeatherClient weather)
+        private void TryToCreateItemWithEmptyName(UsersClient users)
         {
             var scenario = feature.Scenario("Try to create an item without a name");
 
             #pragma warning disable CS8625
-            weather.Create(new TodoItem {Id = 123, Name = null})
+            users.Create(new TodoItem {Id = 123, Name = null})
                    .InStep(scenario.Step("Create TODO item with a null name"))
                    .ShouldBe(EqualToPattern("/Patterns/TryToCreateNullName.json")
                             .Ignore(ignoreError)
@@ -78,14 +79,14 @@ namespace Synergy.Samples.Web.API.Tests.Weather
                    .ShouldBe(ApiConventionFor.CreateWithValidationError());
             #pragma warning restore CS8625
 
-            weather.Create(new TodoItem {Id = 123, Name = ""})
+            users.Create(new TodoItem {Id = 123, Name = ""})
                    .InStep(scenario.Step("Create TODO item with an empty name"))
                    .ShouldBe(EqualToPattern("/Patterns/TryToCreateEmptyName.json")
                             .Ignore(ignoreError)
                             .Expected("Item is NOT created and error is returned"))
                    .ShouldBe(ApiConventionFor.CreateWithValidationError());
 
-            weather.Create(new TodoItem {Id = 123, Name = "  "})
+            users.Create(new TodoItem {Id = 123, Name = "  "})
                    .InStep(scenario.Step("Create TODO item with an whitespace name"))
                    .ShouldBe(EqualToPattern("/Patterns/TryToCreateWhitespaceName.json")
                             .Ignore(ignoreError)

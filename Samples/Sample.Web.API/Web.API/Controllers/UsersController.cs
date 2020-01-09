@@ -1,48 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mime;
+﻿using System.Net.Mime;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Sample.API;
 using Sample.API.Controllers;
 using Synergy.Contracts;
+using Synergy.Samples.Web.API.Services.Infrastructure.Queries;
+using Synergy.Samples.Web.API.Services.Users.Queries.GetUsers;
 
 namespace Sample.Web.Controllers
 {
     [ApiController]
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/weather")]
+    [Route("api/v{version:apiVersion}/users")]
     [Produces(MediaTypeNames.Application.Json)]
-    public class WeatherForecastController : ControllerBase
+    public class UsersController : ControllerBase
     {
-        private static readonly string[] Summaries =
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
+        private readonly IQueryDispatcher _queryDispatcher;
 
-        private readonly ILogger<WeatherForecastController> _logger;
-
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public UsersController(ILogger<UsersController> logger, IQueryDispatcher queryDispatcher)
         {
-            _logger = logger;
+            _queryDispatcher = queryDispatcher;
         }
 
         /// <summary>
-        /// Returns weather forecast.
+        /// Returns all users stored in the system.
         /// </summary>
-        [HttpGet("forecast")]
-        public IEnumerable<WeatherForecast> Get()
+        [HttpGet]
+        public Task<GetUsersQueryResult> GetUsers()
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-                {
-                    Date = DateTime.Now.AddDays(index),
-                    TemperatureC = rng.Next(-20, 55),
-                    Summary = Summaries[rng.Next(Summaries.Length)]
-                })
-                .ToArray();
+            return _queryDispatcher.Dispatch<GetUsersQuery, IGetUsersQueryHandler, GetUsersQueryResult>(new GetUsersQuery());
         }
 
         /// <summary>

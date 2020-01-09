@@ -1,65 +1,34 @@
-# Manage weather through API
+# Manage users through API
 
-1. [Get weather forecast](#1-get-weather-forecast-1-step)
+1. [Get users forecast](#1-get-users-forecast-1-step)
 1. [Create an item](#2-create-an-item-1-step)
 1. [Try to create an item without a name](#3-try-to-create-an-item-without-a-name-3-steps)
 
-## 1. Get weather forecast (1 step)
+## 1. Get users forecast (1 step)
 
 | # | Step Actions | Status |
 | - | - | - |
-| 1 | Retrieve weather forecast | OK |
+| 1 | Retrieve users forecast | OK |
 
-### 1.1. Retrieve weather forecast (1 request)
+### 1.1. Retrieve users forecast (1 request)
 
 ### 1.1.1. Request to [Get weather forecast]
 
 - Request
 ```
-GET  /api/v1/weather/forecast
+GET  /api/v1/users
 ```
 
 - Response
 ```
 HTTP/1.1 200 OK
 api-supported-versions: 1.0
-[
-  {
-    "date": "2020-01-04T14:00:06.0784313+01:00",
-    "temperatureC": 33,
-    "temperatureF": 91,
-    "summary": "Balmy"
-  },
-  {
-    "date": "2020-01-05T14:00:06.0787814+01:00",
-    "temperatureC": 18,
-    "temperatureF": 64,
-    "summary": "Hot"
-  },
-  {
-    "date": "2020-01-06T14:00:06.0787866+01:00",
-    "temperatureC": -10,
-    "temperatureF": 15,
-    "summary": "Balmy"
-  },
-  {
-    "date": "2020-01-07T14:00:06.078787+01:00",
-    "temperatureC": 52,
-    "temperatureF": 125,
-    "summary": "Warm"
-  },
-  {
-    "date": "2020-01-08T14:00:06.0787874+01:00",
-    "temperatureC": 25,
-    "temperatureF": 76,
-    "summary": "Balmy"
-  }
-]
+{}
 ```
 
 | Expected Results  | Status |
 | - | - |
-| Weather forecast is returned | OK |
+| Empty users list is returned | OK |
 | Convention: HTTP request method is GET | OK |
 | Convention: Returned HTTP status code is 200 (OK) | OK |
 | Convention: Returned HTTP Content-Type is "application/json" | OK |
@@ -78,7 +47,7 @@ api-supported-versions: 1.0
 
 - Request
 ```
-POST  /api/v1/weather
+POST  /api/v1/users
 {
   "Id": 123,
   "Name": "do sth",
@@ -122,7 +91,7 @@ api-supported-versions: 1.0
 
 - Request
 ```
-POST  /api/v1/weather
+POST  /api/v1/users
 {
   "Id": 123,
   "Name": null,
@@ -136,7 +105,7 @@ HTTP/1.1 400 BadRequest
 api-supported-versions: 1.0
 {
   "message": "'Name' is whitespace",
-  "traceId": "0HLSG9REJHPO6"
+  "traceId": "0HLSK6TN9RHOJ"
 }
 ```
 
@@ -155,7 +124,7 @@ api-supported-versions: 1.0
 
 - Request
 ```
-POST  /api/v1/weather
+POST  /api/v1/users
 {
   "Id": 123,
   "Name": "",
@@ -169,7 +138,7 @@ HTTP/1.1 400 BadRequest
 api-supported-versions: 1.0
 {
   "message": "'Name' is whitespace",
-  "traceId": "0HLSG9REJHPO7"
+  "traceId": "0HLSK6TN9RHOK"
 }
 ```
 
@@ -188,7 +157,7 @@ api-supported-versions: 1.0
 
 - Request
 ```
-POST  /api/v1/weather
+POST  /api/v1/users
 {
   "Id": 123,
   "Name": "  ",
@@ -202,7 +171,7 @@ HTTP/1.1 400 BadRequest
 api-supported-versions: 1.0
 {
   "message": "'Name' is whitespace",
-  "traceId": "0HLSG9REJHPO8"
+  "traceId": "0HLSK6TN9RHOL"
 }
 ```
 

@@ -1,6 +1,6 @@
 {
   "request": {
-    "method": "POST /api/v1/weather",
+    "method": "POST /api/v1/users",
     "body": {
       "Id": 123,
       "Name": "do sth",
