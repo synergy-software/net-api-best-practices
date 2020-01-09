@@ -52,12 +52,14 @@ namespace Sample.Web
             app.UseSerilogRequestLogging(
                 options =>
                 {
-                    options.MessageTemplate = "HTTP {" + RequestMethod + "} {" + RequestPath + "} responded {" + ResponseStatus + "} in {Elapsed:0.0000} ms";
+                    options.MessageTemplate = "HTTP {" + RequestMethod + "} {" + RequestPath + "} responded {" + ResponseStatus + "} " +
+                                              "in {" + RequestDuration + ":0.0000} ms";
                     options.GetLevel = (httpContext, elapsed, ex) => LogEventLevel.Information;
                     options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
                                                       {
                                                           diagnosticContext.Set(RequestHost, httpContext.Request.Host.Value);
                                                           diagnosticContext.Set(RequestScheme, httpContext.Request.Scheme);
+                                                          // TODO: Move the envName to Serilog global config - after you move it deeper from Main()
                                                           diagnosticContext.Set(EnvironmentLogProperties.EnvironmentName, env.EnvironmentName);
                                                       };
                 });

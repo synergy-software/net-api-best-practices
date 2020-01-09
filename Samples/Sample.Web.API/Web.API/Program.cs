@@ -20,8 +20,9 @@ namespace Sample.Web
     {
         public static void Main(string[] args)
         {
+            // TODO: Move the serilog configuration deeper - so it could be different for every env
             Log.Logger = new LoggerConfiguration()
-                        .MinimumLevel.Debug()
+                        .MinimumLevel.Verbose()
                         .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
                         .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
                         .Enrich.FromLogContext()
