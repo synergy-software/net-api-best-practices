@@ -28,6 +28,8 @@
     <Company>Synergy Marcin Celej</Company>
     <Product>Synergy Samples</Product>
     <Authors>Marcin Celej</Authors>
+    <Copyright>Synergy Marcin Celej</Copyright>
+    <PackageProjectUrl>https://github.com/synergy-software/net-api-best-practices</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
