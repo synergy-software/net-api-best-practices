@@ -11,6 +11,7 @@ using Sample.Web.Extensions;
 using Serilog;
 using Serilog.Events;
 using Synergy.Samples.Web.API.Extensions;
+using static Synergy.Samples.Web.API.Extensions.RequestLogProperties;
 
 namespace Sample.Web
 {
@@ -21,10 +22,11 @@ namespace Sample.Web
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
+            Log.Debug("Adding controllers");
             services.AddControllers()
                     .ConfigureApiBehaviorOptions(options => { options.SuppressModelStateInvalidFilter = true; })
                     .AddNewtonsoftJson(
@@ -35,7 +37,10 @@ namespace Sample.Web
                              options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                          });
 
+            Log.Debug("Adding versioned API");
             services.AddVersionedApi();
+
+            Log.Debug("Adding swagger (Open API)");
             services.AddVersionedSwagger();
         }
 
@@ -43,18 +48,17 @@ namespace Sample.Web
         {
             logger.LogDebug("Configuring request logging engine");
 
-            // TODO: Additionaly log (trace/debug level) full request and response - with dedicated middleware/filter
+            // TODO: Additionally log (trace/debug level) full request and response - with dedicated middleware/filter
             app.UseSerilogRequestLogging(
                 options =>
                 {
-                    options.MessageTemplate = "HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms";
+                    options.MessageTemplate = "HTTP {" + RequestMethod + "} {" + RequestPath + "} responded {" + ResponseStatus + "} in {Elapsed:0.0000} ms";
                     options.GetLevel = (httpContext, elapsed, ex) => LogEventLevel.Information;
                     options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
                                                       {
-                                                          diagnosticContext.Set("RequestHost", httpContext.Request.Host.Value);
-                                                          diagnosticContext.Set("RequestScheme", httpContext.Request.Scheme);
-                                                          diagnosticContext.Set("Environment", env.EnvironmentName);
-                                                          diagnosticContext.Set("Application", env.ApplicationName);
+                                                          diagnosticContext.Set(RequestHost, httpContext.Request.Host.Value);
+                                                          diagnosticContext.Set(RequestScheme, httpContext.Request.Scheme);
+                                                          diagnosticContext.Set(EnvironmentLogProperties.EnvironmentName, env.EnvironmentName);
                                                       };
                 });
 
@@ -68,10 +72,13 @@ namespace Sample.Web
             //if (env.IsDevelopment())
             //    app.UseDeveloperExceptionPage();
 
+            logger.LogDebug("Configuring API endpoints");
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+
+            logger.LogDebug("Configuration finished");
         }
     }
 }

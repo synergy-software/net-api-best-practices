@@ -27,6 +27,7 @@
   <PropertyGroup>
     <Company>Synergy Marcin Celej</Company>
     <Product>Synergy Samples</Product>
+    <Authors>Marcin Celej</Authors>
   </PropertyGroup>
 
   <ItemGroup>

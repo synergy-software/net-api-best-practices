@@ -20,7 +20,6 @@ namespace Sample.Web
     {
         public static void Main(string[] args)
         {
-            // TODO: Add logging to Seq
             Log.Logger = new LoggerConfiguration()
                         .MinimumLevel.Debug()
                         .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
@@ -29,12 +28,15 @@ namespace Sample.Web
                         .Enrich.WithMachineName()
                         .Enrich.WithEnvironmentUserName()
                         .Enrich.WithExceptionDetails()
+                        .Enrich.WithProperty(EnvironmentLogProperties.ApplicationVersion, Application.GetApplicationInfo().FileVersion)
+                        .Enrich.WithProperty(EnvironmentLogProperties.ApplicationName, Application.GetApplicationInfo().ProductName)
                         .WriteTo.Console()
                         .WriteTo.RollingFile(
                              new JsonFormatter(),
                              "Log/Sample-{Date}.txt",
                              fileSizeLimitBytes: 100 * 1024 * 1024,
                              retainedFileCountLimit: 5)
+                        .WriteTo.Seq("http://localhost:5341")
                         .CreateLogger();
 
             try
