@@ -1,4 +1,14 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/CodeEditing/NullCheckPatterns/CustomExpressionPatternText/@EntryValue">// Use the following placeholders:&#xD;
+// $EXPR$    -- source expression&#xD;
+// $NAME$    -- source name (string literal or 'nameof' expression)&#xD;
+// $MESSAGE$ -- string literal in the form of "$NAME$ != null"&#xD;
+$EXPR$.NotNull($NAME$)</s:String>
+	<s:String x:Key="/Default/CodeEditing/NullCheckPatterns/CustomStatementPatternText/@EntryValue">// Use the following placeholders:&#xD;
+// $EXPR$    -- source expression&#xD;
+// $NAME$    -- source name (string literal or 'nameof' expression)&#xD;
+// $MESSAGE$ -- string literal in the form of "$NAME$ != null"&#xD;
+Fail.IfNull($EXPR$, $NAME$);</s:String>
 	<s:String x:Key="/Default/CodeInspection/Highlighting/InspectionSeverities/=RedundantUsingDirective/@EntryIndexedValue">ERROR</s:String>
 	<s:String x:Key="/Default/CodeStyle/CodeFormatting/CSharpCodeStyle/BRACES_FOR_FOR/@EntryValue">Required</s:String>
 	<s:String x:Key="/Default/CodeStyle/CodeFormatting/CSharpCodeStyle/BRACES_FOR_FOREACH/@EntryValue">Required</s:String>
@@ -27,4 +37,52 @@
 	<s:Boolean x:Key="/Default/Environment/SettingsMigration/IsMigratorApplied/=JetBrains_002EReSharper_002EPsi_002ECSharp_002ECodeStyle_002ECSharpKeepExistingMigration/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/Environment/SettingsMigration/IsMigratorApplied/=JetBrains_002EReSharper_002EPsi_002ECSharp_002ECodeStyle_002ECSharpPlaceEmbeddedOnSameLineMigration/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/Environment/SettingsMigration/IsMigratorApplied/=JetBrains_002EReSharper_002EPsi_002ECSharp_002ECodeStyle_002ECSharpUseContinuousIndentInsideBracesMigration/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/Environment/SettingsMigration/IsMigratorApplied/=JetBrains_002EReSharper_002EPsi_002ECSharp_002ECodeStyle_002ESettingsUpgrade_002EMigrateBlankLinesAroundFieldToBlankLinesAroundProperty/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>
+	<s:Boolean x:Key="/Default/Environment/SettingsMigration/IsMigratorApplied/=JetBrains_002EReSharper_002EPsi_002ECSharp_002ECodeStyle_002ESettingsUpgrade_002EMigrateBlankLinesAroundFieldToBlankLinesAroundProperty/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80BF173C6623A8489595F1F310B71151/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80BF173C6623A8489595F1F310B71151/Applicability/=File/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80BF173C6623A8489595F1F310B71151/CustomProperties/=Extension/@EntryIndexedValue">cs</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80BF173C6623A8489595F1F310B71151/CustomProperties/=FileName/@EntryIndexedValue">$CLASS$</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80BF173C6623A8489595F1F310B71151/CustomProperties/=ValidateFileName/@EntryIndexedValue">False</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80BF173C6623A8489595F1F310B71151/Description/@EntryValue">Query Handler</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80BF173C6623A8489595F1F310B71151/Field/=CLASS/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80BF173C6623A8489595F1F310B71151/Field/=CLASS/Expression/@EntryValue">getFileNameWithoutExtension()</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80BF173C6623A8489595F1F310B71151/Field/=CLASS/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80BF173C6623A8489595F1F310B71151/Field/=NAMESPACE/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80BF173C6623A8489595F1F310B71151/Field/=NAMESPACE/Expression/@EntryValue">fileDefaultNamespace()</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80BF173C6623A8489595F1F310B71151/Field/=NAMESPACE/Order/@EntryValue">0</s:Int64>
+	
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80BF173C6623A8489595F1F310B71151/Scope/=E8F0594528C33E45BBFEC6CFE851095D/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80BF173C6623A8489595F1F310B71151/Scope/=E8F0594528C33E45BBFEC6CFE851095D/Type/@EntryValue">InCSharpProjectFile</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80BF173C6623A8489595F1F310B71151/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80BF173C6623A8489595F1F310B71151/Text/@EntryValue">using System.Threading.Tasks;&#xD;
+using Synergy.Samples.Web.API.Services.Infrastructure.Annotations;&#xD;
+using Synergy.Samples.Web.API.Services.Infrastructure.Queries;&#xD;
+&#xD;
+namespace $NAMESPACE$&#xD;
+{&#xD;
+    public class $CLASS$&#xD;
+    {&#xD;
+    }&#xD;
+&#xD;
+    [CreatedImplicitly]&#xD;
+    public class $CLASS$Handler : IQueryHandler&lt;$CLASS$, $CLASS$Result&gt;&#xD;
+    {&#xD;
+        public $CLASS$Handler()&#xD;
+        {&#xD;
+        }&#xD;
+&#xD;
+        public async Task&lt;$CLASS$Result&gt; Handle($CLASS$ query)&#xD;
+        {&#xD;
+            await $END$;&#xD;
+            return new $CLASS$Result(TODO);&#xD;
+        }&#xD;
+    }&#xD;
+&#xD;
+    public class $CLASS$Result&#xD;
+    {&#xD;
+	    public $CLASS$Result(TODO)&#xD;
+        {&#xD;
+        }&#xD;
+    }&#xD;
+}&#xD;
+</s:String></wpf:ResourceDictionary>
