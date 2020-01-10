@@ -38,6 +38,57 @@ Fail.IfNull($EXPR$, $NAME$);</s:String>
 	<s:Boolean x:Key="/Default/Environment/SettingsMigration/IsMigratorApplied/=JetBrains_002EReSharper_002EPsi_002ECSharp_002ECodeStyle_002ECSharpPlaceEmbeddedOnSameLineMigration/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/Environment/SettingsMigration/IsMigratorApplied/=JetBrains_002EReSharper_002EPsi_002ECSharp_002ECodeStyle_002ECSharpUseContinuousIndentInsideBracesMigration/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/Environment/SettingsMigration/IsMigratorApplied/=JetBrains_002EReSharper_002EPsi_002ECSharp_002ECodeStyle_002ESettingsUpgrade_002EMigrateBlankLinesAroundFieldToBlankLinesAroundProperty/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=1E129A670D7595458BB26A1F3A13D39E/@KeyIndexDefined">True</s:Boolean>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=1E129A670D7595458BB26A1F3A13D39E/Applicability/=File/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=1E129A670D7595458BB26A1F3A13D39E/CustomProperties/=Extension/@EntryIndexedValue">cs</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=1E129A670D7595458BB26A1F3A13D39E/CustomProperties/=FileName/@EntryIndexedValue">$CLASS$</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=1E129A670D7595458BB26A1F3A13D39E/CustomProperties/=ValidateFileName/@EntryIndexedValue">False</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=1E129A670D7595458BB26A1F3A13D39E/Description/@EntryValue">Command Handler</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=1E129A670D7595458BB26A1F3A13D39E/Field/=CLASS/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=1E129A670D7595458BB26A1F3A13D39E/Field/=CLASS/Expression/@EntryValue">getFileNameWithoutExtension()</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=1E129A670D7595458BB26A1F3A13D39E/Field/=CLASS/Order/@EntryValue">1</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=1E129A670D7595458BB26A1F3A13D39E/Field/=NAMESPACE/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=1E129A670D7595458BB26A1F3A13D39E/Field/=NAMESPACE/Expression/@EntryValue">fileDefaultNamespace()</s:String>
+	<s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=1E129A670D7595458BB26A1F3A13D39E/Field/=NAMESPACE/Order/@EntryValue">0</s:Int64>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=1E129A670D7595458BB26A1F3A13D39E/Scope/=E8F0594528C33E45BBFEC6CFE851095D/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=1E129A670D7595458BB26A1F3A13D39E/Scope/=E8F0594528C33E45BBFEC6CFE851095D/Type/@EntryValue">InCSharpProjectFile</s:String>
+	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=1E129A670D7595458BB26A1F3A13D39E/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=1E129A670D7595458BB26A1F3A13D39E/Text/@EntryValue">using System.Threading.Tasks;&#xD;
+using Newtonsoft.Json;&#xD;
+using Synergy.Samples.Web.API.Services.Infrastructure.Annotations;&#xD;
+using Synergy.Samples.Web.API.Services.Infrastructure.Commands;&#xD;
+&#xD;
+namespace $NAMESPACE$&#xD;
+{&#xD;
+    public class $CLASS$&#xD;
+    {&#xD;
+        [JsonIgnore]&#xD;
+        public long Id { get; set; }&#xD;
+    }&#xD;
+&#xD;
+    [CreatedImplicitly]&#xD;
+    public class $CLASS$Handler : I$CLASS$Handler&#xD;
+    {&#xD;
+        public $CLASS$Handler()&#xD;
+        {&#xD;
+        }&#xD;
+&#xD;
+        public async Task&lt;$CLASS$Result&gt; Handle($CLASS$ command)&#xD;
+        {&#xD;
+            await $END$;&#xD;
+            return new $CLASS$Result();&#xD;
+        }&#xD;
+    }&#xD;
+&#xD;
+	public interface I$CLASS$Handler : ICommandHandler&lt;$CLASS$, $CLASS$Result&gt;{}&#xD;
+&#xD;
+    public class $CLASS$Result&#xD;
+    {&#xD;
+        public $CLASS$Result(TODO)&#xD;
+        {&#xD;
+        }&#xD;
+    }&#xD;
+}</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80BF173C6623A8489595F1F310B71151/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80BF173C6623A8489595F1F310B71151/Applicability/=File/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80BF173C6623A8489595F1F310B71151/CustomProperties/=Extension/@EntryIndexedValue">cs</s:String>
@@ -65,7 +116,7 @@ namespace $NAMESPACE$&#xD;
     }&#xD;
 &#xD;
     [CreatedImplicitly]&#xD;
-    public class $CLASS$Handler : IQueryHandler&lt;$CLASS$, $CLASS$Result&gt;&#xD;
+    public class $CLASS$Handler : I$CLASS$Handler&#xD;
     {&#xD;
         public $CLASS$Handler()&#xD;
         {&#xD;
@@ -77,6 +128,8 @@ namespace $NAMESPACE$&#xD;
             return new $CLASS$Result(TODO);&#xD;
         }&#xD;
     }&#xD;
+&#xD;
+	public interface I$CLASS$Handler : IQueryHandler&lt;$CLASS$, $CLASS$Result&gt;{}&#xD;
 &#xD;
     public class $CLASS$Result&#xD;
     {&#xD;
