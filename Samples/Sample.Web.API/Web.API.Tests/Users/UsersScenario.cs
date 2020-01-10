@@ -16,7 +16,7 @@ namespace Synergy.Samples.Web.API.Tests.Users
     {
         private const string Path = @"../../../Users";
         private readonly Feature feature = new Feature("Manage users through API");
-        private readonly Ignore ignoreError = ResponseBody("traceId");
+        private readonly Ignore errorNodes = ResponseBody("traceId");
 
         [Test]
         public void manage_users_through_web_api()
@@ -24,26 +24,23 @@ namespace Synergy.Samples.Web.API.Tests.Users
             // ARRANGE
             var testServer = new SampleTestServer();
             var users = new UsersClient(testServer);
-            testServer.Repair = false;
+            testServer.Repair = true;
 
             // SCENARIO
             GetUsers(users);
             CreateUser(users);
             TryToCreateItemWithEmptyName(users);
 
-            if (testServer.Repair)
-            {
-                new Markdown(feature).GenerateReportTo(Path + "/Users.md");
-                Assert.IsFalse(testServer.Repair, "Test server is in repair mode. Do not leave it like that.");
-            }
+            new Markdown(feature).GenerateReportTo(Path + "/Users.md");
+            Assert.IsFalse(testServer.Repair, "Test server is in repair mode. Do not leave it like that.");
         }
 
         private void GetUsers(UsersClient users)
         {
-            var scenario = feature.Scenario("Get users forecast");
+            var scenario = feature.Scenario("Get empty list of users");
 
             users.GetAll()
-                 .InStep(scenario.Step("Retrieve users forecast"))
+                 .InStep(scenario.Step("Retrieve users"))
                  .ShouldBe(
                       EqualToPattern("/Patterns/GetUsers.json")
                          .Expected("Empty users list is returned")
@@ -58,7 +55,7 @@ namespace Synergy.Samples.Web.API.Tests.Users
             users.Create("marcin@synergy.com")
                  .InStep(scenario.Step("Create new user"))
                  .ShouldBe(
-                      EqualToPattern("/Patterns/Create.json")
+                      EqualToPattern("/Patterns/CreateUser.json")
                          .Ignore(ResponseLocationHeader())
                          .Ignore(ResponseBody("user.id"))
                          .Expected("User is created and its details are returned"))
@@ -76,7 +73,7 @@ namespace Synergy.Samples.Web.API.Tests.Users
             users.Create(null)
                    .InStep(scenario.Step("Create user with a null login"))
                    .ShouldBe(EqualToPattern("/Patterns/TryToCreateNullLogin.json")
-                            .Ignore(ignoreError)
+                            .Ignore(errorNodes)
                             .Expected("User is NOT created and error is returned"))
                    .ShouldBe(ApiConventionFor.CreateWithValidationError());
 #pragma warning restore CS8625
@@ -84,14 +81,14 @@ namespace Synergy.Samples.Web.API.Tests.Users
             users.Create("")
                    .InStep(scenario.Step("Create user with an empty login"))
                    .ShouldBe(EqualToPattern("/Patterns/TryToCreateEmptyLogin.json")
-                            .Ignore(ignoreError)
+                            .Ignore(errorNodes)
                             .Expected("User is NOT created and error is returned"))
                    .ShouldBe(ApiConventionFor.CreateWithValidationError());
 
             users.Create("  " )
                    .InStep(scenario.Step("Create user item with a whitespace login"))
                    .ShouldBe(EqualToPattern("/Patterns/TryToCreateWhitespaceLogin.json")
-                            .Ignore(ignoreError)
+                            .Ignore(errorNodes)
                             .Expected("User is NOT created and error is returned"))
                    .ShouldBe(ApiConventionFor.CreateWithValidationError());
         }

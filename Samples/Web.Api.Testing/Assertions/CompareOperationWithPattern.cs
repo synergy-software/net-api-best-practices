@@ -89,12 +89,12 @@ namespace Synergy.Web.Api.Testing.Assertions
 
             yield return new JProperty("status", $"{(int) response.StatusCode} {response.ReasonPhrase}");
 
-            var headers = response.Headers.Select(GetHeader).ToList();
+            var headers = response.Content.Headers.Select(GetHeader).Concat(
+                response.Headers.Select(GetHeader)).ToList();
+
             if (headers.Count > 0)
                 yield return new JProperty("headers", new JObject(headers));
 
-            var contentType = response.Content.Headers.ContentType;
-            yield return new JProperty("Content-Type", contentType.MediaType);
 
             var responseJson = response.Content.ReadJson();
             yield return new JProperty("body", responseJson);

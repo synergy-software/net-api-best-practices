@@ -1,16 +1,16 @@
 # Manage users through API
 
-1. [Get users forecast](#1-get-users-forecast-1-step)
+1. [Get empty list of users](#1-get-empty-list-of-users-1-step)
 1. [Create a user](#2-create-a-user-1-step)
 1. [Try to create user without login](#3-try-to-create-user-without-login-3-steps)
 
-## 1. Get users forecast (1 step)
+## 1. Get empty list of users (1 step)
 
 | # | Step Actions | Status |
 | - | - | - |
-| 1 | Retrieve users forecast | OK |
+| 1 | Retrieve users | OK |
 
-### 1.1. Retrieve users forecast (1 request)
+### 1.1. Retrieve users (1 request)
 
 ### 1.1.1. Request to [Get list of users]
 
@@ -22,6 +22,7 @@ GET  /api/v1/users
 - Response
 ```
 HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
 api-supported-versions: 1.0
 {
   "users": []
@@ -58,11 +59,12 @@ POST  /api/v1/users
 - Response
 ```
 HTTP/1.1 201 Created
-Location: http://localhost/api/v1/users/7092497d6ad7414699aaddca17c87c6d
+Content-Type: application/json; charset=utf-8
+Location: http://localhost/api/v1/users/236556f912714824bdd2f445466dcd46
 api-supported-versions: 1.0
 {
   "user": {
-    "id": "7092497d6ad7414699aaddca17c87c6d",
+    "id": "236556f912714824bdd2f445466dcd46",
     "login": "marcin@synergy.com"
   }
 }
@@ -101,6 +103,7 @@ POST  /api/v1/users
 - Response
 ```
 HTTP/1.1 400 BadRequest
+Content-Type: application/json; charset=utf-8
 api-supported-versions: 1.0
 {
   "message": "'Login' is whitespace",
@@ -132,6 +135,7 @@ POST  /api/v1/users
 - Response
 ```
 HTTP/1.1 400 BadRequest
+Content-Type: application/json; charset=utf-8
 api-supported-versions: 1.0
 {
   "message": "'Login' is whitespace",
@@ -163,6 +167,7 @@ POST  /api/v1/users
 - Response
 ```
 HTTP/1.1 400 BadRequest
+Content-Type: application/json; charset=utf-8
 api-supported-versions: 1.0
 {
   "message": "'Login' is whitespace",

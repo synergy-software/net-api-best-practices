@@ -154,6 +154,7 @@ namespace Synergy.Web.Api.Testing.Features
             report.AppendLine("- Response");
             report.AppendLine("```");
             report.AppendLine($"HTTP/{response.Version} {(int) response.StatusCode} {response.StatusCode}");
+            InsertHeaders(report, response.Content.Headers);
             InsertHeaders(report, response.Headers);
             var responseBody = response.Content.ReadJson()!;
             report.AppendLine(responseBody.ToString(Formatting.Indented));

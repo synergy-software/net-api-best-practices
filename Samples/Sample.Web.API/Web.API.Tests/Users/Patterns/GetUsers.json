@@ -5,9 +5,10 @@
   "response": {
     "status": "200 OK",
     "headers": {
+      "Content-Type": "application/json; charset=utf-8",
+      "Content-Length": "19",
       "api-supported-versions": "1.0"
     },
-    "Content-Type": "application/json",
     "body": {
       "users": []
     }

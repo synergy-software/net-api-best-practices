@@ -8,12 +8,12 @@
   "response": {
     "status": "400 Bad Request",
     "headers": {
+      "Content-Type": "application/json",
       "api-supported-versions": "1.0"
     },
-    "Content-Type": "application/json",
     "body": {
       "message": "'Login' is whitespace",
-      "traceId": "0HLSL55KTTJTI"
+      "traceId": "0HLSLK0L9M1OI"
     }
   }
 }
