@@ -17,7 +17,7 @@ namespace Synergy.Web.Api.Testing.Json
         {
             var nodes = Nodes.ToList();
             nodes.AddRange(ignores);
-            Nodes = nodes.AsReadOnly();
+            Nodes = nodes.Distinct().ToList().AsReadOnly();
         }
 
         public static Ignore ResponseBody(params string[] nodes)
