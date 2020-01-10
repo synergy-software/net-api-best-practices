@@ -29,6 +29,11 @@ namespace Synergy.Web.Api.Testing.Json
             return ignore;
         }
 
+        public static Ignore RequestMethod()
+        {
+            return new Ignore("$.request.method");
+        }
+
         public static Ignore ResponseLocationHeader()
         {
             return new Ignore("$.response.headers.Location");

@@ -11,10 +11,21 @@ namespace Synergy.Samples.Web.API.Tests.Infrastructure
 {
     public static class ApiConventionFor
     {
+        private static IAssertion RequestMethodIs(HttpMethod method)
+        {
+            return new VerifyRequestMethod(method)
+               .Expected("Convention: HTTP request method is GET");
+        }
+
+        private static IAssertion ResponseStatusIs(HttpStatusCode status)
+        {
+            return new VerifyResponseStatus(status)
+               .Expected($"Convention: Returned HTTP status code is {(int)status} ({status})");
+        }
+
         private static IEnumerable<IAssertion> CreationRequest()
         {
-            yield return new VerifyRequestMethod(HttpMethod.Post)
-               .Expected("Convention: HTTP request method is POST");
+            yield return RequestMethodIs(HttpMethod.Post);
         }
 
         /// <summary>
@@ -28,8 +39,7 @@ namespace Synergy.Samples.Web.API.Tests.Infrastructure
                 yield return assertion;
 
             // Response
-            yield return new VerifyResponseStatus(HttpStatusCode.Created)
-               .Expected("Convention: Returned HTTP status code is 201 (Created)");
+            yield return ResponseStatusIs(HttpStatusCode.Created);
 
             yield return new VerifyResponseHeader("Location",
                                                   value => Fail.IfWhitespace(value, Violation.Of("There is no 'Location' header returned")))
@@ -41,19 +51,11 @@ namespace Synergy.Samples.Web.API.Tests.Infrastructure
         public static IEnumerable<IAssertion> GettingList()
         {
             // Request
-            yield return RequestMethodIsGET();
+            yield return RequestMethodIs(HttpMethod.Get);
 
             // Response
-            yield return new VerifyResponseStatus(HttpStatusCode.OK)
-               .Expected("Convention: Returned HTTP status code is 200 (OK)");
-
+            yield return ResponseStatusIs(HttpStatusCode.OK);
             yield return ResponseContentTypeIsJson();
-        }
-
-        private static IAssertion RequestMethodIsGET()
-        {
-            return new VerifyRequestMethod(HttpMethod.Get)
-               .Expected("Convention: HTTP request method is GET");
         }
 
         private static IAssertion ResponseContentTypeIsJson()
@@ -72,8 +74,7 @@ namespace Synergy.Samples.Web.API.Tests.Infrastructure
 
         private static IEnumerable<IAssertion> BadRequest()
         {
-            yield return new VerifyResponseStatus(HttpStatusCode.BadRequest)
-               .Expected("Convention: Returned HTTP status code is 400 (Bad Request)");
+            yield return ResponseStatusIs(HttpStatusCode.BadRequest);
 
             yield return new VerifyResponseBody("message", token => ValidateIfNodeExists(token, "message"))
                .Expected("Convention: error JSON contains \"message\" node");
@@ -92,11 +93,30 @@ namespace Synergy.Samples.Web.API.Tests.Infrastructure
         public static IEnumerable<IAssertion> Http404NotFound()
         {
             // Request
-            yield return RequestMethodIsGET();
+            yield return RequestMethodIs(HttpMethod.Get);
 
             // Response
-            yield return new VerifyResponseStatus(HttpStatusCode.NotFound)
-               .Expected("Convention: Returned HTTP status code is 404 (Not Found)");
+            yield return ResponseStatusIs(HttpStatusCode.NotFound);
+        }
+
+        public static IEnumerable<IAssertion> CreatedResourcePointedByLocation()
+        {
+            // Request
+            yield return RequestMethodIs(HttpMethod.Get);
+
+            // Response
+            yield return ResponseStatusIs(HttpStatusCode.OK);
+            yield return ResponseContentTypeIsJson();
+        }
+
+        public static IEnumerable<IAssertion> GetSingleResource()
+        {
+            // Request
+            yield return RequestMethodIs(HttpMethod.Get);
+
+            // Response
+            yield return ResponseStatusIs(HttpStatusCode.OK);
+            yield return ResponseContentTypeIsJson();
         }
     }
 }

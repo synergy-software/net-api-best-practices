@@ -22,21 +22,26 @@ namespace Synergy.Web.Api.Testing
         protected abstract HttpClient Start();
 
         public HttpOperation Get(string path, [CanBeNull] object? urlParameters = null)
-            => Send(HttpMethod.Get, path, urlParameters);
+            => Send<HttpOperation>(HttpMethod.Get, path, urlParameters);
 
         public HttpOperation Post(string path, [CanBeNull] object? urlParameters = null, object? body = null)
-            => Send(HttpMethod.Post, path, urlParameters, body);
+            => Send<HttpOperation>(HttpMethod.Post, path, urlParameters, body);
+
+        public TOperation Post<TOperation>(string path, [CanBeNull] object? urlParameters = null, object? body = null)
+            where TOperation : HttpOperation, new()
+            => Send<TOperation>(HttpMethod.Post, path, urlParameters, body);
 
         public HttpOperation Put(string path, [CanBeNull] object? urlParameters = null, object? body = null)
-            => Send(HttpMethod.Put, path, urlParameters, body);
+            => Send<HttpOperation>(HttpMethod.Put, path, urlParameters, body);
 
         public HttpOperation Patch(string path, [CanBeNull] object? urlParameters = null, object? body = null)
-            => Send(HttpMethod.Patch, path, urlParameters, body);
+            => Send<HttpOperation>(HttpMethod.Patch, path, urlParameters, body);
 
         public HttpOperation Delete(string path, [CanBeNull] object? urlParameters = null)
-            => Send(HttpMethod.Delete, path, urlParameters);
+            => Send<HttpOperation>(HttpMethod.Delete, path, urlParameters);
 
-        private HttpOperation Send(HttpMethod httpMethod, string path, object? urlParameters, object? body = null)
+        private TOperation Send<TOperation>(HttpMethod httpMethod, string path, object? urlParameters, object? body = null) 
+            where TOperation : HttpOperation, new()
         {
             var requestedOperation = CreateHttpRequest(httpMethod, path, urlParameters, body);
 
@@ -45,7 +50,9 @@ namespace Synergy.Web.Api.Testing
             var response = HttpClient.SendAsync(request).Result;
             timer.Stop();
 
-            return new HttpOperation(this, requestedOperation, response, timer);
+            var operation = new TOperation();
+            operation.Init(this, requestedOperation, response, timer);
+            return operation;
         }
 
         private HttpRequestMessage CreateHttpRequest(HttpMethod httpMethod, string path, object? urlParameters, object? body = null)
@@ -70,7 +77,7 @@ namespace Synergy.Web.Api.Testing
 
             var uriBuilder = new UriBuilder
                              {
-                                 Path = path,
+                                 Path = path.Replace("http://localhost/", ""),
                                  Host = HttpClient.BaseAddress.Host,
                                  Port = HttpClient.BaseAddress.Port
                              };

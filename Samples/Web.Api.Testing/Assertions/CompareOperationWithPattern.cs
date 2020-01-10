@@ -104,8 +104,9 @@ namespace Synergy.Web.Api.Testing.Assertions
             return new JProperty(header.Key, string.Join("; ", header.Value));
         }
 
-        public CompareOperationWithPattern Ignore(params string[] ignores)
+        public CompareOperationWithPattern Ignore(string ignore, params string[] ignores)
         {
+            _ignore.Append(new []{ignore});
             _ignore.Append(ignores);
             return this;
         }

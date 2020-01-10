@@ -1,0 +1,17 @@
+{
+  "request": {
+    "method": "GET /api/v1/users/0374851fef9743e0b681931d1b5c4e66"
+  },
+  "response": {
+    "status": "200 OK",
+    "headers": {
+      "api-supported-versions": "1.0",
+      "Content-Type": "application/json; charset=utf-8",
+      "Content-Length": "69"
+    },
+    "body": {
+      "id": "0374851fef9743e0b681931d1b5c4e66",
+      "login": "login"
+    }
+  }
+}

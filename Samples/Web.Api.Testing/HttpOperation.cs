@@ -10,13 +10,13 @@ namespace Synergy.Web.Api.Testing
     public class HttpOperation
     {
         public string? Description { get; private set; }
-        public TimeSpan Duration { get; }
-        public readonly TestServer TestServer;
-        public readonly HttpRequestMessage Request;
-        public readonly HttpResponseMessage Response;
+        public TimeSpan Duration { get; private set; }
+        public TestServer TestServer { get; private set; }
+        public HttpRequestMessage Request { get; private set; }
+        public HttpResponseMessage Response { get; private set; }
         public readonly List<IAssertion> Assertions = new List<IAssertion>();
 
-        public HttpOperation(TestServer testServer, HttpRequestMessage request, HttpResponseMessage response, Stopwatch timer)
+        public void Init(TestServer testServer, HttpRequestMessage request, HttpResponseMessage response, Stopwatch timer)
         {
             Duration = timer.Elapsed;
             TestServer = testServer.OrFail(nameof(testServer));
@@ -24,27 +24,18 @@ namespace Synergy.Web.Api.Testing
             Response = response.OrFail(nameof(response));
         }
 
-        public HttpOperation ShouldBe(IAssertion assertion)
-        {
-            Assertions.Add(assertion);
-            assertion.Assert(this);
-            return this;
-        }
-
-        public HttpOperation ShouldBe(IEnumerable<IAssertion> assertions)
+        internal void Assert(IEnumerable<IAssertion> assertions)
         {
             foreach (var assertion in assertions)
             {
-                this.ShouldBe(assertion);
+                Assertions.Add(assertion);
+                assertion.Assert(this);
             }
-
-            return this;
         }
 
-        public HttpOperation Details(string details)
+        internal void SetDescription(string details)
         {
-            this.Description = details.OrFailIfWhiteSpace(nameof(details));
-            return this;
+            Description = details.OrFailIfWhiteSpace(nameof(details));
         }
     }
 }

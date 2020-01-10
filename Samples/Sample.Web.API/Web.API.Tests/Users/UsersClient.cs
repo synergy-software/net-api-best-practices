@@ -1,7 +1,8 @@
-﻿using Synergy.Samples.Web.API.Services.Users.Commands.CreateUser;
+﻿using System;
+using Synergy.Samples.Web.API.Services.Users.Commands.CreateUser;
 using Synergy.Web.Api.Testing;
 
-namespace Synergy.Samples.Web.API.Tests.Weather
+namespace Synergy.Samples.Web.API.Tests.Users
 {
     public class UsersClient
     {
@@ -16,9 +17,32 @@ namespace Synergy.Samples.Web.API.Tests.Weather
         public HttpOperation GetAll()
             => _testServer.Get(Path)
                           .Details("Get list of users");
+        
+        public HttpOperation GetUserBy(Uri location)
+            => _testServer.Get(location.ToString())
+                          .Details($"Get user located at {location}");
 
-        public HttpOperation Create(string login)
-            => _testServer.Post(Path, body: new CreateUserCommand{Login = login})
+        public HttpOperation GetUser(string userId)
+            => _testServer.Get($"{Path}/{userId}")
+                          .Details($"Get user with id {userId}");
+
+        public CreateUserOperation Create(string login)
+            => _testServer.Post<CreateUserOperation>(Path, body: new CreateUserCommand{Login = login})
                           .Details($"Create a new user with login '{login}'");
+
+        public class CreateUserOperation : HttpOperation
+        {
+            public CreateUserOperation ReadUserId(out string userId)
+            {
+                Response.Content.Read("user.id", out userId);
+                return this;
+            }
+
+            public CreateUserOperation ReadCreatedUserLocation(out Uri location)
+            {
+                location = Response.Headers.Location;
+                return this;
+            }
+        }
     }
 }

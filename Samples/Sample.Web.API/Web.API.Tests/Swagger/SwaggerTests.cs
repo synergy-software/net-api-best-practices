@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using Synergy.Samples.Web.API.Tests.Infrastructure;
 using Synergy.Samples.Web.API.Tests.Swagger;
+using Synergy.Web.Api.Testing;
 using Synergy.Web.Api.Testing.Assertions;
 using Synergy.Web.Api.Testing.Json;
 

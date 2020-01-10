@@ -26,6 +26,6 @@ HTTP/1.1 404 NotFound
 | - | - |
 | Error is returned | OK |
 | Convention: HTTP request method is GET | OK |
-| Convention: Returned HTTP status code is 404 (Not Found) | OK |
+| Convention: Returned HTTP status code is 404 (NotFound) | OK |
 
 

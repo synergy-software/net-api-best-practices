@@ -2,6 +2,7 @@
 using JetBrains.Annotations;
 using NUnit.Framework;
 using Synergy.Samples.Web.API.Tests.Infrastructure;
+using Synergy.Web.Api.Testing;
 using Synergy.Web.Api.Testing.Assertions;
 using Synergy.Web.Api.Testing.Features;
 
