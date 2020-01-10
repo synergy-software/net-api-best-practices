@@ -28,5 +28,10 @@ namespace Synergy.Web.Api.Testing.Json
             ignore.Append(nodes.Select(node=> $"$.response.body.{node}"));
             return ignore;
         }
+
+        public static Ignore ResponseLocationHeader()
+        {
+            return new Ignore("$.response.headers.Location");
+        }
     }
 }

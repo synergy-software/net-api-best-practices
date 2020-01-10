@@ -12,7 +12,7 @@ namespace Synergy.Samples.Web.API.Services.Users.Commands.CreateUser
         public Task<CreateUserCommandResult> Handle(CreateUserCommand command)
         {
             Fail.IfWhitespace(command.Login, nameof(command.Login));
-            return Task.FromResult(new CreateUserCommandResult(Guid.NewGuid().ToString(), command.Login));
+            return Task.FromResult(new CreateUserCommandResult(Guid.NewGuid().ToString().Replace("-", ""), command.Login));
         }
     }
 

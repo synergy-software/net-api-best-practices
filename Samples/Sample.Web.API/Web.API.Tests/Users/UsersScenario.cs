@@ -19,7 +19,7 @@ namespace Synergy.Samples.Web.API.Tests.Users
         private readonly Ignore ignoreError = ResponseBody("traceId");
 
         [Test]
-        public void get_weather()
+        public void manage_users_through_web_api()
         {
             // ARRANGE
             var testServer = new SampleTestServer();
@@ -59,6 +59,7 @@ namespace Synergy.Samples.Web.API.Tests.Users
                  .InStep(scenario.Step("Create new user"))
                  .ShouldBe(
                       EqualToPattern("/Patterns/Create.json")
+                         .Ignore(ResponseLocationHeader())
                          .Ignore(ResponseBody("user.id"))
                          .Expected("User is created and its details are returned"))
                  .ShouldBe(ApiConventionFor.Create())

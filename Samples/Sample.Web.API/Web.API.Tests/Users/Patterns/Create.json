@@ -8,13 +8,13 @@
   "response": {
     "status": "201 Created",
     "headers": {
-      "Location": "forecast",
+      "Location": "http://localhost/api/v1/users/7092497d6ad7414699aaddca17c87c6d",
       "api-supported-versions": "1.0"
     },
     "Content-Type": "application/json",
     "body": {
       "user": {
-        "id": "17b0e4ad-f195-401a-979e-5534b3539ff0",
+        "id": "7092497d6ad7414699aaddca17c87c6d",
         "login": "marcin@synergy.com"
       }
     }

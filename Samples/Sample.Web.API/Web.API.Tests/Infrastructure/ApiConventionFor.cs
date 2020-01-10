@@ -61,6 +61,8 @@ namespace Synergy.Samples.Web.API.Tests.Infrastructure
         {
             return CreationRequest()
                .Concat(BadRequest());
+
+            // TODO: Add response validation - it should NOT contain "Location" header
         }
 
         private static IEnumerable<IAssertion> BadRequest()

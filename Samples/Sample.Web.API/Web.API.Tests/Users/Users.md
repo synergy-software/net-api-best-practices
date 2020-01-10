@@ -1,8 +1,8 @@
 # Manage users through API
 
 1. [Get users forecast](#1-get-users-forecast-1-step)
-1. [Create an item](#2-create-an-item-1-step)
-1. [Try to create an item without a name](#3-try-to-create-an-item-without-a-name-3-steps)
+1. [Create a user](#2-create-a-user-1-step)
+1. [Try to create user without login](#3-try-to-create-user-without-login-3-steps)
 
 ## 1. Get users forecast (1 step)
 
@@ -12,7 +12,7 @@
 
 ### 1.1. Retrieve users forecast (1 request)
 
-### 1.1.1. Request to [Get weather forecast]
+### 1.1.1. Request to [Get list of users]
 
 - Request
 ```
@@ -23,7 +23,9 @@ GET  /api/v1/users
 ```
 HTTP/1.1 200 OK
 api-supported-versions: 1.0
-{}
+{
+  "users": []
+}
 ```
 
 | Expected Results  | Status |
@@ -35,41 +37,40 @@ api-supported-versions: 1.0
 
 
 
-## 2. Create an item (1 step)
+## 2. Create a user (1 step)
 
 | # | Step Actions | Status |
 | - | - | - |
-| 1 | Create TODO item | OK |
+| 1 | Create new user | OK |
 
-### 2.1. Create TODO item (1 request)
+### 2.1. Create new user (1 request)
 
-### 2.1.1. Request to [Create a new TODO item named 'do sth']
+### 2.1.1. Request to [Create a new user with login 'marcin@synergy.com']
 
 - Request
 ```
 POST  /api/v1/users
 {
-  "Id": 123,
-  "Name": "do sth",
-  "IsComplete": false
+  "Login": "marcin@synergy.com"
 }
 ```
 
 - Response
 ```
 HTTP/1.1 201 Created
-Location: forecast
+Location: http://localhost/api/v1/users/7092497d6ad7414699aaddca17c87c6d
 api-supported-versions: 1.0
 {
-  "id": 123,
-  "name": "do sth",
-  "isComplete": false
+  "user": {
+    "id": "7092497d6ad7414699aaddca17c87c6d",
+    "login": "marcin@synergy.com"
+  }
 }
 ```
 
 | Expected Results  | Status |
 | - | - |
-| Item is created and its details are returned | OK |
+| User is created and its details are returned | OK |
 | Convention: HTTP request method is POST | OK |
 | Convention: Returned HTTP status code is 201 (Created) | OK |
 | Convention: Location header (pointing to newly created element) is returned with response. | OK |
@@ -77,25 +78,23 @@ api-supported-versions: 1.0
 
 
 
-## 3. Try to create an item without a name (3 steps)
+## 3. Try to create user without login (3 steps)
 
 | # | Step Actions | Status |
 | - | - | - |
-| 1 | Create TODO item with a null name | OK |
-| 2 | Create TODO item with an empty name | OK |
-| 3 | Create TODO item with an whitespace name | OK |
+| 1 | Create user with a null login | OK |
+| 2 | Create user with an empty login | OK |
+| 3 | Create user item with a whitespace login | OK |
 
-### 3.1. Create TODO item with a null name (1 request)
+### 3.1. Create user with a null login (1 request)
 
-### 3.1.1. Request to [Create a new TODO item named '']
+### 3.1.1. Request to [Create a new user with login '']
 
 - Request
 ```
 POST  /api/v1/users
 {
-  "Id": 123,
-  "Name": null,
-  "IsComplete": false
+  "Login": null
 }
 ```
 
@@ -104,31 +103,29 @@ POST  /api/v1/users
 HTTP/1.1 400 BadRequest
 api-supported-versions: 1.0
 {
-  "message": "'Name' is whitespace",
-  "traceId": "0HLSK6TN9RHOJ"
+  "message": "'Login' is whitespace",
+  "traceId": "0HLSL55KTTJTI"
 }
 ```
 
 | Expected Results  | Status |
 | - | - |
-| Item is NOT created and error is returned | OK |
+| User is NOT created and error is returned | OK |
 | Convention: HTTP request method is POST | OK |
 | Convention: Returned HTTP status code is 400 (Bad Request) | OK |
 | Convention: error JSON contains "message" node | OK |
 | Convention: error JSON contains "traceId" node | OK |
 
 
-### 3.2. Create TODO item with an empty name (1 request)
+### 3.2. Create user with an empty login (1 request)
 
-### 3.2.2. Request to [Create a new TODO item named '']
+### 3.2.2. Request to [Create a new user with login '']
 
 - Request
 ```
 POST  /api/v1/users
 {
-  "Id": 123,
-  "Name": "",
-  "IsComplete": false
+  "Login": ""
 }
 ```
 
@@ -137,31 +134,29 @@ POST  /api/v1/users
 HTTP/1.1 400 BadRequest
 api-supported-versions: 1.0
 {
-  "message": "'Name' is whitespace",
-  "traceId": "0HLSK6TN9RHOK"
+  "message": "'Login' is whitespace",
+  "traceId": "0HLSL55KTTJTJ"
 }
 ```
 
 | Expected Results  | Status |
 | - | - |
-| Item is NOT created and error is returned | OK |
+| User is NOT created and error is returned | OK |
 | Convention: HTTP request method is POST | OK |
 | Convention: Returned HTTP status code is 400 (Bad Request) | OK |
 | Convention: error JSON contains "message" node | OK |
 | Convention: error JSON contains "traceId" node | OK |
 
 
-### 3.3. Create TODO item with an whitespace name (1 request)
+### 3.3. Create user item with a whitespace login (1 request)
 
-### 3.3.3. Request to [Create a new TODO item named '  ']
+### 3.3.3. Request to [Create a new user with login '  ']
 
 - Request
 ```
 POST  /api/v1/users
 {
-  "Id": 123,
-  "Name": "  ",
-  "IsComplete": false
+  "Login": "  "
 }
 ```
 
@@ -170,14 +165,14 @@ POST  /api/v1/users
 HTTP/1.1 400 BadRequest
 api-supported-versions: 1.0
 {
-  "message": "'Name' is whitespace",
-  "traceId": "0HLSK6TN9RHOL"
+  "message": "'Login' is whitespace",
+  "traceId": "0HLSL55KTTJTK"
 }
 ```
 
 | Expected Results  | Status |
 | - | - |
-| Item is NOT created and error is returned | OK |
+| User is NOT created and error is returned | OK |
 | Convention: HTTP request method is POST | OK |
 | Convention: Returned HTTP status code is 400 (Bad Request) | OK |
 | Convention: error JSON contains "message" node | OK |
