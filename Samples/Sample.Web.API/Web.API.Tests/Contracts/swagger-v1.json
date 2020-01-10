@@ -38,46 +38,46 @@
         "tags": [
           "Users"
         ],
-        "summary": "Creates a TodoItem.",
-        "description": "Sample request:\r\n            \r\n    POST /api/weather\r\n    {\r\n       \"id\": 1,\r\n       \"name\": \"Item1\",\r\n       \"isComplete\": true\r\n    }",
+        "summary": "Creates a User.",
+        "description": "Sample request:\r\n            \r\n    POST /api/users\r\n    {\r\n       \"login\": \"marcin@synergy.com\",\r\n    }",
         "requestBody": {
-          "description": "",
+          "description": "Details of user to create",
           "content": {
             "application/json-patch+json": {
               "schema": {
-                "$ref": "#/components/schemas/TodoItem"
+                "$ref": "#/components/schemas/CreateUserCommand"
               }
             },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TodoItem"
+                "$ref": "#/components/schemas/CreateUserCommand"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/TodoItem"
+                "$ref": "#/components/schemas/CreateUserCommand"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/TodoItem"
+                "$ref": "#/components/schemas/CreateUserCommand"
               }
             }
           }
         },
         "responses": {
           "201": {
-            "description": "Returns the newly created item",
+            "description": "Returns the newly created user",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TodoItem"
+                  "$ref": "#/components/schemas/CreateUserCommandResult"
                 }
               }
             }
           },
           "400": {
-            "description": "If the item is null",
+            "description": "If the request contains invalid data",
             "content": {
               "application/json": {
                 "schema": {
@@ -92,28 +92,51 @@
   },
   "components": {
     "schemas": {
-      "GetUsersQueryResult": {
-        "type": "object",
-        "nullable": true
-      },
-      "TodoItem": {
-        "required": [
-          "name"
-        ],
+      "UserReadModel": {
         "type": "object",
         "properties": {
           "id": {
-            "type": "integer",
-            "format": "int64"
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
           },
-          "name": {
-            "maxLength": 20,
-            "minLength": 0,
-            "type": "string"
-          },
-          "isComplete": {
-            "type": "boolean",
-            "default": false
+          "login": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "nullable": true
+      },
+      "GetUsersQueryResult": {
+        "type": "object",
+        "properties": {
+          "users": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserReadModel"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "nullable": true
+      },
+      "CreateUserCommand": {
+        "type": "object",
+        "properties": {
+          "login": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "CreateUserCommandResult": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/UserReadModel"
           }
         },
         "nullable": true

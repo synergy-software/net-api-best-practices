@@ -2,10 +2,9 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Sample.API.Controllers;
-using Synergy.Contracts;
+using Synergy.Samples.Web.API.Services.Infrastructure.Commands;
 using Synergy.Samples.Web.API.Services.Infrastructure.Queries;
+using Synergy.Samples.Web.API.Services.Users.Commands.CreateUser;
 using Synergy.Samples.Web.API.Services.Users.Queries.GetUsers;
 
 namespace Sample.Web.Controllers
@@ -17,48 +16,48 @@ namespace Sample.Web.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IQueryDispatcher _queryDispatcher;
+        private readonly ICommandDispatcher _commandDispatcher;
 
-        public UsersController(ILogger<UsersController> logger, IQueryDispatcher queryDispatcher)
+        public UsersController(IQueryDispatcher queryDispatcher, ICommandDispatcher commandDispatcher)
         {
             _queryDispatcher = queryDispatcher;
+            _commandDispatcher = commandDispatcher;
         }
 
         /// <summary>
         /// Returns all users stored in the system.
         /// </summary>
         [HttpGet]
-        public Task<GetUsersQueryResult> GetUsers()
+        public async Task<GetUsersQueryResult> GetUsers()
         {
-            return _queryDispatcher.Dispatch<GetUsersQuery, IGetUsersQueryHandler, GetUsersQueryResult>(new GetUsersQuery());
+            return await _queryDispatcher.Dispatch<GetUsersQuery, IGetUsersQueryHandler, GetUsersQueryResult>(new GetUsersQuery());
         }
 
         /// <summary>
-        /// Creates a TodoItem.
+        /// Creates a User.
         /// </summary>
         /// <remarks>
         /// Sample request:
         ///
-        ///     POST /api/weather
+        ///     POST /api/users
         ///     {
-        ///        "id": 1,
-        ///        "name": "Item1",
-        ///        "isComplete": true
+        ///        "login": "marcin@synergy.com",
         ///     }
         ///
         /// </remarks>
-        /// <param name="item"></param>
-        /// <returns>A newly created TodoItem</returns>
-        /// <response code="201">Returns the newly created item</response>
-        /// <response code="400">If the item is null</response>            
+        /// <param name="user">Details of user to create</param>
+        /// <returns>A newly created User</returns>
+        /// <response code="201">Returns the newly created user</response>
+        /// <response code="400">If the request contains invalid data</response>            
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         //[ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Create))]
-        public ActionResult<TodoItem> Create([FromBody] TodoItem item)
+        public async Task<ActionResult<CreateUserCommandResult>> Create([FromBody] CreateUserCommand user)
         {
-            Fail.IfWhitespace(item.Name, nameof(item.Name));
+            var result = await _commandDispatcher.Dispatch<CreateUserCommand, ICreateUserCommandHandler, CreateUserCommandResult>(user);
 
-            return Created("forecast", item);
+            return Created("forecast", result);
         }
     }
 }

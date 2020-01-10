@@ -2,9 +2,7 @@
   "request": {
     "method": "POST /api/v1/users",
     "body": {
-      "Id": 123,
-      "Name": "do sth",
-      "IsComplete": false
+      "Login": "marcin@synergy.com"
     }
   },
   "response": {
@@ -15,9 +13,10 @@
     },
     "Content-Type": "application/json",
     "body": {
-      "id": 123,
-      "name": "do sth",
-      "isComplete": false
+      "user": {
+        "id": "17b0e4ad-f195-401a-979e-5534b3539ff0",
+        "login": "marcin@synergy.com"
+      }
     }
   }
 }

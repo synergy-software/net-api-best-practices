@@ -1,4 +1,4 @@
-﻿using Sample.API.Controllers;
+﻿using Synergy.Samples.Web.API.Services.Users.Commands.CreateUser;
 using Synergy.Web.Api.Testing;
 
 namespace Synergy.Samples.Web.API.Tests.Weather
@@ -17,8 +17,8 @@ namespace Synergy.Samples.Web.API.Tests.Weather
             => _testServer.Get(Path)
                           .Details("Get list of users");
 
-        public HttpOperation Create(TodoItem todo)
-            => _testServer.Post(Path, body: todo)
-                          .Details($"Create a new TODO item named '{todo.Name}'");
+        public HttpOperation Create(string login)
+            => _testServer.Post(Path, body: new CreateUserCommand{Login = login})
+                          .Details($"Create a new user with login '{login}'");
     }
 }

@@ -2,9 +2,7 @@
   "request": {
     "method": "POST /api/v1/users",
     "body": {
-      "Id": 123,
-      "Name": "",
-      "IsComplete": false
+      "Login": "  "
     }
   },
   "response": {
@@ -14,8 +12,8 @@
     },
     "Content-Type": "application/json",
     "body": {
-      "message": "'Name' is whitespace",
-      "traceId": "0HLSK6TN9RHOK"
+      "message": "'Login' is whitespace",
+      "traceId": "0HLSL55KTTJTK"
     }
   }
 }

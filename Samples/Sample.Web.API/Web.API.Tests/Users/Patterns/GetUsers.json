@@ -8,6 +8,8 @@
       "api-supported-versions": "1.0"
     },
     "Content-Type": "application/json",
-    "body": {}
+    "body": {
+      "users": []
+    }
   }
 }

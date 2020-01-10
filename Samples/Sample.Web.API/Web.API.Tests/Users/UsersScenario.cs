@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using JetBrains.Annotations;
 using NUnit.Framework;
-using Sample.API.Controllers;
 using Synergy.Samples.Web.API.Tests.Infrastructure;
 using Synergy.Samples.Web.API.Tests.Weather;
 using Synergy.Web.Api.Testing;
@@ -29,7 +28,7 @@ namespace Synergy.Samples.Web.API.Tests.Users
 
             // SCENARIO
             GetUsers(users);
-            CreateItem(users);
+            CreateUser(users);
             TryToCreateItemWithEmptyName(users);
 
             if (testServer.Repair)
@@ -52,45 +51,47 @@ namespace Synergy.Samples.Web.API.Tests.Users
                  .ShouldBe(ApiConventionFor.GettingList());
         }
 
-        private int CreateItem(UsersClient users)
+        private string CreateUser(UsersClient users)
         {
-            var scenario = feature.Scenario("Create an item");
+            var scenario = feature.Scenario("Create a user");
 
-            users.Create(new TodoItem {Id = 123, Name = "do sth"})
-                   .InStep(scenario.Step("Create TODO item"))
-                   .ShouldBe(EqualToPattern("/Patterns/Create.json")
-                                .Expected("Item is created and its details are returned"))
-                   .ShouldBe(ApiConventionFor.Create())
-                   .Response.Content.Read("id", out int id);
+            users.Create("marcin@synergy.com")
+                 .InStep(scenario.Step("Create new user"))
+                 .ShouldBe(
+                      EqualToPattern("/Patterns/Create.json")
+                         .Ignore(ResponseBody("user.id"))
+                         .Expected("User is created and its details are returned"))
+                 .ShouldBe(ApiConventionFor.Create())
+                 .Response.Content.Read("user.id", out string id);
 
             return id;
         }
 
         private void TryToCreateItemWithEmptyName(UsersClient users)
         {
-            var scenario = feature.Scenario("Try to create an item without a name");
+            var scenario = feature.Scenario("Try to create user without login");
 
-            #pragma warning disable CS8625
-            users.Create(new TodoItem {Id = 123, Name = null})
-                   .InStep(scenario.Step("Create TODO item with a null name"))
-                   .ShouldBe(EqualToPattern("/Patterns/TryToCreateNullName.json")
+#pragma warning disable CS8625
+            users.Create(null)
+                   .InStep(scenario.Step("Create user with a null login"))
+                   .ShouldBe(EqualToPattern("/Patterns/TryToCreateNullLogin.json")
                             .Ignore(ignoreError)
-                            .Expected("Item is NOT created and error is returned"))
+                            .Expected("User is NOT created and error is returned"))
                    .ShouldBe(ApiConventionFor.CreateWithValidationError());
-            #pragma warning restore CS8625
+#pragma warning restore CS8625
 
-            users.Create(new TodoItem {Id = 123, Name = ""})
-                   .InStep(scenario.Step("Create TODO item with an empty name"))
-                   .ShouldBe(EqualToPattern("/Patterns/TryToCreateEmptyName.json")
+            users.Create("")
+                   .InStep(scenario.Step("Create user with an empty login"))
+                   .ShouldBe(EqualToPattern("/Patterns/TryToCreateEmptyLogin.json")
                             .Ignore(ignoreError)
-                            .Expected("Item is NOT created and error is returned"))
+                            .Expected("User is NOT created and error is returned"))
                    .ShouldBe(ApiConventionFor.CreateWithValidationError());
 
-            users.Create(new TodoItem {Id = 123, Name = "  "})
-                   .InStep(scenario.Step("Create TODO item with an whitespace name"))
-                   .ShouldBe(EqualToPattern("/Patterns/TryToCreateWhitespaceName.json")
+            users.Create("  " )
+                   .InStep(scenario.Step("Create user item with a whitespace login"))
+                   .ShouldBe(EqualToPattern("/Patterns/TryToCreateWhitespaceLogin.json")
                             .Ignore(ignoreError)
-                            .Expected("Item is NOT created and error is returned"))
+                            .Expected("User is NOT created and error is returned"))
                    .ShouldBe(ApiConventionFor.CreateWithValidationError());
         }
 
