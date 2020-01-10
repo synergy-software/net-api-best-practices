@@ -41,14 +41,19 @@ namespace Synergy.Samples.Web.API.Tests.Infrastructure
         public static IEnumerable<IAssertion> GettingList()
         {
             // Request
-            yield return new VerifyRequestMethod(HttpMethod.Get)
-               .Expected("Convention: HTTP request method is GET");
+            yield return RequestMethodIsGET();
 
             // Response
             yield return new VerifyResponseStatus(HttpStatusCode.OK)
                .Expected("Convention: Returned HTTP status code is 200 (OK)");
 
             yield return ResponseContentTypeIsJson();
+        }
+
+        private static IAssertion RequestMethodIsGET()
+        {
+            return new VerifyRequestMethod(HttpMethod.Get)
+               .Expected("Convention: HTTP request method is GET");
         }
 
         private static IAssertion ResponseContentTypeIsJson()
@@ -82,6 +87,16 @@ namespace Synergy.Samples.Web.API.Tests.Infrastructure
             token.FailIfNull(Violation.Of($"\"{node}\" is not present"));
             var value = token.Value<string>();
             Fail.IfWhitespace(value, Violation.Of($"\"{node}\" is empty"));
+        }
+
+        public static IEnumerable<IAssertion> Http404NotFound()
+        {
+            // Request
+            yield return RequestMethodIsGET();
+
+            // Response
+            yield return new VerifyResponseStatus(HttpStatusCode.NotFound)
+               .Expected("Convention: Returned HTTP status code is 404 (Not Found)");
         }
     }
 }

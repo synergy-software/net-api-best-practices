@@ -1,0 +1,8 @@
+{
+  "request": {
+    "method": "GET /api/v1/i-do-not-exist"
+  },
+  "response": {
+    "status": "404 Not Found"
+  }
+}

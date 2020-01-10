@@ -95,7 +95,8 @@ namespace Synergy.Web.Api.Testing.Assertions
                 yield return new JProperty("headers", new JObject(headers.Select(GetHeader)));
 
             var responseJson = response.Content.ReadJson();
-            yield return new JProperty("body", responseJson);
+            if(responseJson != null)
+                yield return new JProperty("body", responseJson);
         }
 
         private static JProperty GetHeader(KeyValuePair<string, IEnumerable<string>> header)
@@ -142,8 +143,9 @@ namespace Synergy.Web.Api.Testing.Assertions
             var status = fullStatus.Substring(0, fullStatus.IndexOf(" "));
             var statusCode = Enum.Parse<HttpStatusCode>(status);
             var response = new HttpResponseMessage(statusCode);
-            var body = _savedPattern!.SelectToken("$.response.body").ToString();
-            response.Content = new StringContent(body);
+            var body = _savedPattern!.SelectToken("$.response.body")?.ToString();
+            if (body != null)
+                response.Content = new StringContent(body);
             var headers = _savedPattern!.SelectTokens("$.response.headers.*");
             foreach (var header in headers)
             {
