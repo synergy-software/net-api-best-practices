@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Synergy.Contracts;
 using Synergy.Samples.Web.API.Services.Infrastructure.Annotations;
 using Synergy.Samples.Web.API.Services.Infrastructure.Commands;
 
 namespace Synergy.Samples.Web.API.Services.Users.Commands.CreateUser
 {
-    public class CreateUserCommand
-    {
-        public string Login { get; set; }
-    }
-
     [CreatedImplicitly]
     public class CreateUserCommandHandler : ICreateUserCommandHandler
     {
@@ -22,16 +16,5 @@ namespace Synergy.Samples.Web.API.Services.Users.Commands.CreateUser
         }
     }
 
-    public interface ICreateUserCommandHandler:ICommandHandler<CreateUserCommand, CreateUserCommandResult>{}
-
-    public class CreateUserCommandResult
-    {
-        [JsonProperty("user")]
-        public UserReadModel User { get; }
-
-        public CreateUserCommandResult(string id, string login)
-        {
-            User = new UserReadModel(id, login);
-        }
-    }
+    public interface ICreateUserCommandHandler : ICommandHandler<CreateUserCommand, CreateUserCommandResult> { }
 }
