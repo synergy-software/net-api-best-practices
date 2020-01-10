@@ -11,7 +11,7 @@ using static Synergy.Web.Api.Testing.Json.Ignore;
 namespace Synergy.Samples.Web.API.Tests.Users
 {
     [TestFixture]
-    public class UsersScenario
+    public class UserScenario
     {
         private SampleTestServer testServer;
         private UsersClient users;
@@ -34,7 +34,7 @@ namespace Synergy.Samples.Web.API.Tests.Users
             GetUsers();
             var userId = CreateUser();
             GetUser(userId);
-            TryToCreateItemWithEmptyName();
+            TryToCreateUserWithErrors();
 
             new Markdown(feature).GenerateReportTo(Path + "/Users.md");
             Assert.IsFalse(testServer.Repair, "Test server is in repair mode. Do not leave it like that.");
@@ -66,7 +66,7 @@ namespace Synergy.Samples.Web.API.Tests.Users
                          .Expected("Manual: User is created and its details are returned"))
                  .ShouldBe(ApiConventionFor.Create())
                  .ReadUserId(out var id)
-                 .ReadCreatedUserLocation(out var location);
+                 .ReadCreatedUserLocationUrl(out var location);
 
             users.GetUserBy(location)
                  .InStep(scenario.Step("Get created user pointed by \"Location\" header"))
@@ -94,7 +94,7 @@ namespace Synergy.Samples.Web.API.Tests.Users
                  .ShouldBe(ApiConventionFor.GetSingleResource());
         }
 
-        private void TryToCreateItemWithEmptyName()
+        private void TryToCreateUserWithErrors()
         {
             var scenario = feature.Scenario("Try to create user without login");
 
@@ -102,7 +102,7 @@ namespace Synergy.Samples.Web.API.Tests.Users
             users.Create(null)
                  .InStep(scenario.Step("Create user with a null login"))
                  .ShouldBe(
-                      EqualToPattern("/Patterns/TryToCreateNullLogin.json")
+                      EqualToPattern("/Patterns/S02_N01_TryToCreateUserWithNullLogin.json")
                          .Ignore(errorNodes)
                          .Expected("Manual: User is NOT created and error is returned"))
                  .ShouldBe(ApiConventionFor.CreateWithValidationError());
@@ -111,7 +111,7 @@ namespace Synergy.Samples.Web.API.Tests.Users
             users.Create("")
                  .InStep(scenario.Step("Create user with an empty login"))
                  .ShouldBe(
-                      EqualToPattern("/Patterns/TryToCreateEmptyLogin.json")
+                      EqualToPattern("/Patterns/S02_N02_TryToCreateUserWithEmptyLogin.json")
                          .Ignore(errorNodes)
                          .Expected("Manual: User is NOT created and error is returned"))
                  .ShouldBe(ApiConventionFor.CreateWithValidationError());
@@ -119,7 +119,7 @@ namespace Synergy.Samples.Web.API.Tests.Users
             users.Create("  ")
                  .InStep(scenario.Step("Create user item with a whitespace login"))
                  .ShouldBe(
-                      EqualToPattern("/Patterns/TryToCreateWhitespaceLogin.json")
+                      EqualToPattern("/Patterns/S02_N03_TryToCreateUserWithWhitespaceLogin.json")
                          .Ignore(errorNodes)
                          .Expected("Manual: User is NOT created and error is returned"))
                  .ShouldBe(ApiConventionFor.CreateWithValidationError());

@@ -12,7 +12,7 @@ namespace Synergy.Samples.Web.API.Tests.Errors
             _testServer = testServer;
         }
 
-        public HttpOperation GetNonExistingApi()
+        public HttpOperation GetNonExistingResource()
             => _testServer.Get(Path)
                           .Details("Make GET request to not existing API");
     }

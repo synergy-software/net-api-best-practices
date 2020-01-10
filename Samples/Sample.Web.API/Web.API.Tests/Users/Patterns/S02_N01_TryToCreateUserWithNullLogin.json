@@ -5,18 +5,18 @@
       "Content-Type": "application/json; charset=utf-8"
     },
     "body": {
-      "Login": "  "
+      "Login": null
     }
   },
   "response": {
     "status": "400 Bad Request",
     "headers": {
-      "Content-Type": "application/json",
-      "api-supported-versions": "1.0"
+      "api-supported-versions": "1.0",
+      "Content-Type": "application/json"
     },
     "body": {
       "message": "'Login' is whitespace",
-      "traceId": "0HLSLLDE3A0PB"
+      "traceId": "0HLSLVQC6JUSH"
     }
   }
 }

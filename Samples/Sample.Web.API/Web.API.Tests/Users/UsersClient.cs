@@ -38,7 +38,7 @@ namespace Synergy.Samples.Web.API.Tests.Users
                 return this;
             }
 
-            public CreateUserOperation ReadCreatedUserLocation(out Uri location)
+            public CreateUserOperation ReadCreatedUserLocationUrl(out Uri location)
             {
                 location = Response.Headers.Location;
                 return this;
