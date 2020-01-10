@@ -41,7 +41,7 @@ Fail.IfNull($EXPR$, $NAME$);</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=1E129A670D7595458BB26A1F3A13D39E/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=1E129A670D7595458BB26A1F3A13D39E/Applicability/=File/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=1E129A670D7595458BB26A1F3A13D39E/CustomProperties/=Extension/@EntryIndexedValue">cs</s:String>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=1E129A670D7595458BB26A1F3A13D39E/CustomProperties/=FileName/@EntryIndexedValue">$CLASS$</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=1E129A670D7595458BB26A1F3A13D39E/CustomProperties/=FileName/@EntryIndexedValue">$CLASS$Handler</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=1E129A670D7595458BB26A1F3A13D39E/CustomProperties/=ValidateFileName/@EntryIndexedValue">False</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=1E129A670D7595458BB26A1F3A13D39E/Description/@EntryValue">Command Handler</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=1E129A670D7595458BB26A1F3A13D39E/Field/=CLASS/@KeyIndexDefined">True</s:Boolean>
@@ -71,6 +71,7 @@ namespace $NAMESPACE$&#xD;
     {&#xD;
         public $CLASS$Handler()&#xD;
         {&#xD;
+			// return await _commandDispatcher.Dispatch&lt;$CLASS$, I$CLASS$Handler, $CLASS$Result&gt;(new $CLASS$());&#xD;
         }&#xD;
 &#xD;
         public async Task&lt;$CLASS$Result&gt; Handle($CLASS$ command)&#xD;
@@ -92,7 +93,7 @@ namespace $NAMESPACE$&#xD;
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80BF173C6623A8489595F1F310B71151/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80BF173C6623A8489595F1F310B71151/Applicability/=File/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80BF173C6623A8489595F1F310B71151/CustomProperties/=Extension/@EntryIndexedValue">cs</s:String>
-	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80BF173C6623A8489595F1F310B71151/CustomProperties/=FileName/@EntryIndexedValue">$CLASS$</s:String>
+	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80BF173C6623A8489595F1F310B71151/CustomProperties/=FileName/@EntryIndexedValue">$CLASS$Handler</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80BF173C6623A8489595F1F310B71151/CustomProperties/=ValidateFileName/@EntryIndexedValue">False</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80BF173C6623A8489595F1F310B71151/Description/@EntryValue">Query Handler</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=80BF173C6623A8489595F1F310B71151/Field/=CLASS/@KeyIndexDefined">True</s:Boolean>
@@ -120,6 +121,7 @@ namespace $NAMESPACE$&#xD;
     {&#xD;
         public $CLASS$Handler()&#xD;
         {&#xD;
+			// return await _queryDispatcher.Dispatch&lt;$CLASS$, I$CLASS$Handler, $CLASS$Result&gt;(new $CLASS$());&#xD;
         }&#xD;
 &#xD;
         public async Task&lt;$CLASS$Result&gt; Handle($CLASS$ query)&#xD;

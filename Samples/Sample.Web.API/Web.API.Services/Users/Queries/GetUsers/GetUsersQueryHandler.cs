@@ -12,9 +12,9 @@ namespace Synergy.Samples.Web.API.Services.Users.Queries.GetUsers
     [CreatedImplicitly]
     public class GetUsersQueryHandler : IGetUsersQueryHandler
     {
-        public async Task<GetUsersQueryResult> Handle(GetUsersQuery query)
+        public Task<GetUsersQueryResult> Handle(GetUsersQuery query)
         {
-            return new GetUsersQueryResult();
+            return Task.FromResult(new GetUsersQueryResult());
         }
     }
 
