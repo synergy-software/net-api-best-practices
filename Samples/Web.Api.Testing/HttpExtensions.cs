@@ -1,4 +1,7 @@
-﻿using System.Net.Http;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Net.Http;
 using JetBrains.Annotations;
 using Newtonsoft.Json.Linq;
 using Synergy.Contracts;
@@ -34,5 +37,19 @@ namespace Synergy.Web.Api.Testing
         [Pure]
         public static string GetRequestRelativeUrl(this HttpRequestMessage request)
             => request.RequestUri.ToString().Replace("http://localhost", "");
+
+        public static List<KeyValuePair<string, IEnumerable<string>>> GetAllHeaders(this HttpResponseMessage response)
+        {
+            return response.Headers.Concat(response.Content.Headers).ToList();
+        }
+
+        public static List<KeyValuePair<string, IEnumerable<string>>> GetAllHeaders(this HttpRequestMessage request)
+        {
+            var headers = request.Headers.ToList();
+            if (request.Content != null)
+                headers.AddRange(request.Content.Headers);
+
+            return headers;
+        }
     }
 }

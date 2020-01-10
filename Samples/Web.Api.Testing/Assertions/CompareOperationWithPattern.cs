@@ -73,13 +73,9 @@ namespace Synergy.Web.Api.Testing.Assertions
             var request = operation.Request;
             yield return new JProperty("method", request.GetRequestFullMethod());
 
-            var headers = request.Headers.Select(GetHeader).ToList();
-            if (request.Content != null)
-            {
-                headers.AddRange(request.Content.Headers.Select(GetHeader));
-            }
+            var headers = request.GetAllHeaders();
             if (headers.Count > 0)
-                yield return new JProperty("headers", new JObject(headers));
+                yield return new JProperty("headers", new JObject(headers.Select(GetHeader)));
 
             var requestJson = request.Content.ReadJson();
             if (requestJson != null)
@@ -94,11 +90,9 @@ namespace Synergy.Web.Api.Testing.Assertions
 
             yield return new JProperty("status", $"{(int) response.StatusCode} {response.ReasonPhrase}");
 
-            var headers = response.Content.Headers.Select(GetHeader).Concat(
-                response.Headers.Select(GetHeader)).ToList();
-
+            var headers = response.GetAllHeaders();
             if (headers.Count > 0)
-                yield return new JProperty("headers", new JObject(headers));
+                yield return new JProperty("headers", new JObject(headers.Select(GetHeader)));
 
             var responseJson = response.Content.ReadJson();
             yield return new JProperty("body", responseJson);
