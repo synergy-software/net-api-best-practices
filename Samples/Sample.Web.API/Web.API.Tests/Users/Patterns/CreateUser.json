@@ -1,6 +1,9 @@
 {
   "request": {
     "method": "POST /api/v1/users",
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
     "body": {
       "Login": "marcin@synergy.com"
     }
@@ -10,12 +13,12 @@
     "headers": {
       "Content-Type": "application/json; charset=utf-8",
       "Content-Length": "104",
-      "Location": "http://localhost/api/v1/users/ae8fb82c150243d0a099e612276dace5",
+      "Location": "http://localhost/api/v1/users/1350df6386954afca7113fe27f1a1a53",
       "api-supported-versions": "1.0"
     },
     "body": {
       "user": {
-        "id": "ae8fb82c150243d0a099e612276dace5",
+        "id": "1350df6386954afca7113fe27f1a1a53",
         "login": "marcin@synergy.com"
       }
     }

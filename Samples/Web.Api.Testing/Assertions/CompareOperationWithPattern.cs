@@ -24,6 +24,7 @@ namespace Synergy.Web.Api.Testing.Assertions
         {
             _patternFilePath = patternFilePath;
             _ignore = ignore ?? new Ignore();
+            Ignore(Json.Ignore.ResponseContentLength());
             if (File.Exists(patternFilePath))
             {
                 var content = File.ReadAllText(patternFilePath);
@@ -72,15 +73,19 @@ namespace Synergy.Web.Api.Testing.Assertions
             var request = operation.Request;
             yield return new JProperty("method", request.GetRequestFullMethod());
 
+            var headers = request.Headers.Select(GetHeader).ToList();
+            if (request.Content != null)
+            {
+                headers.AddRange(request.Content.Headers.Select(GetHeader));
+            }
+            if (headers.Count > 0)
+                yield return new JProperty("headers", new JObject(headers));
+
             var requestJson = request.Content.ReadJson();
             if (requestJson != null)
             {
                 yield return new JProperty("body", requestJson);
             }
-
-            var headers = request.Headers.Select(GetHeader).ToList();
-            if (headers.Count > 0)
-                yield return new JProperty("headers", new JObject(headers));
         }
 
         private static IEnumerable<JProperty> GetResponseProperties(HttpOperation operation)
@@ -94,7 +99,6 @@ namespace Synergy.Web.Api.Testing.Assertions
 
             if (headers.Count > 0)
                 yield return new JProperty("headers", new JObject(headers));
-
 
             var responseJson = response.Content.ReadJson();
             yield return new JProperty("body", responseJson);
@@ -145,11 +149,23 @@ namespace Synergy.Web.Api.Testing.Assertions
             var statusCode = Enum.Parse<HttpStatusCode>(status);
             var response = new HttpResponseMessage(statusCode);
             var body = _savedPattern!.SelectToken("$.response.body").ToString();
-            response.Content = new StringContent(body, Encoding.UTF8, MediaTypeNames.Application.Json);
+            response.Content = new StringContent(body);
             var headers = _savedPattern!.SelectTokens("$.response.headers.*");
             foreach (var header in headers)
             {
-                response.Headers.Add(header.Path.Replace("response.headers.", ""), header.Value<string>());
+                var headerName = header.Path.Replace("response.headers.", "");
+                var headerValue = header.Value<string>();
+
+                if (headerName.StartsWith("Content"))
+                {
+                    if (response.Content.Headers.Contains(headerName))
+                        response.Content.Headers.Remove(headerName);
+
+                    response.Content.Headers.Add(headerName, headerValue);
+                    continue;
+                }
+
+                response.Headers.Add(headerName, headerValue);
             }
 
             return response;

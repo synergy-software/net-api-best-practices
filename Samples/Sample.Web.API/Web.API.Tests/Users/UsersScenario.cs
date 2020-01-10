@@ -24,7 +24,7 @@ namespace Synergy.Samples.Web.API.Tests.Users
             // ARRANGE
             var testServer = new SampleTestServer();
             var users = new UsersClient(testServer);
-            testServer.Repair = true;
+            testServer.Repair = false;
 
             // SCENARIO
             GetUsers(users);

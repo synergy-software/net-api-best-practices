@@ -22,8 +22,9 @@ GET  /api/v1/users
 - Response
 ```
 HTTP/1.1 200 OK
-Content-Type: application/json; charset=utf-8
 api-supported-versions: 1.0
+Content-Type: application/json; charset=utf-8
+Content-Length: 19
 {
   "users": []
 }
@@ -51,6 +52,7 @@ api-supported-versions: 1.0
 - Request
 ```
 POST  /api/v1/users
+Content-Type: application/json; charset=utf-8
 {
   "Login": "marcin@synergy.com"
 }
@@ -59,12 +61,13 @@ POST  /api/v1/users
 - Response
 ```
 HTTP/1.1 201 Created
-Content-Type: application/json; charset=utf-8
-Location: http://localhost/api/v1/users/236556f912714824bdd2f445466dcd46
+Location: http://localhost/api/v1/users/1350df6386954afca7113fe27f1a1a53
 api-supported-versions: 1.0
+Content-Type: application/json; charset=utf-8
+Content-Length: 104
 {
   "user": {
-    "id": "236556f912714824bdd2f445466dcd46",
+    "id": "1350df6386954afca7113fe27f1a1a53",
     "login": "marcin@synergy.com"
   }
 }
@@ -95,6 +98,7 @@ api-supported-versions: 1.0
 - Request
 ```
 POST  /api/v1/users
+Content-Type: application/json; charset=utf-8
 {
   "Login": null
 }
@@ -103,11 +107,11 @@ POST  /api/v1/users
 - Response
 ```
 HTTP/1.1 400 BadRequest
-Content-Type: application/json; charset=utf-8
 api-supported-versions: 1.0
+Content-Type: application/json
 {
   "message": "'Login' is whitespace",
-  "traceId": "0HLSL55KTTJTI"
+  "traceId": "0HLSLLDE3A0P9"
 }
 ```
 
@@ -127,6 +131,7 @@ api-supported-versions: 1.0
 - Request
 ```
 POST  /api/v1/users
+Content-Type: application/json; charset=utf-8
 {
   "Login": ""
 }
@@ -135,11 +140,11 @@ POST  /api/v1/users
 - Response
 ```
 HTTP/1.1 400 BadRequest
-Content-Type: application/json; charset=utf-8
 api-supported-versions: 1.0
+Content-Type: application/json
 {
   "message": "'Login' is whitespace",
-  "traceId": "0HLSL55KTTJTJ"
+  "traceId": "0HLSLLDE3A0PA"
 }
 ```
 
@@ -159,6 +164,7 @@ api-supported-versions: 1.0
 - Request
 ```
 POST  /api/v1/users
+Content-Type: application/json; charset=utf-8
 {
   "Login": "  "
 }
@@ -167,11 +173,11 @@ POST  /api/v1/users
 - Response
 ```
 HTTP/1.1 400 BadRequest
-Content-Type: application/json; charset=utf-8
 api-supported-versions: 1.0
+Content-Type: application/json
 {
   "message": "'Login' is whitespace",
-  "traceId": "0HLSL55KTTJTK"
+  "traceId": "0HLSLLDE3A0PB"
 }
 ```
 

@@ -33,5 +33,10 @@ namespace Synergy.Web.Api.Testing.Json
         {
             return new Ignore("$.response.headers.Location");
         }
+
+        public static Ignore ResponseContentLength()
+        {
+            return new Ignore("$.response.headers.Content-Length");
+        }
     }
 }

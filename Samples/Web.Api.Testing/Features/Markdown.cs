@@ -113,6 +113,10 @@ namespace Synergy.Web.Api.Testing.Features
             report.AppendLine("```");
             report.AppendLine(request.GetRequestFullMethod());
             InsertHeaders(report, request.Headers);
+            if (request.Content != null)
+            {
+                InsertHeaders(report, request.Content.Headers);
+            }
 
             var requestBody = request.Content.ReadJson();
             if (requestBody != null)
@@ -154,8 +158,8 @@ namespace Synergy.Web.Api.Testing.Features
             report.AppendLine("- Response");
             report.AppendLine("```");
             report.AppendLine($"HTTP/{response.Version} {(int) response.StatusCode} {response.StatusCode}");
-            InsertHeaders(report, response.Content.Headers);
             InsertHeaders(report, response.Headers);
+            InsertHeaders(report, response.Content.Headers);
             var responseBody = response.Content.ReadJson()!;
             report.AppendLine(responseBody.ToString(Formatting.Indented));
             report.AppendLine("```");

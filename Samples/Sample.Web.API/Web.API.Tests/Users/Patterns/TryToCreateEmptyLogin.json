@@ -1,6 +1,9 @@
 {
   "request": {
     "method": "POST /api/v1/users",
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
     "body": {
       "Login": ""
     }
@@ -13,7 +16,7 @@
     },
     "body": {
       "message": "'Login' is whitespace",
-      "traceId": "0HLSLK0L9M1OJ"
+      "traceId": "0HLSLLDE3A0PA"
     }
   }
 }
