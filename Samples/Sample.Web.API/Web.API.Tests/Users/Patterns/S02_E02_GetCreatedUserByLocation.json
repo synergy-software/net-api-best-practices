@@ -1,6 +1,13 @@
 {
+  "expectations": [
+    "Convention: HTTP request method is GET",
+    "Convention: Returned HTTP status code is 200 (OK)",
+    "Convention: Returned HTTP Content-Type is \"application/json\"",
+    "Manual: User details are returned"
+  ],
   "request": {
-    "method": "GET /api/v1/users/45a78443ab78433281f9886773dab74d"
+    "description": "Get user located at http://localhost/api/v1/users/57aec90cbe34400cadaaeda89cb540ac",
+    "method": "GET /api/v1/users/57aec90cbe34400cadaaeda89cb540ac"
   },
   "response": {
     "status": "200 OK",
@@ -10,7 +17,7 @@
       "Content-Length": "69"
     },
     "body": {
-      "id": "45a78443ab78433281f9886773dab74d",
+      "id": "57aec90cbe34400cadaaeda89cb540ac",
       "login": "login"
     }
   }

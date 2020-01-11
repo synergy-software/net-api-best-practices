@@ -56,7 +56,7 @@ namespace Synergy.Samples.Web.API.Tests.Infrastructure
                         )
                .Expected("Convention: Location header (pointing to newly created element) is returned with response.");
 
-            yield return ResponseContentTypeIsJson();
+            yield return ResponseContentTypeIs(MediaTypeNames.Application.Json);
         }
 
         public static IEnumerable<IAssertion> GettingList()
@@ -66,13 +66,13 @@ namespace Synergy.Samples.Web.API.Tests.Infrastructure
 
             // Response
             yield return ResponseStatusIs(HttpStatusCode.OK);
-            yield return ResponseContentTypeIsJson();
+            yield return ResponseContentTypeIs(MediaTypeNames.Application.Json);
         }
 
-        private static IAssertion ResponseContentTypeIsJson()
+        private static IAssertion ResponseContentTypeIs(string contentType)
         {
-            return new VerifyResponseContentType(MediaTypeNames.Application.Json)
-               .Expected($"Convention: Returned HTTP Content-Type is \"{MediaTypeNames.Application.Json}\"");
+            return new VerifyResponseContentType(contentType)
+               .Expected($"Convention: Returned HTTP Content-Type is \"{contentType}\"");
         }
 
         public static IEnumerable<IAssertion> CreateWithValidationError()
@@ -117,7 +117,7 @@ namespace Synergy.Samples.Web.API.Tests.Infrastructure
 
             // Response
             yield return ResponseStatusIs(HttpStatusCode.OK);
-            yield return ResponseContentTypeIsJson();
+            yield return ResponseContentTypeIs(MediaTypeNames.Application.Json);
         }
 
         public static IEnumerable<IAssertion> GetSingleResource()
@@ -127,7 +127,7 @@ namespace Synergy.Samples.Web.API.Tests.Infrastructure
 
             // Response
             yield return ResponseStatusIs(HttpStatusCode.OK);
-            yield return ResponseContentTypeIsJson();
+            yield return ResponseContentTypeIs(MediaTypeNames.Application.Json);
         }
 
         public static IEnumerable<IAssertion> DeleteResource()
@@ -137,7 +137,7 @@ namespace Synergy.Samples.Web.API.Tests.Infrastructure
 
             // Response
             yield return ResponseStatusIs(HttpStatusCode.OK);
-            //yield return ResponseContentTypeIsJson();
+            //yield return ResponseContentTypeIs();
         }
 
         public static IEnumerable<IAssertion> TryToGetDeletedResource()
@@ -147,7 +147,7 @@ namespace Synergy.Samples.Web.API.Tests.Infrastructure
 
             // Response
             yield return ResponseStatusIs(HttpStatusCode.NotFound);
-            yield return ResponseContentTypeIsJson();
+            yield return ResponseContentTypeIs(MediaTypeNames.Application.Json);
         }
     }
 }

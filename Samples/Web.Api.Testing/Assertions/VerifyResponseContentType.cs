@@ -9,7 +9,7 @@ namespace Synergy.Web.Api.Testing.Assertions
 
         public VerifyResponseContentType(string expectedContentType)
         {
-            _expectedContentType = expectedContentType;
+            _expectedContentType = expectedContentType.NotNull(nameof(expectedContentType));
             ExpectedResult = $"Returned HTTP Content-Type is \"{_expectedContentType}\"";
         }
 

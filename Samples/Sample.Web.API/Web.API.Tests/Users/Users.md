@@ -34,10 +34,10 @@ Content-Length: 19
 
 | Expected Results  | Status |
 | - | - |
-| Manual: Empty users list is returned | OK |
 | Convention: HTTP request method is GET | OK |
 | Convention: Returned HTTP status code is 200 (OK) | OK |
 | Convention: Returned HTTP Content-Type is "application/json" | OK |
+| Manual: Empty users list is returned | OK |
 
 
 
@@ -64,13 +64,13 @@ Content-Type: application/json; charset=utf-8
 - Response
 ```
 HTTP/1.1 201 Created
-Location: http://localhost/api/v1/users/45a78443ab78433281f9886773dab74d
+Location: http://localhost/api/v1/users/f2d3f31011ae4f149c062d71eb1bb7c0
 api-supported-versions: 1.0
 Content-Type: application/json; charset=utf-8
 Content-Length: 104
 {
   "user": {
-    "id": "45a78443ab78433281f9886773dab74d",
+    "id": "f2d3f31011ae4f149c062d71eb1bb7c0",
     "login": "marcin@synergy.com"
   }
 }
@@ -78,20 +78,20 @@ Content-Length: 104
 
 | Expected Results  | Status |
 | - | - |
-| Manual: User is created and its details are returned | OK |
 | Convention: HTTP request method is GET | OK |
 | Convention: Returned HTTP status code is 201 (Created) | OK |
 | Convention: Location header (pointing to newly created element) is returned with response. | OK |
 | Convention: Returned HTTP Content-Type is "application/json" | OK |
+| Manual: User is created and its details are returned | OK |
 
 
 ### 2.2. Get created user pointed by "Location" header (1 request)
 
-### 2.2.2. Request to [Get user located at http://localhost/api/v1/users/f7a58486ef714645a9cd5ff90e51b523]
+### 2.2.2. Request to [Get user located at http://localhost/api/v1/users/270cb918e2ff40bea18a0d5e660ddabd]
 
 - Request
 ```
-GET  /api/v1/users/45a78443ab78433281f9886773dab74d
+GET  /api/v1/users/57aec90cbe34400cadaaeda89cb540ac
 ```
 
 - Response
@@ -101,17 +101,17 @@ api-supported-versions: 1.0
 Content-Type: application/json; charset=utf-8
 Content-Length: 69
 {
-  "id": "45a78443ab78433281f9886773dab74d",
+  "id": "57aec90cbe34400cadaaeda89cb540ac",
   "login": "login"
 }
 ```
 
 | Expected Results  | Status |
 | - | - |
-| Manual: User details are returned | OK |
 | Convention: HTTP request method is GET | OK |
 | Convention: Returned HTTP status code is 200 (OK) | OK |
 | Convention: Returned HTTP Content-Type is "application/json" | OK |
+| Manual: User details are returned | OK |
 
 
 
@@ -123,11 +123,11 @@ Content-Length: 69
 
 ### 3.1. Get user by id (1 request)
 
-### 3.1.1. Request to [Get user with id f7a58486ef714645a9cd5ff90e51b523]
+### 3.1.1. Request to [Get user with id 270cb918e2ff40bea18a0d5e660ddabd]
 
 - Request
 ```
-GET  /api/v1/users/0374851fef9743e0b681931d1b5c4e66
+GET  /api/v1/users/57aec90cbe34400cadaaeda89cb540ac
 ```
 
 - Response
@@ -137,17 +137,17 @@ api-supported-versions: 1.0
 Content-Type: application/json; charset=utf-8
 Content-Length: 69
 {
-  "id": "0374851fef9743e0b681931d1b5c4e66",
+  "id": "57aec90cbe34400cadaaeda89cb540ac",
   "login": "login"
 }
 ```
 
 | Expected Results  | Status |
 | - | - |
-| Manual: User details are returned | OK |
 | Convention: HTTP request method is GET | OK |
 | Convention: Returned HTTP status code is 200 (OK) | OK |
 | Convention: Returned HTTP Content-Type is "application/json" | OK |
+| Manual: User details are returned | OK |
 
 
 
@@ -179,17 +179,17 @@ api-supported-versions: 1.0
 Content-Type: application/json
 {
   "message": "'Login' is whitespace",
-  "traceId": "0HLSLVQC6JUSH"
+  "traceId": "0HLSMJ359LHJO"
 }
 ```
 
 | Expected Results  | Status |
 | - | - |
-| Manual: User is NOT created and error is returned | OK |
 | Convention: HTTP request method is GET | OK |
 | Convention: Returned HTTP status code is 400 (BadRequest) | OK |
 | Convention: error JSON contains "message" node | OK |
 | Convention: error JSON contains "traceId" node | OK |
+| Manual: User is NOT created and error is returned | OK |
 
 
 ### 4.2. Create user with an empty login (1 request)
@@ -212,17 +212,17 @@ api-supported-versions: 1.0
 Content-Type: application/json
 {
   "message": "'Login' is whitespace",
-  "traceId": "0HLSLVQC6JUSI"
+  "traceId": "0HLSMJ359LHJP"
 }
 ```
 
 | Expected Results  | Status |
 | - | - |
-| Manual: User is NOT created and error is returned | OK |
 | Convention: HTTP request method is GET | OK |
 | Convention: Returned HTTP status code is 400 (BadRequest) | OK |
 | Convention: error JSON contains "message" node | OK |
 | Convention: error JSON contains "traceId" node | OK |
+| Manual: User is NOT created and error is returned | OK |
 
 
 ### 4.3. Create user with a whitespace login (1 request)
@@ -245,17 +245,17 @@ api-supported-versions: 1.0
 Content-Type: application/json
 {
   "message": "'Login' is whitespace",
-  "traceId": "0HLSLVQC6JUSJ"
+  "traceId": "0HLSMJ359LHJQ"
 }
 ```
 
 | Expected Results  | Status |
 | - | - |
-| Manual: User is NOT created and error is returned | OK |
 | Convention: HTTP request method is GET | OK |
 | Convention: Returned HTTP status code is 400 (BadRequest) | OK |
 | Convention: error JSON contains "message" node | OK |
 | Convention: error JSON contains "traceId" node | OK |
+| Manual: User is NOT created and error is returned | OK |
 
 
 
@@ -267,11 +267,11 @@ Content-Type: application/json
 
 ### 5.1. Delete user by id (1 request)
 
-### 5.1.1. Request to [Delete user with id f7a58486ef714645a9cd5ff90e51b523]
+### 5.1.1. Request to [Delete user with id 270cb918e2ff40bea18a0d5e660ddabd]
 
 - Request
 ```
-DELETE  /api/v1/users/00d7648d58744e1088cbd34305fb3687
+DELETE  /api/v1/users/57aec90cbe34400cadaaeda89cb540ac
 ```
 
 - Response
@@ -282,8 +282,8 @@ api-supported-versions: 1.0
 
 | Expected Results  | Status |
 | - | - |
-| Manual: User is deleted and no details are returned | OK |
 | Convention: HTTP request method is GET | OK |
 | Convention: Returned HTTP status code is 200 (OK) | OK |
+| Manual: User is deleted and no details are returned | OK |
 
 

@@ -1,5 +1,13 @@
 {
+  "expectations": [
+    "Convention: HTTP request method is GET",
+    "Convention: Returned HTTP status code is 400 (BadRequest)",
+    "Convention: error JSON contains \"message\" node",
+    "Convention: error JSON contains \"traceId\" node",
+    "Manual: User is NOT created and error is returned"
+  ],
   "request": {
+    "description": "Create a new user with login ''",
     "method": "POST /api/v1/users",
     "headers": {
       "Content-Type": "application/json; charset=utf-8"
@@ -16,7 +24,7 @@
     },
     "body": {
       "message": "'Login' is whitespace",
-      "traceId": "0HLSLVQC6JUSH"
+      "traceId": "0HLSMJ359LHJO"
     }
   }
 }

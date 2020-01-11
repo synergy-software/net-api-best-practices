@@ -1,4 +1,5 @@
-﻿using Synergy.Web.Api.Testing;
+﻿using Synergy.Samples.Web.API.Tests.Infrastructure;
+using Synergy.Web.Api.Testing;
 
 namespace Synergy.Samples.Web.API.Tests.Errors
 {
@@ -14,6 +15,7 @@ namespace Synergy.Samples.Web.API.Tests.Errors
 
         public HttpOperation GetNonExistingResource()
             => _testServer.Get(Path)
-                          .Details("Make GET request to not existing API");
+                          .Details("GET not existing resource")
+                          .ShouldBe(ApiConventionFor.Http404NotFound());
     }
 }

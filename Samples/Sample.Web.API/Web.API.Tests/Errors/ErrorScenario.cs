@@ -31,7 +31,7 @@ namespace Synergy.Samples.Web.API.Tests.Errors
             Get404NotFound();
 
             new Markdown(feature).GenerateReportTo(Path + "/Errors.md");
-            Assert.IsFalse(testServer.Repair, "Test server is in repair mode. Do not leave it like that.");
+            testServer.FailIfLeftInRepairMode();
         }
 
         private void Get404NotFound()
@@ -40,11 +40,11 @@ namespace Synergy.Samples.Web.API.Tests.Errors
 
             errors.GetNonExistingResource()
                   .InStep(scenario.Step("Try to retrieve not existing resource"))
+                  
                   .ShouldBe(
                        EqualToPattern("/Patterns/Get404.json")
-                          .Expected("Error is returned")
-                       )
-                  .ShouldBe(ApiConventionFor.Http404NotFound());
+                          .Expected("Manual: Error is returned")
+                       );
         }
 
         private CompareOperationWithPattern EqualToPattern([PathReference] string file)

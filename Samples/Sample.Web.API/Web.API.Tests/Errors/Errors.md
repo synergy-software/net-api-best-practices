@@ -10,7 +10,7 @@
 
 ### 1.1. Try to retrieve not existing resource (1 request)
 
-### 1.1.1. Request to [Make GET request to not existing API]
+### 1.1.1. Request to [GET not existing resource]
 
 - Request
 ```
@@ -24,8 +24,8 @@ HTTP/1.1 404 NotFound
 
 | Expected Results  | Status |
 | - | - |
-| Error is returned | OK |
 | Convention: HTTP request method is GET | OK |
 | Convention: Returned HTTP status code is 404 (NotFound) | OK |
+| Manual: Error is returned | OK |
 
 

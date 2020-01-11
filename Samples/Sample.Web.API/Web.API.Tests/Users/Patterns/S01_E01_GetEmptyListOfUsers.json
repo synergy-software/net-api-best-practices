@@ -1,5 +1,12 @@
 {
+  "expectations": [
+    "Convention: HTTP request method is GET",
+    "Convention: Returned HTTP status code is 200 (OK)",
+    "Convention: Returned HTTP Content-Type is \"application/json\"",
+    "Manual: Empty users list is returned"
+  ],
   "request": {
+    "description": "Get list of users",
     "method": "GET /api/v1/users"
   },
   "response": {

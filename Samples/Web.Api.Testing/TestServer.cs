@@ -21,6 +21,11 @@ namespace Synergy.Web.Api.Testing
 
         protected abstract HttpClient Start();
 
+        public virtual void FailIfLeftInRepairMode()
+        {
+            Fail.IfTrue(Repair, Violation.Of("Test server is in repair mode. Do not leave it like that."));
+        }
+
         public HttpOperation Get(string path, [CanBeNull] object? urlParameters = null)
             => Send<HttpOperation>(HttpMethod.Get, path, urlParameters);
 

@@ -38,7 +38,7 @@ namespace Synergy.Samples.Web.API.Tests.Users
             DeleteUser(userId);
 
             new Markdown(feature).GenerateReportTo(Path + "/Users.md");
-            Assert.IsFalse(testServer.Repair, "Test server is in repair mode. Do not leave it like that.");
+            testServer.FailIfLeftInRepairMode();
         }
 
         private void GetEmptyListOfUsers()
@@ -47,11 +47,11 @@ namespace Synergy.Samples.Web.API.Tests.Users
 
             users.GetAll()
                  .InStep(scenario.Step("Retrieve users"))
+                 .ShouldBe(ApiConventionFor.GettingList())
                  .ShouldBe(
                       EqualToPattern("/Patterns/S01_E01_GetEmptyListOfUsers.json")
                          .Expected("Manual: Empty users list is returned")
-                      )
-                 .ShouldBe(ApiConventionFor.GettingList());
+                      );
         }
 
         private string CreateUser()
@@ -60,23 +60,23 @@ namespace Synergy.Samples.Web.API.Tests.Users
 
             users.Create("marcin@synergy.com")
                  .InStep(scenario.Step("Create new user"))
+                 .ShouldBe(ApiConventionFor.Create())
                  .ShouldBe(
                       EqualToPattern("/Patterns/S02_E01_CreateUser.json")
                          .Ignore(ResponseLocationHeader())
                          .Ignore(ResponseBody("user.id"))
                          .Expected("Manual: User is created and its details are returned"))
-                 .ShouldBe(ApiConventionFor.Create())
                  .ReadUserId(out var id)
                  .ReadCreatedUserLocationUrl(out var location);
 
             users.GetUserBy(location)
                  .InStep(scenario.Step("Get created user pointed by \"Location\" header"))
+                 .ShouldBe(ApiConventionFor.CreatedResourcePointedByLocation())
                  .ShouldBe(
                       EqualToPattern("/Patterns/S02_E02_GetCreatedUserByLocation.json")
                          .Ignore(RequestMethod())
                          .Ignore(ResponseBody("id"))
-                         .Expected("Manual: User details are returned"))
-                 .ShouldBe(ApiConventionFor.CreatedResourcePointedByLocation());
+                         .Expected("Manual: User details are returned"));
 
             return id;
         }
@@ -87,12 +87,14 @@ namespace Synergy.Samples.Web.API.Tests.Users
 
             users.GetUser(userId)
                  .InStep(scenario.Step("Get user by id"))
+                 .ShouldBe(ApiConventionFor.GetSingleResource())
                  .ShouldBe(
                       EqualToPattern("/Patterns/S03_E01_GetUser.json")
                          .Ignore(RequestMethod())
                          .Ignore(ResponseBody("id"))
-                         .Expected("Manual: User details are returned"))
-                 .ShouldBe(ApiConventionFor.GetSingleResource());
+                         .Expected("Manual: User details are returned"));
+
+            // TODO: Add negative step - e.g. Get user by id that do not exist
         }
 
         private void DeleteUser(string userId)
@@ -101,19 +103,19 @@ namespace Synergy.Samples.Web.API.Tests.Users
 
             users.DeleteUser(userId)
                  .InStep(scenario.Step("Delete user by id"))
+                 .ShouldBe(ApiConventionFor.DeleteResource())
                  .ShouldBe(
                       EqualToPattern("/Patterns/S04_E01_DeleteUser.json")
                          .Ignore(RequestMethod())
-                         .Expected("Manual: User is deleted and no details are returned"))
-                 .ShouldBe(ApiConventionFor.DeleteResource());
+                         .Expected("Manual: User is deleted and no details are returned"));
 
             //users.GetUser(userId)
             //     .InStep(scenario.Step("Try to get the deleted user"))
+            //     .ShouldBe(ApiConventionFor.TryToGetDeletedResource())
             //     .ShouldBe(
             //          EqualToPattern("/Patterns/S04_E02_GetDeletedUser.json")
             //             .Ignore(RequestMethod())
-            //             .Expected("Manual: User is not found and error is returned"))
-            //     .ShouldBe(ApiConventionFor.TryToGetDeletedResource());
+            //             .Expected("Manual: User is not found and error is returned"));
         }
 
         private void TryToCreateUserWithErrors()
@@ -123,28 +125,28 @@ namespace Synergy.Samples.Web.API.Tests.Users
 #pragma warning disable CS8625
             users.Create(null)
                  .InStep(scenario.Step("Create user with a null login"))
+                 .ShouldBe(ApiConventionFor.CreateWithValidationError())
                  .ShouldBe(
                       EqualToPattern("/Patterns/S02_N01_TryToCreateUserWithNullLogin.json")
                          .Ignore(errorNodes)
-                         .Expected("Manual: User is NOT created and error is returned"))
-                 .ShouldBe(ApiConventionFor.CreateWithValidationError());
+                         .Expected("Manual: User is NOT created and error is returned"));
 #pragma warning restore CS8625
 
             users.Create("")
                  .InStep(scenario.Step("Create user with an empty login"))
+                 .ShouldBe(ApiConventionFor.CreateWithValidationError())
                  .ShouldBe(
                       EqualToPattern("/Patterns/S02_N02_TryToCreateUserWithEmptyLogin.json")
                          .Ignore(errorNodes)
-                         .Expected("Manual: User is NOT created and error is returned"))
-                 .ShouldBe(ApiConventionFor.CreateWithValidationError());
+                         .Expected("Manual: User is NOT created and error is returned"));
 
             users.Create("  ")
                  .InStep(scenario.Step("Create user with a whitespace login"))
+                 .ShouldBe(ApiConventionFor.CreateWithValidationError())
                  .ShouldBe(
                       EqualToPattern("/Patterns/S02_N03_TryToCreateUserWithWhitespaceLogin.json")
                          .Ignore(errorNodes)
-                         .Expected("Manual: User is NOT created and error is returned"))
-                 .ShouldBe(ApiConventionFor.CreateWithValidationError());
+                         .Expected("Manual: User is NOT created and error is returned"));
         }
 
         private CompareOperationWithPattern EqualToPattern([PathReference] string file)

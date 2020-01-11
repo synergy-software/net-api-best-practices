@@ -34,6 +34,11 @@ namespace Synergy.Web.Api.Testing.Json
             return new Ignore("$.request.method");
         }
 
+        public static Ignore RequestDescription()
+        {
+            return new Ignore("$.request.description");
+        }
+
         public static Ignore ResponseLocationHeader()
         {
             return new Ignore("$.response.headers.Location");

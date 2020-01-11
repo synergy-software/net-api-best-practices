@@ -24,6 +24,7 @@ namespace Synergy.Web.Api.Testing.Assertions
         {
             _patternFilePath = patternFilePath;
             _ignore = ignore ?? new Ignore();
+            Ignore(Json.Ignore.RequestDescription());
             Ignore(Json.Ignore.ResponseContentLength());
             if (File.Exists(patternFilePath))
             {
@@ -62,14 +63,22 @@ namespace Synergy.Web.Api.Testing.Assertions
 
         private static JObject GeneratePattern(HttpOperation operation)
         {
-            return new JObject(
-                               new JProperty("request", new JObject(GetRequestProperties(operation))),
-                               new JProperty("response", new JObject(GetResponseProperties(operation)))
-                              );
+            var properties = GetPatternProperties(operation);
+            return new JObject(properties);
+        }
+
+        private static IEnumerable<JProperty> GetPatternProperties(HttpOperation operation)
+        {
+            yield return new JProperty("expectations", new JArray(operation.Assertions.Select(a => a.ExpectedResult)));
+            yield return new JProperty("request", new JObject(GetRequestProperties(operation)));
+            yield return new JProperty("response", new JObject(GetResponseProperties(operation)));
         }
 
         private static IEnumerable<JProperty> GetRequestProperties(HttpOperation operation)
         {
+            if (String.IsNullOrWhiteSpace(operation.Description) == false)
+                yield return new JProperty("description", operation.Description);
+
             var request = operation.Request;
             yield return new JProperty("method", request.GetRequestFullMethod());
 
