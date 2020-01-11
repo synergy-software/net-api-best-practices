@@ -33,13 +33,13 @@ namespace Synergy.Web.Api.Testing.Assertions
             }
         }
 
-        public override void Assert(HttpOperation operation)
+        public override Result Assert(HttpOperation operation)
         {
             var current = GeneratePattern(operation);
             if (_savedPattern == null)
             {
                 SaveNewPattern(current);
-                return;
+                return Ok;
             }
 
             var patterns = new JsonComparer(_savedPattern, current, _ignore);
@@ -47,12 +47,16 @@ namespace Synergy.Web.Api.Testing.Assertions
             if (operation.TestServer.Repair && patterns.AreEquivalent == false)
             {
                 SaveNewPattern(current);
-                return;
+                return Ok;
             }
 
-            Fail.IfFalse(patterns.AreEquivalent,
-                         Violation.Of("Operation is different than expected. Verify the differences:\n\n {0}", patterns.GetDifferences())
-                        );
+            if (patterns.AreEquivalent)
+            {
+                return Ok;
+            }
+
+            return Failure($"Operation is different than expected. \nVerify the differences: \n\n{patterns.GetDifferences()}");
+
         }
 
         private void SaveNewPattern(JObject current)
@@ -76,15 +80,19 @@ namespace Synergy.Web.Api.Testing.Assertions
 
         private static IEnumerable<JProperty> GetRequestProperties(HttpOperation operation)
         {
-            if (String.IsNullOrWhiteSpace(operation.Description) == false)
+            if (string.IsNullOrWhiteSpace(operation.Description) == false)
+            {
                 yield return new JProperty("description", operation.Description);
+            }
 
             var request = operation.Request;
             yield return new JProperty("method", request.GetRequestFullMethod());
 
             var headers = request.GetAllHeaders();
             if (headers.Count > 0)
+            {
                 yield return new JProperty("headers", new JObject(headers.Select(GetHeader)));
+            }
 
             var requestJson = request.Content.ReadJson();
             if (requestJson != null)
@@ -101,11 +109,15 @@ namespace Synergy.Web.Api.Testing.Assertions
 
             var headers = response.GetAllHeaders();
             if (headers.Count > 0)
+            {
                 yield return new JProperty("headers", new JObject(headers.Select(GetHeader)));
+            }
 
             var responseJson = response.Content.ReadJson();
-            if(responseJson != null)
+            if (responseJson != null)
+            {
                 yield return new JProperty("body", responseJson);
+            }
         }
 
         private static JProperty GetHeader(KeyValuePair<string, IEnumerable<string>> header)
@@ -115,7 +127,7 @@ namespace Synergy.Web.Api.Testing.Assertions
 
         public CompareOperationWithPattern Ignore(string ignore, params string[] ignores)
         {
-            _ignore.Append(new []{ignore});
+            _ignore.Append(new[] {ignore});
             _ignore.Append(ignores);
             return this;
         }
@@ -155,7 +167,10 @@ namespace Synergy.Web.Api.Testing.Assertions
             var response = new HttpResponseMessage(statusCode);
             var body = _savedPattern!.SelectToken("$.response.body")?.ToString();
             if (body != null)
+            {
                 response.Content = new StringContent(body);
+            }
+
             var headers = _savedPattern!.SelectTokens("$.response.headers.*");
             foreach (var header in headers)
             {
@@ -165,7 +180,9 @@ namespace Synergy.Web.Api.Testing.Assertions
                 if (headerName.StartsWith("Content"))
                 {
                     if (response.Content.Headers.Contains(headerName))
+                    {
                         response.Content.Headers.Remove(headerName);
+                    }
 
                     response.Content.Headers.Add(headerName, headerValue);
                     continue;

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Net;
-using Synergy.Contracts;
+﻿using System.Net;
 
 namespace Synergy.Web.Api.Testing.Assertions
 {
@@ -14,19 +12,17 @@ namespace Synergy.Web.Api.Testing.Assertions
             ExpectedResult = $"Returned HTTP status code is {(int) _expectedStatus} ({_expectedStatus})";
         }
 
-        public override void Assert(HttpOperation operation)
+        public override Result Assert(HttpOperation operation)
         {
             var actualStatus = operation.Response.StatusCode;
-            Fail.IfNotEqual(
-                _expectedStatus,
-                actualStatus,
-                Violation.Of(
-                    "Expected HTTP status is {0} but was {1} in response:{2}{2}{3}",
-                    _expectedStatus,
-                    actualStatus,
-                    Environment.NewLine,
-                    operation.Response.ToHttpLook())
-                );
+            if (_expectedStatus == actualStatus)
+            {
+                return Ok;
+            }
+
+            return Failure(
+                $"Expected HTTP status is {_expectedStatus} but was {actualStatus} " +
+                $"in response: \n\n{operation.Response.ToHttpLook()}");
         }
     }
 }

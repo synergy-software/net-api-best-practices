@@ -25,20 +25,20 @@ namespace Synergy.Web.Api.Testing.Assertions
             }
         }
 
-        public override void Assert(HttpOperation operation)
+        public override Result Assert(HttpOperation operation)
         {
             // TODO: Add non-nullable annotations to OrFail() - and other contract methods
             var current = operation.Response.Content.ReadJson().OrFail("response")!;
             if (_savedPattern == null)
             {
                 SaveNewPattern(current);
-                return;
+                return Ok;
             }
 
             JsonComparer patterns = new JsonComparer(_savedPattern, current, _ignore);
 
             if (patterns.AreEquivalent)
-                return;
+                return Ok;
 
             switch (_mode)
             {
@@ -50,7 +50,7 @@ namespace Synergy.Web.Api.Testing.Assertions
                     if (operation.TestServer.Repair)
                     {
                         SaveNewPattern(current);
-                        return;
+                        return Ok;
                     }
 
                     break;
@@ -58,7 +58,7 @@ namespace Synergy.Web.Api.Testing.Assertions
                     throw Fail.BecauseEnumOutOfRange(_mode);
             }
 
-            throw Fail.Because(Violation.Of("Response is different than expected. Verify the differences:\n\n {0}", patterns.GetDifferences()));
+            return Failure($"Response is different than expected. \nVerify the differences: \n\n{patterns.GetDifferences()}");
         }
 
         private void SaveNewPattern(JToken current)

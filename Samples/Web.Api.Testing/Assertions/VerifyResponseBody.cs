@@ -5,18 +5,18 @@ namespace Synergy.Web.Api.Testing.Assertions {
     public class VerifyResponseBody : Assertion
     {
         private readonly string _jsonToken;
-        private readonly Action<HttpOperation, JToken?> _validate;
+        private readonly Func<HttpOperation, JToken?, Result> _validate;
 
-        public VerifyResponseBody(string jsonToken, Action<HttpOperation, JToken?> validate)
+        public VerifyResponseBody(string jsonToken, Func<HttpOperation, JToken?, Result> validate)
         {
             _jsonToken = jsonToken;
             _validate = validate;
         }
 
-        public override void Assert(HttpOperation operation)
+        public override Result Assert(HttpOperation operation)
         {
             var token = operation.Response.Content.ReadJson()?.SelectToken(_jsonToken);
-            _validate(operation, token);
+            return _validate(operation, token);
         }
     }
 }

@@ -29,7 +29,11 @@ namespace Synergy.Web.Api.Testing
             foreach (var assertion in assertions)
             {
                 Assertions.Add(assertion);
-                assertion.Assert(this);
+                var result = assertion.Assert(this);
+                if (result.IsOk == false && TestServer.Repair == false)
+                {
+                    throw new WebApiRuleViolationException(result);
+                }
             }
         }
 

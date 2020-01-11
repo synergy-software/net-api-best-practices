@@ -46,14 +46,15 @@ namespace Synergy.Samples.Web.API.Tests.Infrastructure
             yield return new VerifyResponseHeader(
                     "Location",
                     (operation, value)
-                        => Fail.IfWhitespace(
-                            value,
-                            Violation.Of(
-                                "There is no 'Location' header returned in response:{0}{0}{1}",
-                                Environment.NewLine,
-                                operation.Response.ToHttpLook())
-                            )
-                        )
+                        =>
+                    {
+                        if (String.IsNullOrWhiteSpace(value) == false)
+                            return Assertion.Ok;
+
+                        return Assertion.Failure(
+                            $"There is no 'Location' header returned in response:\n\n{operation.Response.ToHttpLook()}"
+                            );
+                    })
                .Expected("Convention: Location header (pointing to newly created element) is returned with response.");
 
             yield return ResponseContentTypeIs(MediaTypeNames.Application.Json);
@@ -94,11 +95,14 @@ namespace Synergy.Samples.Web.API.Tests.Infrastructure
                .Expected("Convention: error JSON contains \"traceId\" node");
         }
 
-        private static void ValidateIfNodeExists(HttpOperation operation, JToken? token, string node)
+        private static Assertion.Result ValidateIfNodeExists(HttpOperation operation, JToken? token, string node)
         {
             token.FailIfNull(Violation.Of("\"{0}\" is not present in response body:{1}{1}{2}", node, Environment.NewLine, operation.Response.ToHttpLook()));
             var value = token.Value<string>();
-            Fail.IfWhitespace(value, Violation.Of($"\"{node}\" is empty"));
+            if (String.IsNullOrWhiteSpace(value) == false)
+                return Assertion.Ok;
+
+            return Assertion.Failure($"\"{node}\" is empty in response: \n\n{operation.Response.ToHttpLook()}");
         }
 
         public static IEnumerable<IAssertion> Http404NotFound()
