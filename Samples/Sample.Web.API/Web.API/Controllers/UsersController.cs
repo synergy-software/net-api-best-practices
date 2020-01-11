@@ -37,6 +37,7 @@ namespace Sample.Web.Controllers
         [HttpGet("{userId}", Name=nameof(GetUser))]
         public async Task<UserReadModel> GetUser(string userId)
         {
+            // TODO: Add query
             return await Task.FromResult(new UserReadModel(userId, "login"));
         }
 
@@ -65,6 +66,12 @@ namespace Sample.Web.Controllers
         {
             var created = await _commandDispatcher.Dispatch<CreateUserCommand, ICreateUserCommandHandler, CreateUserCommandResult>(user);
             return CreatedAtRoute(nameof(GetUser), new {version, userId = created.User.Id}, created);
+        }
+
+        [HttpDelete("{userId}")]
+        public async Task DeleteUser(string userId)
+        {
+            // TODO: add command
         }
     }
 }

@@ -4,6 +4,7 @@
 1. [Create a user](#2-create-a-user-2-steps)
 1. [Get user](#3-get-user-1-step)
 1. [Try to create user without login](#4-try-to-create-user-without-login-3-steps)
+1. [Delete user](#5-delete-user-1-step)
 
 ## 1. Get empty list of users (1 step)
 
@@ -86,7 +87,7 @@ Content-Length: 104
 
 ### 2.2. Get created user pointed by "Location" header (1 request)
 
-### 2.2.2. Request to [Get user located at http://localhost/api/v1/users/30dfd1ec70b04994a6e2ddd059c562b0]
+### 2.2.2. Request to [Get user located at http://localhost/api/v1/users/f7a58486ef714645a9cd5ff90e51b523]
 
 - Request
 ```
@@ -122,7 +123,7 @@ Content-Length: 69
 
 ### 3.1. Get user by id (1 request)
 
-### 3.1.1. Request to [Get user with id 30dfd1ec70b04994a6e2ddd059c562b0]
+### 3.1.1. Request to [Get user with id f7a58486ef714645a9cd5ff90e51b523]
 
 - Request
 ```
@@ -156,7 +157,7 @@ Content-Length: 69
 | - | - | - |
 | 1 | Create user with a null login | OK |
 | 2 | Create user with an empty login | OK |
-| 3 | Create user item with a whitespace login | OK |
+| 3 | Create user with a whitespace login | OK |
 
 ### 4.1. Create user with a null login (1 request)
 
@@ -224,7 +225,7 @@ Content-Type: application/json
 | Convention: error JSON contains "traceId" node | OK |
 
 
-### 4.3. Create user item with a whitespace login (1 request)
+### 4.3. Create user with a whitespace login (1 request)
 
 ### 4.3.3. Request to [Create a new user with login '  ']
 
@@ -255,5 +256,34 @@ Content-Type: application/json
 | Convention: Returned HTTP status code is 400 (BadRequest) | OK |
 | Convention: error JSON contains "message" node | OK |
 | Convention: error JSON contains "traceId" node | OK |
+
+
+
+## 5. Delete user (1 step)
+
+| # | Step Actions | Status |
+| - | - | - |
+| 1 | Delete user by id | OK |
+
+### 5.1. Delete user by id (1 request)
+
+### 5.1.1. Request to [Delete user with id f7a58486ef714645a9cd5ff90e51b523]
+
+- Request
+```
+DELETE  /api/v1/users/00d7648d58744e1088cbd34305fb3687
+```
+
+- Response
+```
+HTTP/1.1 200 OK
+api-supported-versions: 1.0
+```
+
+| Expected Results  | Status |
+| - | - |
+| Manual: User is deleted and no details are returned | OK |
+| Convention: HTTP request method is GET | OK |
+| Convention: Returned HTTP status code is 200 (OK) | OK |
 
 

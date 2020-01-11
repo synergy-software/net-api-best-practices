@@ -1,0 +1,11 @@
+{
+  "request": {
+    "method": "DELETE /api/v1/users/00d7648d58744e1088cbd34305fb3687"
+  },
+  "response": {
+    "status": "200 OK",
+    "headers": {
+      "api-supported-versions": "1.0"
+    }
+  }
+}

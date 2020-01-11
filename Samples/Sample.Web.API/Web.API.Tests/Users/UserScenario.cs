@@ -31,16 +31,17 @@ namespace Synergy.Samples.Web.API.Tests.Users
         public void manage_users_through_web_api()
         {
             // SCENARIO
-            GetUsers();
+            GetEmptyListOfUsers();
             var userId = CreateUser();
             GetUser(userId);
             TryToCreateUserWithErrors();
+            DeleteUser(userId);
 
             new Markdown(feature).GenerateReportTo(Path + "/Users.md");
             Assert.IsFalse(testServer.Repair, "Test server is in repair mode. Do not leave it like that.");
         }
 
-        private void GetUsers()
+        private void GetEmptyListOfUsers()
         {
             var scenario = feature.Scenario("Get empty list of users");
 
@@ -94,6 +95,27 @@ namespace Synergy.Samples.Web.API.Tests.Users
                  .ShouldBe(ApiConventionFor.GetSingleResource());
         }
 
+        private void DeleteUser(string userId)
+        {
+            var scenario = feature.Scenario("Delete user");
+
+            users.DeleteUser(userId)
+                 .InStep(scenario.Step("Delete user by id"))
+                 .ShouldBe(
+                      EqualToPattern("/Patterns/S04_E01_DeleteUser.json")
+                         .Ignore(RequestMethod())
+                         .Expected("Manual: User is deleted and no details are returned"))
+                 .ShouldBe(ApiConventionFor.DeleteResource());
+
+            //users.GetUser(userId)
+            //     .InStep(scenario.Step("Try to get the deleted user"))
+            //     .ShouldBe(
+            //          EqualToPattern("/Patterns/S04_E02_GetDeletedUser.json")
+            //             .Ignore(RequestMethod())
+            //             .Expected("Manual: User is not found and error is returned"))
+            //     .ShouldBe(ApiConventionFor.TryToGetDeletedResource());
+        }
+
         private void TryToCreateUserWithErrors()
         {
             var scenario = feature.Scenario("Try to create user without login");
@@ -117,7 +139,7 @@ namespace Synergy.Samples.Web.API.Tests.Users
                  .ShouldBe(ApiConventionFor.CreateWithValidationError());
 
             users.Create("  ")
-                 .InStep(scenario.Step("Create user item with a whitespace login"))
+                 .InStep(scenario.Step("Create user with a whitespace login"))
                  .ShouldBe(
                       EqualToPattern("/Patterns/S02_N03_TryToCreateUserWithWhitespaceLogin.json")
                          .Ignore(errorNodes)

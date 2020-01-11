@@ -30,6 +30,10 @@ namespace Synergy.Samples.Web.API.Tests.Users
             => _testServer.Post<CreateUserOperation>(Path, body: new CreateUserCommand{Login = login})
                           .Details($"Create a new user with login '{login}'");
 
+        public HttpOperation DeleteUser(string userId)
+            => _testServer.Delete($"{Path}/{userId}")
+                          .Details($"Delete user with id {userId}");
+
         public class CreateUserOperation : HttpOperation
         {
             public CreateUserOperation ReadUserId(out string userId)
