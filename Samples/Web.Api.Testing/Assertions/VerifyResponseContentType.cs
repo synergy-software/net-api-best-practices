@@ -1,4 +1,5 @@
-﻿using Synergy.Contracts;
+﻿using System;
+using Synergy.Contracts;
 
 namespace Synergy.Web.Api.Testing.Assertions
 {
@@ -15,9 +16,17 @@ namespace Synergy.Web.Api.Testing.Assertions
         public override void Assert(HttpOperation operation)
         {
             var actualContentType = operation.Response.Content.Headers.ContentType.MediaType;
-            Fail.IfNotEqual(_expectedContentType, actualContentType,
-                            Violation.Of($"Expected HTTP Content-Type is \"{_expectedContentType}\" but was {actualContentType}")
-                           );
+            Fail.IfNotEqual(
+                _expectedContentType,
+                actualContentType,
+                Violation.Of(
+                    "Expected HTTP Content-Type is \"{0}\" but was \"{1}\" in response:{2}{2}{3}",
+                    _expectedContentType,
+                    actualContentType,
+                    Environment.NewLine,
+                    operation.Response.ToHttpLook()
+                    )
+                );
         }
     }
 }

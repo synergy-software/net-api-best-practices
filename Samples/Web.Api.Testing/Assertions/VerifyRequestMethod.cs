@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using Synergy.Contracts;
 
 namespace Synergy.Web.Api.Testing.Assertions
@@ -16,9 +17,13 @@ namespace Synergy.Web.Api.Testing.Assertions
         public override void Assert(HttpOperation operation)
         {
             var actualMethod = operation.Request.Method;
-            Fail.IfNotEqual(_expectedMethod, actualMethod,
-                            Violation.Of($"Expected HTTP method is {_expectedMethod} but was {actualMethod}")
-                           );
+            Fail.IfNotEqual(
+                _expectedMethod,
+                actualMethod,
+                Violation.Of(
+                    "Expected HTTP method is {0} but was {1} in request:" +
+                    "{2}{2}{3}",_expectedMethod, actualMethod, Environment.NewLine, operation.Request.ToHttpLook())
+                );
         }
     }
 }

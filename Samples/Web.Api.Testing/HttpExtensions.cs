@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Mime;
+using System.Text;
 using JetBrains.Annotations;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Synergy.Contracts;
 
@@ -62,6 +65,43 @@ namespace Synergy.Web.Api.Testing
                 headers.AddRange(response.Content.Headers);
 
             return headers;
+        }
+
+        public static string ToHttpLook(this HttpRequestMessage request)
+        {
+            var report = new StringBuilder();
+            report.AppendLine(request.GetRequestFullMethod());
+            InsertHeaders(report, request.GetAllHeaders());
+            var requestBody = request.Content.ReadJson();
+            if (requestBody != null)
+            {
+                report.Append(requestBody.ToString(Formatting.Indented));
+            }
+            return report.ToString().Trim();
+        }
+
+        public static string ToHttpLook(this HttpResponseMessage response)
+        {
+            var report = new StringBuilder();
+            report.AppendLine($"HTTP/{response.Version} {(int) response.StatusCode} {response.StatusCode}");
+            InsertHeaders(report, response.GetAllHeaders());
+            var responseBody = response.Content.ReadJson();
+            if (responseBody != null)
+                report.Append(responseBody.ToString(Formatting.Indented));
+
+            return report.ToString().Trim();
+        }
+
+        private static void InsertHeaders(StringBuilder report, IEnumerable<KeyValuePair<string, IEnumerable<string>>> headers)
+        {
+            foreach (var header in headers)
+            {
+                var value = String.Join(", ", header.Value);
+                if (String.IsNullOrWhiteSpace(value))
+                    continue;
+
+                report.AppendLine($"{header.Key}: {value}");
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -6,6 +7,7 @@ using System.Net.Mime;
 using Synergy.Contracts;
 using Synergy.Web.Api.Testing.Assertions;
 using Newtonsoft.Json.Linq;
+using Synergy.Web.Api.Testing;
 
 namespace Synergy.Samples.Web.API.Tests.Infrastructure
 {
@@ -41,8 +43,17 @@ namespace Synergy.Samples.Web.API.Tests.Infrastructure
             // Response
             yield return ResponseStatusIs(HttpStatusCode.Created);
 
-            yield return new VerifyResponseHeader("Location",
-                                                  value => Fail.IfWhitespace(value, Violation.Of("There is no 'Location' header returned")))
+            yield return new VerifyResponseHeader(
+                    "Location",
+                    (operation, value)
+                        => Fail.IfWhitespace(
+                            value,
+                            Violation.Of(
+                                "There is no 'Location' header returned in response:{0}{0}{1}",
+                                Environment.NewLine,
+                                operation.Response.ToHttpLook())
+                            )
+                        )
                .Expected("Convention: Location header (pointing to newly created element) is returned with response.");
 
             yield return ResponseContentTypeIsJson();
@@ -76,16 +87,16 @@ namespace Synergy.Samples.Web.API.Tests.Infrastructure
         {
             yield return ResponseStatusIs(HttpStatusCode.BadRequest);
 
-            yield return new VerifyResponseBody("message", token => ValidateIfNodeExists(token, "message"))
+            yield return new VerifyResponseBody("message", (operation, token) => ValidateIfNodeExists(operation, token, "message"))
                .Expected("Convention: error JSON contains \"message\" node");
 
-            yield return new VerifyResponseBody("traceId", token => ValidateIfNodeExists(token, "traceId"))
+            yield return new VerifyResponseBody("traceId", (operation, token) => ValidateIfNodeExists(operation, token, "traceId"))
                .Expected("Convention: error JSON contains \"traceId\" node");
         }
 
-        private static void ValidateIfNodeExists(JToken? token, string node)
+        private static void ValidateIfNodeExists(HttpOperation operation, JToken? token, string node)
         {
-            token.FailIfNull(Violation.Of($"\"{node}\" is not present"));
+            token.FailIfNull(Violation.Of("\"{0}\" is not present in response body:{1}{1}{2}", node, Environment.NewLine, operation.Response.ToHttpLook()));
             var value = token.Value<string>();
             Fail.IfWhitespace(value, Violation.Of($"\"{node}\" is empty"));
         }
@@ -116,6 +127,26 @@ namespace Synergy.Samples.Web.API.Tests.Infrastructure
 
             // Response
             yield return ResponseStatusIs(HttpStatusCode.OK);
+            yield return ResponseContentTypeIsJson();
+        }
+
+        public static IEnumerable<IAssertion> DeleteResource()
+        {
+            // Request
+            yield return RequestMethodIs(HttpMethod.Delete);
+
+            // Response
+            yield return ResponseStatusIs(HttpStatusCode.OK);
+            //yield return ResponseContentTypeIsJson();
+        }
+
+        public static IEnumerable<IAssertion> TryToGetDeletedResource()
+        {
+            // Request
+            yield return RequestMethodIs(HttpMethod.Get);
+
+            // Response
+            yield return ResponseStatusIs(HttpStatusCode.NotFound);
             yield return ResponseContentTypeIsJson();
         }
     }

@@ -5,7 +5,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
 
 namespace Synergy.Web.Api.Testing.Features
 {
@@ -111,14 +110,7 @@ namespace Synergy.Web.Api.Testing.Features
 
             report.AppendLine("- Request");
             report.AppendLine("```");
-            report.AppendLine(request.GetRequestFullMethod());
-            InsertHeaders(report, request.GetAllHeaders());
-            var requestBody = request.Content.ReadJson();
-            if (requestBody != null)
-            {
-                report.AppendLine(requestBody.ToString(Formatting.Indented));
-            }
-
+            report.AppendLine(request.ToHttpLook());
             report.AppendLine("```");
         }
 
@@ -152,11 +144,7 @@ namespace Synergy.Web.Api.Testing.Features
 
             report.AppendLine("- Response");
             report.AppendLine("```");
-            report.AppendLine($"HTTP/{response.Version} {(int) response.StatusCode} {response.StatusCode}");
-            InsertHeaders(report, response.GetAllHeaders());
-            var responseBody = response.Content.ReadJson();
-            if (responseBody != null)
-                report.AppendLine(responseBody.ToString(Formatting.Indented));
+            report.AppendLine(response.ToHttpLook());
             report.AppendLine("```");
         }
 
@@ -173,18 +161,6 @@ namespace Synergy.Web.Api.Testing.Features
             }
 
             return operation.Response;
-        }
-
-        private static void InsertHeaders(StringBuilder report, IEnumerable<KeyValuePair<string, IEnumerable<string>>> headers)
-        {
-            foreach (var header in headers)
-            {
-                var value = String.Join(", ", header.Value);
-                if (String.IsNullOrWhiteSpace(value))
-                    continue;
-
-                report.AppendLine($"{header.Key}: {value}");
-            }
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Synergy.Web.Api.Testing.Assertions
 
         public IAssertion Expected(string expected)
         {
-            this.ExpectedResult = expected.OrFailIfWhiteSpace(nameof(expected));
+            ExpectedResult = expected.OrFailIfWhiteSpace(nameof(expected));
             return this;
         }
     }
