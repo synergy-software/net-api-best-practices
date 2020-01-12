@@ -1,5 +1,6 @@
 ﻿using System;
 using Synergy.Samples.Web.API.Services.Users.Commands.CreateUser;
+using Synergy.Samples.Web.API.Tests.Infrastructure;
 using Synergy.Web.Api.Testing;
 
 namespace Synergy.Samples.Web.API.Tests.Users
@@ -24,15 +25,15 @@ namespace Synergy.Samples.Web.API.Tests.Users
 
         public HttpOperation GetUser(string userId)
             => _testServer.Get($"{Path}/{userId}")
-                          .Details($"Get user with id {userId}");
+                          .Details($"Get user with id {userId.QuoteOrNull()}");
 
         public CreateUserOperation Create(string login)
             => _testServer.Post<CreateUserOperation>(Path, body: new CreateUserCommand{Login = login})
-                          .Details($"Create a new user with login '{login}'");
+                          .Details($"Create a new user with login {login.QuoteOrNull()}");
 
         public HttpOperation DeleteUser(string userId)
             => _testServer.Delete($"{Path}/{userId}")
-                          .Details($"Delete user with id {userId}");
+                          .Details($"Delete user with id {userId.QuoteOrNull()}");
 
         public class CreateUserOperation : HttpOperation
         {

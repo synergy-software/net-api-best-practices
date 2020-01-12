@@ -64,13 +64,13 @@ Content-Type: application/json; charset=utf-8
 - Response
 ```
 HTTP/1.1 201 Created
-Location: http://localhost/api/v1/users/f2d3f31011ae4f149c062d71eb1bb7c0
+Location: http://localhost/api/v1/users/6b4831c9b1854db8b4b8d5c76aa036b3
 api-supported-versions: 1.0
 Content-Type: application/json; charset=utf-8
 Content-Length: 104
 {
   "user": {
-    "id": "f2d3f31011ae4f149c062d71eb1bb7c0",
+    "id": "6b4831c9b1854db8b4b8d5c76aa036b3",
     "login": "marcin@synergy.com"
   }
 }
@@ -78,7 +78,7 @@ Content-Length: 104
 
 | Expected Results  | Status |
 | - | - |
-| Convention: HTTP request method is GET | OK |
+| Convention: HTTP request method is POST | OK |
 | Convention: Returned HTTP status code is 201 (Created) | OK |
 | Convention: Location header (pointing to newly created element) is returned with response. | OK |
 | Convention: Returned HTTP Content-Type is "application/json" | OK |
@@ -87,11 +87,11 @@ Content-Length: 104
 
 ### 2.2. Get created user pointed by "Location" header (1 request)
 
-### 2.2.2. Request to [Get user located at http://localhost/api/v1/users/0f12ad06edd34088a13d4df6de50c1f1]
+### 2.2.2. Request to [Get user located at http://localhost/api/v1/users/6b4831c9b1854db8b4b8d5c76aa036b3]
 
 - Request
 ```
-GET  /api/v1/users/57aec90cbe34400cadaaeda89cb540ac
+GET  /api/v1/users/6b4831c9b1854db8b4b8d5c76aa036b3
 ```
 
 - Response
@@ -99,10 +99,12 @@ GET  /api/v1/users/57aec90cbe34400cadaaeda89cb540ac
 HTTP/1.1 200 OK
 api-supported-versions: 1.0
 Content-Type: application/json; charset=utf-8
-Content-Length: 69
+Content-Length: 91
 {
-  "id": "57aec90cbe34400cadaaeda89cb540ac",
-  "login": "login"
+  "user": {
+    "id": "6b4831c9b1854db8b4b8d5c76aa036b3",
+    "login": "login"
+  }
 }
 ```
 
@@ -123,11 +125,11 @@ Content-Length: 69
 
 ### 3.1. Get user by id (1 request)
 
-### 3.1.1. Request to [Get user with id 0f12ad06edd34088a13d4df6de50c1f1]
+### 3.1.1. Request to [Get user with id '6b4831c9b1854db8b4b8d5c76aa036b3']
 
 - Request
 ```
-GET  /api/v1/users/57aec90cbe34400cadaaeda89cb540ac
+GET  /api/v1/users/6b4831c9b1854db8b4b8d5c76aa036b3
 ```
 
 - Response
@@ -135,10 +137,12 @@ GET  /api/v1/users/57aec90cbe34400cadaaeda89cb540ac
 HTTP/1.1 200 OK
 api-supported-versions: 1.0
 Content-Type: application/json; charset=utf-8
-Content-Length: 69
+Content-Length: 91
 {
-  "id": "57aec90cbe34400cadaaeda89cb540ac",
-  "login": "login"
+  "user": {
+    "id": "6b4831c9b1854db8b4b8d5c76aa036b3",
+    "login": "login"
+  }
 }
 ```
 
@@ -161,7 +165,7 @@ Content-Length: 69
 
 ### 4.1. Create user with a null login (1 request)
 
-### 4.1.1. Request to [Create a new user with login '']
+### 4.1.1. Request to [Create a new user with login null]
 
 - Request
 ```
@@ -179,13 +183,13 @@ api-supported-versions: 1.0
 Content-Type: application/json
 {
   "message": "'Login' is whitespace",
-  "traceId": "0HLSMJ359LHJO"
+  "traceId": "0HLSMPKIBPBSJ"
 }
 ```
 
 | Expected Results  | Status |
 | - | - |
-| Convention: HTTP request method is GET | OK |
+| Convention: HTTP request method is POST | OK |
 | Convention: Returned HTTP status code is 400 (BadRequest) | OK |
 | Convention: error JSON contains "message" node | OK |
 | Convention: error JSON contains "traceId" node | OK |
@@ -212,13 +216,13 @@ api-supported-versions: 1.0
 Content-Type: application/json
 {
   "message": "'Login' is whitespace",
-  "traceId": "0HLSMJ359LHJP"
+  "traceId": "0HLSMPKIBPBSK"
 }
 ```
 
 | Expected Results  | Status |
 | - | - |
-| Convention: HTTP request method is GET | OK |
+| Convention: HTTP request method is POST | OK |
 | Convention: Returned HTTP status code is 400 (BadRequest) | OK |
 | Convention: error JSON contains "message" node | OK |
 | Convention: error JSON contains "traceId" node | OK |
@@ -245,13 +249,13 @@ api-supported-versions: 1.0
 Content-Type: application/json
 {
   "message": "'Login' is whitespace",
-  "traceId": "0HLSMJ359LHJQ"
+  "traceId": "0HLSMPKIBPBSL"
 }
 ```
 
 | Expected Results  | Status |
 | - | - |
-| Convention: HTTP request method is GET | OK |
+| Convention: HTTP request method is POST | OK |
 | Convention: Returned HTTP status code is 400 (BadRequest) | OK |
 | Convention: error JSON contains "message" node | OK |
 | Convention: error JSON contains "traceId" node | OK |
@@ -267,11 +271,11 @@ Content-Type: application/json
 
 ### 5.1. Delete user by id (1 request)
 
-### 5.1.1. Request to [Delete user with id 0f12ad06edd34088a13d4df6de50c1f1]
+### 5.1.1. Request to [Delete user with id '6b4831c9b1854db8b4b8d5c76aa036b3']
 
 - Request
 ```
-DELETE  /api/v1/users/57aec90cbe34400cadaaeda89cb540ac
+DELETE  /api/v1/users/6b4831c9b1854db8b4b8d5c76aa036b3
 ```
 
 - Response
@@ -282,7 +286,7 @@ api-supported-versions: 1.0
 
 | Expected Results  | Status |
 | - | - |
-| Convention: HTTP request method is GET | OK |
+| Convention: HTTP request method is DELETE | OK |
 | Convention: Returned HTTP status code is 200 (OK) | OK |
 | Manual: User is deleted and no details are returned | OK |
 

@@ -1,12 +1,12 @@
 {
   "expectations": [
-    "Convention: HTTP request method is GET",
+    "Convention: HTTP request method is DELETE",
     "Convention: Returned HTTP status code is 200 (OK)",
     "Manual: User is deleted and no details are returned"
   ],
   "request": {
-    "description": "Delete user with id 57aec90cbe34400cadaaeda89cb540ac",
-    "method": "DELETE /api/v1/users/57aec90cbe34400cadaaeda89cb540ac"
+    "description": "Delete user with id '6b4831c9b1854db8b4b8d5c76aa036b3'",
+    "method": "DELETE /api/v1/users/6b4831c9b1854db8b4b8d5c76aa036b3"
   },
   "response": {
     "status": "200 OK",

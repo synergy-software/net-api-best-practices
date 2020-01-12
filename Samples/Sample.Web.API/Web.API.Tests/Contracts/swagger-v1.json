@@ -112,7 +112,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserReadModel"
+                  "$ref": "#/components/schemas/GetUserQueryResult"
                 }
               }
             }
@@ -232,6 +232,15 @@
         },
         "additionalProperties": {
           "$ref": "#/components/schemas/Object"
+        },
+        "nullable": true
+      },
+      "GetUserQueryResult": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/UserReadModel"
+          }
         },
         "nullable": true
       }

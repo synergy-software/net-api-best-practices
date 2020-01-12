@@ -6,19 +6,21 @@
     "Manual: User details are returned"
   ],
   "request": {
-    "description": "Get user located at http://localhost/api/v1/users/57aec90cbe34400cadaaeda89cb540ac",
-    "method": "GET /api/v1/users/57aec90cbe34400cadaaeda89cb540ac"
+    "description": "Get user located at http://localhost/api/v1/users/6b4831c9b1854db8b4b8d5c76aa036b3",
+    "method": "GET /api/v1/users/6b4831c9b1854db8b4b8d5c76aa036b3"
   },
   "response": {
     "status": "200 OK",
     "headers": {
       "api-supported-versions": "1.0",
       "Content-Type": "application/json; charset=utf-8",
-      "Content-Length": "69"
+      "Content-Length": "91"
     },
     "body": {
-      "id": "57aec90cbe34400cadaaeda89cb540ac",
-      "login": "login"
+      "user": {
+        "id": "6b4831c9b1854db8b4b8d5c76aa036b3",
+        "login": "login"
+      }
     }
   }
 }

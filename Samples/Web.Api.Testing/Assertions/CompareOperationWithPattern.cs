@@ -56,7 +56,6 @@ namespace Synergy.Web.Api.Testing.Assertions
             }
 
             return Failure($"Operation is different than expected. \nVerify the differences: \n\n{patterns.GetDifferences()}");
-
         }
 
         private void SaveNewPattern(JObject current)
@@ -73,9 +72,15 @@ namespace Synergy.Web.Api.Testing.Assertions
 
         private static IEnumerable<JProperty> GetPatternProperties(HttpOperation operation)
         {
-            yield return new JProperty("expectations", new JArray(operation.Assertions.Select(a => a.ExpectedResult)));
+            yield return new JProperty("expectations", GetExpectations(operation));
             yield return new JProperty("request", new JObject(GetRequestProperties(operation)));
             yield return new JProperty("response", new JObject(GetResponseProperties(operation)));
+        }
+
+        private static JArray GetExpectations(HttpOperation operation)
+        {
+            // TODO: Add assertion results
+            return new JArray(operation.Assertions.Select(a => a.ExpectedResult));
         }
 
         private static IEnumerable<JProperty> GetRequestProperties(HttpOperation operation)

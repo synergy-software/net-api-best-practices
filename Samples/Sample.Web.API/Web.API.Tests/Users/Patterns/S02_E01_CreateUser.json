@@ -1,6 +1,6 @@
 {
   "expectations": [
-    "Convention: HTTP request method is GET",
+    "Convention: HTTP request method is POST",
     "Convention: Returned HTTP status code is 201 (Created)",
     "Convention: Location header (pointing to newly created element) is returned with response.",
     "Convention: Returned HTTP Content-Type is \"application/json\"",
@@ -19,14 +19,14 @@
   "response": {
     "status": "201 Created",
     "headers": {
-      "Location": "http://localhost/api/v1/users/f2d3f31011ae4f149c062d71eb1bb7c0",
+      "Location": "http://localhost/api/v1/users/6b4831c9b1854db8b4b8d5c76aa036b3",
       "api-supported-versions": "1.0",
       "Content-Type": "application/json; charset=utf-8",
       "Content-Length": "104"
     },
     "body": {
       "user": {
-        "id": "f2d3f31011ae4f149c062d71eb1bb7c0",
+        "id": "6b4831c9b1854db8b4b8d5c76aa036b3",
         "login": "marcin@synergy.com"
       }
     }

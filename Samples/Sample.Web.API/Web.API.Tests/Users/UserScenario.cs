@@ -75,7 +75,7 @@ namespace Synergy.Samples.Web.API.Tests.Users
                  .ShouldBe(
                       EqualToPattern("/Patterns/S02_E02_GetCreatedUserByLocation.json")
                          .Ignore(RequestMethod())
-                         .Ignore(ResponseBody("id"))
+                         .Ignore(ResponseBody("user.id"))
                          .Expected("Manual: User details are returned"));
 
             return id;
@@ -91,7 +91,7 @@ namespace Synergy.Samples.Web.API.Tests.Users
                  .ShouldBe(
                       EqualToPattern("/Patterns/S03_E01_GetUser.json")
                          .Ignore(RequestMethod())
-                         .Ignore(ResponseBody("id"))
+                         .Ignore(ResponseBody("user.id"))
                          .Expected("Manual: User details are returned"));
 
             // TODO: Add negative step - e.g. Get user by id that do not exist

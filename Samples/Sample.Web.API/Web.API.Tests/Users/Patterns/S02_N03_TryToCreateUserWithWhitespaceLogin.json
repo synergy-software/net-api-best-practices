@@ -1,6 +1,6 @@
 {
   "expectations": [
-    "Convention: HTTP request method is GET",
+    "Convention: HTTP request method is POST",
     "Convention: Returned HTTP status code is 400 (BadRequest)",
     "Convention: error JSON contains \"message\" node",
     "Convention: error JSON contains \"traceId\" node",
@@ -24,7 +24,7 @@
     },
     "body": {
       "message": "'Login' is whitespace",
-      "traceId": "0HLSMJ359LHJQ"
+      "traceId": "0HLSMPKIBPBSL"
     }
   }
 }

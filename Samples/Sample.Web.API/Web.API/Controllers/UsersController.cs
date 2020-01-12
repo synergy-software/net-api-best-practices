@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Synergy.Samples.Web.API.Services.Infrastructure.Commands;
 using Synergy.Samples.Web.API.Services.Infrastructure.Queries;
-using Synergy.Samples.Web.API.Services.Users;
 using Synergy.Samples.Web.API.Services.Users.Commands.CreateUser;
+using Synergy.Samples.Web.API.Services.Users.Queries.GetUser;
 using Synergy.Samples.Web.API.Services.Users.Queries.GetUsers;
 
 namespace Sample.Web.Controllers
@@ -34,11 +34,10 @@ namespace Sample.Web.Controllers
             return await _queryDispatcher.Dispatch<GetUsersQuery, IGetUsersQueryHandler, GetUsersQueryResult>(new GetUsersQuery());
         }
 
-        [HttpGet("{userId}", Name=nameof(GetUser))]
-        public async Task<UserReadModel> GetUser(string userId)
+        [HttpGet("{userId}", Name = nameof(GetUser))]
+        public async Task<GetUserQueryResult> GetUser(string userId)
         {
-            // TODO: Add query
-            return await Task.FromResult(new UserReadModel(userId, "login"));
+            return await _queryDispatcher.Dispatch<GetUserQuery, IGetUserQueryHandler, GetUserQueryResult>(new GetUserQuery(userId));
         }
 
         /// <summary>

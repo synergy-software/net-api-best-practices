@@ -16,7 +16,7 @@ namespace Synergy.Samples.Web.API.Tests.Infrastructure
         private static IAssertion RequestMethodIs(HttpMethod method)
         {
             return new VerifyRequestMethod(method)
-               .Expected("Convention: HTTP request method is GET");
+               .Expected($"Convention: HTTP request method is {method}");
         }
 
         private static IAssertion ResponseStatusIs(HttpStatusCode status)
