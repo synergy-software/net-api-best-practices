@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Sample.Web.Extensions
+namespace Synergy.Samples.Web.API.Extensions
 {
     public static class ApiVersioningExtensions
     {

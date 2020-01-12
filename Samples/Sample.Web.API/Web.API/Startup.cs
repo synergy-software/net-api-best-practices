@@ -7,13 +7,13 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using Sample.Web.Extensions;
 using Serilog;
 using Serilog.Events;
 using Synergy.Samples.Web.API.Extensions;
-using static Synergy.Samples.Web.API.Extensions.RequestLogProperties;
+using Synergy.Samples.Web.API.Extensions.Logging;
+using static Synergy.Samples.Web.API.Extensions.Logging.RequestLogProperties;
 
-namespace Sample.Web
+namespace Synergy.Samples.Web.API
 {
     public class Startup
     {

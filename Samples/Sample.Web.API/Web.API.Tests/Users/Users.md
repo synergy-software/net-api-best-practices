@@ -87,7 +87,7 @@ Content-Length: 104
 
 ### 2.2. Get created user pointed by "Location" header (1 request)
 
-### 2.2.2. Request to [Get user located at http://localhost/api/v1/users/6b4831c9b1854db8b4b8d5c76aa036b3]
+### 2.2.2. Request to [Get user located at http://localhost/api/v1/users/0db3b4bc277042d490a82a2bb6ebca6c]
 
 - Request
 ```
@@ -125,7 +125,7 @@ Content-Length: 91
 
 ### 3.1. Get user by id (1 request)
 
-### 3.1.1. Request to [Get user with id '6b4831c9b1854db8b4b8d5c76aa036b3']
+### 3.1.1. Request to [Get user with id '0db3b4bc277042d490a82a2bb6ebca6c']
 
 - Request
 ```
@@ -271,23 +271,27 @@ Content-Type: application/json
 
 ### 5.1. Delete user by id (1 request)
 
-### 5.1.1. Request to [Delete user with id '6b4831c9b1854db8b4b8d5c76aa036b3']
+### 5.1.1. Request to [Delete user with id '0db3b4bc277042d490a82a2bb6ebca6c']
 
 - Request
 ```
-DELETE  /api/v1/users/6b4831c9b1854db8b4b8d5c76aa036b3
+DELETE  /api/v1/users/09c206ee65ae400396f554c29437082b
 ```
 
 - Response
 ```
 HTTP/1.1 200 OK
 api-supported-versions: 1.0
+Content-Type: application/json; charset=utf-8
+Content-Length: 2
+{}
 ```
 
 | Expected Results  | Status |
 | - | - |
 | Convention: HTTP request method is DELETE | OK |
 | Convention: Returned HTTP status code is 200 (OK) | OK |
+| Convention: Returned HTTP Content-Type is "application/json" | OK |
 | Manual: User is deleted and no details are returned | OK |
 
 

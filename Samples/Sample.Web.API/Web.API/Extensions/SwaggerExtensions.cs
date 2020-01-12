@@ -6,9 +6,8 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Synergy.Samples.Web.API.Extensions;
 
-namespace Sample.Web.Extensions
+namespace Synergy.Samples.Web.API.Extensions
 {
     public static class SwaggerExtensions
     {

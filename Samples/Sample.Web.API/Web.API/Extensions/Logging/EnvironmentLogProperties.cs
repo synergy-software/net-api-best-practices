@@ -1,6 +1,6 @@
 ﻿using Serilog.Enrichers;
 
-namespace Synergy.Samples.Web.API.Extensions
+namespace Synergy.Samples.Web.API.Extensions.Logging
 {
     // TODO: Logging: consider adding explicit EventId to each event
     // TODO: Add dedicated components for logging

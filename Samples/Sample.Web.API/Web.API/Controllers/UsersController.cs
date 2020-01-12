@@ -5,10 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using Synergy.Samples.Web.API.Services.Infrastructure.Commands;
 using Synergy.Samples.Web.API.Services.Infrastructure.Queries;
 using Synergy.Samples.Web.API.Services.Users.Commands.CreateUser;
+using Synergy.Samples.Web.API.Services.Users.Commands.DeleteUser;
 using Synergy.Samples.Web.API.Services.Users.Queries.GetUser;
 using Synergy.Samples.Web.API.Services.Users.Queries.GetUsers;
 
-namespace Sample.Web.Controllers
+namespace Synergy.Samples.Web.API.Controllers
 {
     [ApiController]
     [ApiVersion("1.0")]
@@ -68,9 +69,9 @@ namespace Sample.Web.Controllers
         }
 
         [HttpDelete("{userId}")]
-        public async Task DeleteUser(string userId)
+        public async Task<DeleteUserCommandResult> DeleteUser(string userId)
         {
-            // TODO: add command
+            return await _commandDispatcher.Dispatch<DeleteUserCommand, IDeleteUserCommandHandler, DeleteUserCommandResult>(new DeleteUserCommand(userId));
         }
     }
 }

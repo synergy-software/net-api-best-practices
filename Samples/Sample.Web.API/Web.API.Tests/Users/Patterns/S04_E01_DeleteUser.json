@@ -2,16 +2,20 @@
   "expectations": [
     "Convention: HTTP request method is DELETE",
     "Convention: Returned HTTP status code is 200 (OK)",
+    "Convention: Returned HTTP Content-Type is \"application/json\"",
     "Manual: User is deleted and no details are returned"
   ],
   "request": {
-    "description": "Delete user with id '6b4831c9b1854db8b4b8d5c76aa036b3'",
-    "method": "DELETE /api/v1/users/6b4831c9b1854db8b4b8d5c76aa036b3"
+    "description": "Delete user with id '09c206ee65ae400396f554c29437082b'",
+    "method": "DELETE /api/v1/users/09c206ee65ae400396f554c29437082b"
   },
   "response": {
     "status": "200 OK",
     "headers": {
-      "api-supported-versions": "1.0"
-    }
+      "api-supported-versions": "1.0",
+      "Content-Type": "application/json; charset=utf-8",
+      "Content-Length": "2"
+    },
+    "body": {}
   }
 }

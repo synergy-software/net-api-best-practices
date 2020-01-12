@@ -1,7 +1,6 @@
 ﻿using System.Net.Http;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Sample.Web;
 using Synergy.Samples.Web.API.Extensions;
 using Synergy.Web.Api.Testing;
 

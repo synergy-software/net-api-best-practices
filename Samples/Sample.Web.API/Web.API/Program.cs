@@ -13,8 +13,9 @@ using Serilog.Events;
 using Serilog.Exceptions;
 using Serilog.Formatting.Json;
 using Synergy.Samples.Web.API.Extensions;
+using Synergy.Samples.Web.API.Extensions.Logging;
 
-namespace Sample.Web
+namespace Synergy.Samples.Web.API
 {
     public class Program
     {
