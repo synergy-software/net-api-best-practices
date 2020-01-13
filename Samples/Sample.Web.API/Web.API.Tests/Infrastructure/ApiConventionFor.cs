@@ -110,12 +110,17 @@ namespace Synergy.Samples.Web.API.Tests.Infrastructure
 
         private static Assertion.Result ValidateIfNodeExists(HttpOperation operation, JToken? token, string node)
         {
-            token.FailIfNull(Violation.Of("\"{0}\" is not present in response body:{1}{1}{2}", node, Environment.NewLine, operation.Response.ToHttpLook()));
-            var value = token.Value<string>();
-            if (String.IsNullOrWhiteSpace(value) == false)
-                return Assertion.Ok;
+            if (token == null)
+                return Assertion.Failure($"\"{node}\" is not present in response: \n\n{operation.Response.ToHttpLook()}");
 
-            return Assertion.Failure($"\"{node}\" is empty in response: \n\n{operation.Response.ToHttpLook()}");
+            var value = token.Value<string>();
+            if (String.IsNullOrWhiteSpace(value))
+            {
+                return Assertion.Failure($"\"{node}\" is empty in response: \n\n{operation.Response.ToHttpLook()}");
+            }
+
+            return Assertion.Ok;
+
         }
 
         public static IEnumerable<IAssertion> Http404NotFound()
