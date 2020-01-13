@@ -59,7 +59,7 @@ namespace Synergy.Samples.Web.API
                                                       {
                                                           diagnosticContext.Set(RequestHost, httpContext.Request.Host.Value);
                                                           diagnosticContext.Set(RequestScheme, httpContext.Request.Scheme);
-                                                          // TODO: Move the envName to Serilog global config - after you move it deeper from Main()
+                                                          // TODO: Move the EnvironmentName to Serilog global config - after you move it deeper from Main()
                                                           diagnosticContext.Set(EnvironmentLogProperties.EnvironmentName, env.EnvironmentName);
                                                       };
                 });

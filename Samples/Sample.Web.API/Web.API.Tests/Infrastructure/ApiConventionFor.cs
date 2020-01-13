@@ -34,7 +34,7 @@ namespace Synergy.Samples.Web.API.Tests.Infrastructure
         /// Gets set of assertions that verify if creation operation meets convention.
         /// E.g. if created element is returned properly from Web API or if POST method is used, etc.
         /// </summary>
-        public static IEnumerable<IAssertion> Create()
+        public static IEnumerable<IAssertion> CreateResource()
         {
             // Request
             foreach (var assertion in CreationRequest()) 
@@ -60,7 +60,7 @@ namespace Synergy.Samples.Web.API.Tests.Infrastructure
             yield return ResponseContentTypeIs(MediaTypeNames.Application.Json);
         }
 
-        public static IEnumerable<IAssertion> GettingList()
+        public static IEnumerable<IAssertion> GetListOfResources()
         {
             // Request
             yield return RequestMethodIs(HttpMethod.Get);
@@ -76,12 +76,25 @@ namespace Synergy.Samples.Web.API.Tests.Infrastructure
                .Expected($"Convention: Returned HTTP Content-Type is \"{contentType}\"");
         }
 
-        public static IEnumerable<IAssertion> CreateWithValidationError()
+        public static IEnumerable<IAssertion> CreateResourceWithValidationError()
         {
-            return CreationRequest()
-               .Concat(BadRequest());
+            foreach (var assertion in CreationRequest().Concat(BadRequest()))
+            {
+                yield return assertion;
+            }
 
-            // TODO: Add response validation - it should NOT contain "Location" header
+            yield return new VerifyResponseHeader(
+                "Location",
+                (operation, value)
+                    =>
+                {
+                    if (String.IsNullOrWhiteSpace(value))
+                        return Assertion.Ok;
+
+                    return Assertion.Failure(
+                        $"There is 'Location' header returned in response and it shouldn't be:\n\n{operation.Response.ToHttpLook()}"
+                        );
+                }).Expected("Convention: There is NO \"Location\" header returned in response");
         }
 
         private static IEnumerable<IAssertion> BadRequest()
@@ -114,16 +127,6 @@ namespace Synergy.Samples.Web.API.Tests.Infrastructure
             yield return ResponseStatusIs(HttpStatusCode.NotFound);
         }
 
-        public static IEnumerable<IAssertion> CreatedResourcePointedByLocation()
-        {
-            // Request
-            yield return RequestMethodIs(HttpMethod.Get);
-
-            // Response
-            yield return ResponseStatusIs(HttpStatusCode.OK);
-            yield return ResponseContentTypeIs(MediaTypeNames.Application.Json);
-        }
-
         public static IEnumerable<IAssertion> GetSingleResource()
         {
             // Request
@@ -151,16 +154,6 @@ namespace Synergy.Samples.Web.API.Tests.Infrastructure
 
             // Response
             yield return ResponseStatusIs(HttpStatusCode.OK);
-            yield return ResponseContentTypeIs(MediaTypeNames.Application.Json);
-        }
-
-        public static IEnumerable<IAssertion> TryToGetDeletedResource()
-        {
-            // Request
-            yield return RequestMethodIs(HttpMethod.Get);
-
-            // Response
-            yield return ResponseStatusIs(HttpStatusCode.NotFound);
             yield return ResponseContentTypeIs(MediaTypeNames.Application.Json);
         }
     }

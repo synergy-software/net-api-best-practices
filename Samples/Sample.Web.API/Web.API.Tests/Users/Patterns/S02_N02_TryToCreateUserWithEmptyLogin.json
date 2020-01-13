@@ -4,6 +4,7 @@
     "Convention: Returned HTTP status code is 400 (BadRequest)",
     "Convention: error JSON contains \"message\" node",
     "Convention: error JSON contains \"traceId\" node",
+    "Convention: There is NO \"Location\" header returned in response",
     "Manual: User is NOT created and error is returned"
   ],
   "request": {
@@ -24,7 +25,7 @@
     },
     "body": {
       "message": "'Login' is whitespace",
-      "traceId": "0HLSO2JRG2T50"
+      "traceId": "0HLSO8SOBK0ID"
     }
   }
 }

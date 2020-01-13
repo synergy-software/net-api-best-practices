@@ -88,7 +88,7 @@ Content-Length: 104
 
 ### 2.2. Get created user pointed by "Location" header (1 request)
 
-### 2.2.2. Request to [Get user located at http://localhost/api/v1/users/6f5543256b314387853b9df16282d8d4]
+### 2.2.2. Request to [Get user located at http://localhost/api/v1/users/4c2738dd1ca743b49d6d17c814ee829d]
 
 - Request
 ```
@@ -127,7 +127,7 @@ Content-Length: 104
 
 ### 3.1. Get user by id (1 request)
 
-### 3.1.1. Request to [Get user with id '6f5543256b314387853b9df16282d8d4']
+### 3.1.1. Request to [Get user with id '4c2738dd1ca743b49d6d17c814ee829d']
 
 - Request
 ```
@@ -253,7 +253,7 @@ api-supported-versions: 1.0
 Content-Type: application/json
 {
   "message": "'Login' is whitespace",
-  "traceId": "0HLSO2JRG2T4V"
+  "traceId": "0HLSO8SOBK0IC"
 }
 ```
 
@@ -263,6 +263,7 @@ Content-Type: application/json
 | Convention: Returned HTTP status code is 400 (BadRequest) | OK |
 | Convention: error JSON contains "message" node | OK |
 | Convention: error JSON contains "traceId" node | OK |
+| Convention: There is NO "Location" header returned in response | OK |
 | Manual: User is NOT created and error is returned | OK |
 
 
@@ -286,7 +287,7 @@ api-supported-versions: 1.0
 Content-Type: application/json
 {
   "message": "'Login' is whitespace",
-  "traceId": "0HLSO2JRG2T50"
+  "traceId": "0HLSO8SOBK0ID"
 }
 ```
 
@@ -296,6 +297,7 @@ Content-Type: application/json
 | Convention: Returned HTTP status code is 400 (BadRequest) | OK |
 | Convention: error JSON contains "message" node | OK |
 | Convention: error JSON contains "traceId" node | OK |
+| Convention: There is NO "Location" header returned in response | OK |
 | Manual: User is NOT created and error is returned | OK |
 
 
@@ -319,7 +321,7 @@ api-supported-versions: 1.0
 Content-Type: application/json
 {
   "message": "'Login' is whitespace",
-  "traceId": "0HLSO2JRG2T51"
+  "traceId": "0HLSO8SOBK0IE"
 }
 ```
 
@@ -329,6 +331,7 @@ Content-Type: application/json
 | Convention: Returned HTTP status code is 400 (BadRequest) | OK |
 | Convention: error JSON contains "message" node | OK |
 | Convention: error JSON contains "traceId" node | OK |
+| Convention: There is NO "Location" header returned in response | OK |
 | Manual: User is NOT created and error is returned | OK |
 
 
@@ -342,7 +345,7 @@ Content-Type: application/json
 
 ### 6.1. Delete user by id (1 request)
 
-### 6.1.1. Request to [Delete user with id '6f5543256b314387853b9df16282d8d4']
+### 6.1.1. Request to [Delete user with id '4c2738dd1ca743b49d6d17c814ee829d']
 
 - Request
 ```
@@ -368,7 +371,7 @@ Content-Length: 2
 
 ### 6.2. Try to get the deleted user (1 request)
 
-### 6.2.2. Request to [Get user with id '6f5543256b314387853b9df16282d8d4']
+### 6.2.2. Request to [Get user with id '4c2738dd1ca743b49d6d17c814ee829d']
 
 - Request
 ```

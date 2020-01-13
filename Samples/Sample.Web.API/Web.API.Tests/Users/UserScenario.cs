@@ -48,7 +48,7 @@ namespace Synergy.Samples.Web.API.Tests.Users
 
             users.GetAll()
                  .InStep(scenario.Step("Retrieve users"))
-                 .ShouldBe(ApiConventionFor.GettingList())
+                 .ShouldBe(ApiConventionFor.GetListOfResources())
                  .ShouldBe(
                       EqualToPattern("/Patterns/S01_E01_GetEmptyListOfUsers.json")
                          .Expected("Manual: Empty users list is returned")
@@ -61,7 +61,7 @@ namespace Synergy.Samples.Web.API.Tests.Users
 
             users.Create("marcin@synergy.com")
                  .InStep(scenario.Step("Create new user"))
-                 .ShouldBe(ApiConventionFor.Create())
+                 .ShouldBe(ApiConventionFor.CreateResource())
                  .ShouldBe(
                       EqualToPattern("/Patterns/S02_E01_CreateUser.json")
                          .Ignore(ResponseLocationHeader())
@@ -72,7 +72,7 @@ namespace Synergy.Samples.Web.API.Tests.Users
 
             users.GetUserBy(location)
                  .InStep(scenario.Step("Get created user pointed by \"Location\" header"))
-                 .ShouldBe(ApiConventionFor.CreatedResourcePointedByLocation())
+                 .ShouldBe(ApiConventionFor.GetSingleResource())
                  .ShouldBe(
                       EqualToPattern("/Patterns/S02_E02_GetCreatedUserByLocation.json")
                          .Ignore(RequestMethod())
@@ -111,9 +111,10 @@ namespace Synergy.Samples.Web.API.Tests.Users
 
             users.GetAll()
                  .InStep(scenario.Step("Retrieve users"))
-                 .ShouldBe(ApiConventionFor.GettingList())
+                 .ShouldBe(ApiConventionFor.GetListOfResources())
                  .ShouldBe(
                       EqualToPattern("/Patterns/S04_E01_GetListOfUsers.json")
+                         .Ignore(ResponseBody("users[*].id"))
                          .Expected("Manual: Users list is returned")
                       );
         }
@@ -147,7 +148,7 @@ namespace Synergy.Samples.Web.API.Tests.Users
 #pragma warning disable CS8625
             users.Create(null)
                  .InStep(scenario.Step("Negative test: Create user with a null login"))
-                 .ShouldBe(ApiConventionFor.CreateWithValidationError())
+                 .ShouldBe(ApiConventionFor.CreateResourceWithValidationError())
                  .ShouldBe(
                       EqualToPattern("/Patterns/S02_N01_TryToCreateUserWithNullLogin.json")
                          .Ignore(errorNodes)
@@ -156,7 +157,7 @@ namespace Synergy.Samples.Web.API.Tests.Users
 
             users.Create("")
                  .InStep(scenario.Step("Negative test: Create user with an empty login"))
-                 .ShouldBe(ApiConventionFor.CreateWithValidationError())
+                 .ShouldBe(ApiConventionFor.CreateResourceWithValidationError())
                  .ShouldBe(
                       EqualToPattern("/Patterns/S02_N02_TryToCreateUserWithEmptyLogin.json")
                          .Ignore(errorNodes)
@@ -164,7 +165,7 @@ namespace Synergy.Samples.Web.API.Tests.Users
 
             users.Create("  ")
                  .InStep(scenario.Step("Negative test: Create user with a whitespace login"))
-                 .ShouldBe(ApiConventionFor.CreateWithValidationError())
+                 .ShouldBe(ApiConventionFor.CreateResourceWithValidationError())
                  .ShouldBe(
                       EqualToPattern("/Patterns/S02_N03_TryToCreateUserWithWhitespaceLogin.json")
                          .Ignore(errorNodes)

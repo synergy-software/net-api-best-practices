@@ -1,4 +1,5 @@
-﻿namespace Synergy.Samples.Web.API.Extensions.Logging {
+﻿namespace Synergy.Samples.Web.API.Extensions.Logging
+{
     /// <example>
     /// {
     /// "Timestamp":"2020-01-09T12:02:18.7077279+01:00",

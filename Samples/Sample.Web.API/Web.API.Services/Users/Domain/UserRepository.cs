@@ -30,7 +30,7 @@ namespace Synergy.Samples.Web.API.Services.Users.Domain
         {
             var user = await FindUserBy(userId);
             Fail.IfNull(user, Violation.Of("There is no user with id '{0}'", userId));
-            return user;
+            return user!;
         }
 
         public async Task DeleteUser(string userId)
