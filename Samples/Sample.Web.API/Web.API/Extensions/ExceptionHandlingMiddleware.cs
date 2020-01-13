@@ -4,6 +4,7 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using Synergy.Samples.Web.API.Services.Infrastructure.Exceptions;
 
 namespace Synergy.Samples.Web.API.Extensions
 {
@@ -38,11 +39,18 @@ namespace Synergy.Samples.Web.API.Extensions
             // TODO: Depending on exception type decide to return (or not) exception details to the client
             var details = new ErrorDetails(traceId, exception.Message);
 
-            // TODO: Depending on exception type change returned status code
-            context.Response.StatusCode = (int) HttpStatusCode.BadRequest;
+            context.Response.StatusCode = (int)GetResponseStatus(exception);
             context.Response.ContentType = MediaTypeNames.Application.Json;
             var payload = JsonConvert.SerializeObject(details);
             return context.Response.WriteAsync(payload);
+        }
+
+        private static HttpStatusCode GetResponseStatus(Exception exception)
+        {
+            if (exception is ResourceNotFoundException)
+                return HttpStatusCode.NotFound;
+
+            return HttpStatusCode.BadRequest;
         }
 
         // TODO: Rozważ zwracanie struktury ProblemDetails - zgodnie z https://tools.ietf.org/html/rfc7807
