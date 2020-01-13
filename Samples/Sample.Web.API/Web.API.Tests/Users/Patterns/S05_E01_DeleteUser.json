@@ -6,8 +6,8 @@
     "Manual: User is deleted and no details are returned"
   ],
   "request": {
-    "description": "Delete user with id '09c206ee65ae400396f554c29437082b'",
-    "method": "DELETE /api/v1/users/09c206ee65ae400396f554c29437082b"
+    "description": "Delete user with id '6f5543256b314387853b9df16282d8d4'",
+    "method": "DELETE /api/v1/users/6f5543256b314387853b9df16282d8d4"
   },
   "response": {
     "status": "200 OK",

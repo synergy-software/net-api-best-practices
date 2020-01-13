@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using JetBrains.Annotations;
@@ -15,5 +16,8 @@ namespace Synergy.Samples.Web.API.Extensions
 
         public static ReadOnlyCollection<T> AsReadOnly<T>(this IEnumerable<T> collection)
             => collection.ToList().AsReadOnly();
+
+        public static ReadOnlyCollection<TDestination> ConvertAll<TSource, TDestination>(this ReadOnlyCollection<TSource> collection, Func<TSource, TDestination> converter)
+            => collection.Select(converter).ToList().AsReadOnly();
     }
 }

@@ -20,6 +20,12 @@ namespace Synergy.Web.Api.Testing.Json
             Nodes = nodes.Distinct().ToList().AsReadOnly();
         }
 
+        public Ignore And(Ignore ignore)
+        {
+            this.Append(ignore.Nodes);
+            return this;
+        }
+
         public static Ignore ResponseBody(params string[] nodes)
         {
             var ignore = new Ignore();

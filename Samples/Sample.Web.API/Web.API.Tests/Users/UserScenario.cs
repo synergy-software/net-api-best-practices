@@ -34,6 +34,7 @@ namespace Synergy.Samples.Web.API.Tests.Users
             GetEmptyListOfUsers();
             var userId = CreateUser();
             GetUser(userId);
+            GetListOfUsers();
             TryToCreateUserWithErrors();
             DeleteUser(userId);
 
@@ -104,6 +105,19 @@ namespace Synergy.Samples.Web.API.Tests.Users
                          .Expected("Manual: No user details are returned and 404 error (not found) is returned instead"));
         }
 
+        private void GetListOfUsers()
+        {
+            var scenario = feature.Scenario("Get list of users");
+
+            users.GetAll()
+                 .InStep(scenario.Step("Retrieve users"))
+                 .ShouldBe(ApiConventionFor.GettingList())
+                 .ShouldBe(
+                      EqualToPattern("/Patterns/S04_E01_GetListOfUsers.json")
+                         .Expected("Manual: Users list is returned")
+                      );
+        }
+
         private void DeleteUser(string userId)
         {
             var scenario = feature.Scenario("Delete user");
@@ -112,7 +126,7 @@ namespace Synergy.Samples.Web.API.Tests.Users
                  .InStep(scenario.Step("Delete user by id"))
                  .ShouldBe(ApiConventionFor.DeleteResource())
                  .ShouldBe(
-                      EqualToPattern("/Patterns/S04_E01_DeleteUser.json")
+                      EqualToPattern("/Patterns/S05_E01_DeleteUser.json")
                          .Ignore(RequestMethod())
                          .Expected("Manual: User is deleted and no details are returned"));
 
@@ -120,9 +134,9 @@ namespace Synergy.Samples.Web.API.Tests.Users
                  .InStep(scenario.Step("Try to get the deleted user"))
                  .ShouldBe(ApiConventionFor.GetSingleResourceThatDoNotExist())
                  .ShouldBe(
-                      EqualToPattern("/Patterns/S04_E02_GetDeletedUser.json")
+                      EqualToPattern("/Patterns/S05_E02_GetDeletedUser.json")
                          .Ignore(RequestMethod())
-                         .Ignore(errorNodes)
+                         .Ignore(errorNodes.And(ResponseBody("message")))
                          .Expected("Manual: User is not found and error is returned"));
         }
 

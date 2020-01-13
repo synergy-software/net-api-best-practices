@@ -3,24 +3,26 @@
     "Convention: HTTP request method is GET",
     "Convention: Returned HTTP status code is 200 (OK)",
     "Convention: Returned HTTP Content-Type is \"application/json\"",
-    "Manual: User details are returned"
+    "Manual: Users list is returned"
   ],
   "request": {
-    "description": "Get user located at http://localhost/api/v1/users/6f5543256b314387853b9df16282d8d4",
-    "method": "GET /api/v1/users/6f5543256b314387853b9df16282d8d4"
+    "description": "Get list of users",
+    "method": "GET /api/v1/users"
   },
   "response": {
     "status": "200 OK",
     "headers": {
       "api-supported-versions": "1.0",
       "Content-Type": "application/json; charset=utf-8",
-      "Content-Length": "104"
+      "Content-Length": "123"
     },
     "body": {
-      "user": {
-        "id": "6f5543256b314387853b9df16282d8d4",
-        "login": "marcin@synergy.com"
-      }
+      "users": [
+        {
+          "id": "6f5543256b314387853b9df16282d8d4",
+          "login": "marcin@synergy.com"
+        }
+      ]
     }
   }
 }

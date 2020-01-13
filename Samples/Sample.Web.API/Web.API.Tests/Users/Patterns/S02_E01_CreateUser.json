@@ -19,14 +19,14 @@
   "response": {
     "status": "201 Created",
     "headers": {
-      "Location": "http://localhost/api/v1/users/6b4831c9b1854db8b4b8d5c76aa036b3",
+      "Location": "http://localhost/api/v1/users/6f5543256b314387853b9df16282d8d4",
       "api-supported-versions": "1.0",
       "Content-Type": "application/json; charset=utf-8",
       "Content-Length": "104"
     },
     "body": {
       "user": {
-        "id": "6b4831c9b1854db8b4b8d5c76aa036b3",
+        "id": "6f5543256b314387853b9df16282d8d4",
         "login": "marcin@synergy.com"
       }
     }

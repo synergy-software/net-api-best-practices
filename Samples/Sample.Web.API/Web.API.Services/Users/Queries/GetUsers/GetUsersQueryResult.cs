@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using Newtonsoft.Json;
+using Synergy.Samples.Web.API.Extensions;
+using Synergy.Samples.Web.API.Services.Users.Domain;
 
 namespace Synergy.Samples.Web.API.Services.Users.Queries.GetUsers
 {
@@ -9,9 +10,9 @@ namespace Synergy.Samples.Web.API.Services.Users.Queries.GetUsers
         [JsonProperty("users")]
         public ReadOnlyCollection<UserReadModel> Users { get; }
 
-        public GetUsersQueryResult()
+        public GetUsersQueryResult(ReadOnlyCollection<User> users)
         {
-            Users = new ReadOnlyCollection<UserReadModel>(new List<UserReadModel>());
+            Users = users.ConvertAll(user => new UserReadModel(user));
         }
     }
 }

@@ -6,8 +6,8 @@
     "Manual: User is not found and error is returned"
   ],
   "request": {
-    "description": "Get user with id '3fc23a6e3e7f42cca8f2ca2cb054b3c2'",
-    "method": "GET /api/v1/users/3fc23a6e3e7f42cca8f2ca2cb054b3c2"
+    "description": "Get user with id '6f5543256b314387853b9df16282d8d4'",
+    "method": "GET /api/v1/users/6f5543256b314387853b9df16282d8d4"
   },
   "response": {
     "status": "404 Not Found",
@@ -16,8 +16,8 @@
       "Content-Type": "application/json"
     },
     "body": {
-      "message": "User with id 3fc23a6e3e7f42cca8f2ca2cb054b3c2 does not exist",
-      "traceId": "0HLSO0C6HE5UV"
+      "message": "User with id 6f5543256b314387853b9df16282d8d4 does not exist",
+      "traceId": "0HLSO2JRG2T52"
     }
   }
 }
