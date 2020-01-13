@@ -134,6 +134,16 @@ namespace Synergy.Samples.Web.API.Tests.Infrastructure
             yield return ResponseContentTypeIs(MediaTypeNames.Application.Json);
         }
 
+        public static IEnumerable<IAssertion> GetSingleResourceThatDoNotExist()
+        {
+            // Request
+            yield return RequestMethodIs(HttpMethod.Get);
+
+            // Response
+            yield return ResponseStatusIs(HttpStatusCode.NotFound);
+            yield return ResponseContentTypeIs(MediaTypeNames.Application.Json);
+        }
+
         public static IEnumerable<IAssertion> DeleteResource()
         {
             // Request
@@ -141,7 +151,7 @@ namespace Synergy.Samples.Web.API.Tests.Infrastructure
 
             // Response
             yield return ResponseStatusIs(HttpStatusCode.OK);
-            //yield return ResponseContentTypeIs();
+            yield return ResponseContentTypeIs(MediaTypeNames.Application.Json);
         }
 
         public static IEnumerable<IAssertion> TryToGetDeletedResource()

@@ -2,9 +2,9 @@
 
 1. [Get empty list of users](#1-get-empty-list-of-users-1-step)
 1. [Create a user](#2-create-a-user-2-steps)
-1. [Get user](#3-get-user-1-step)
+1. [Get user](#3-get-user-2-steps)
 1. [Try to create user without login](#4-try-to-create-user-without-login-3-steps)
-1. [Delete user](#5-delete-user-1-step)
+1. [Delete user](#5-delete-user-2-steps)
 
 ## 1. Get empty list of users (1 step)
 
@@ -87,11 +87,11 @@ Content-Length: 104
 
 ### 2.2. Get created user pointed by "Location" header (1 request)
 
-### 2.2.2. Request to [Get user located at http://localhost/api/v1/users/0db3b4bc277042d490a82a2bb6ebca6c]
+### 2.2.2. Request to [Get user located at http://localhost/api/v1/users/3fc23a6e3e7f42cca8f2ca2cb054b3c2]
 
 - Request
 ```
-GET  /api/v1/users/6b4831c9b1854db8b4b8d5c76aa036b3
+GET  /api/v1/users/ab7092e90de744a69f7e5833feaee23d
 ```
 
 - Response
@@ -99,11 +99,11 @@ GET  /api/v1/users/6b4831c9b1854db8b4b8d5c76aa036b3
 HTTP/1.1 200 OK
 api-supported-versions: 1.0
 Content-Type: application/json; charset=utf-8
-Content-Length: 91
+Content-Length: 104
 {
   "user": {
-    "id": "6b4831c9b1854db8b4b8d5c76aa036b3",
-    "login": "login"
+    "id": "ab7092e90de744a69f7e5833feaee23d",
+    "login": "marcin@synergy.com"
   }
 }
 ```
@@ -117,19 +117,20 @@ Content-Length: 91
 
 
 
-## 3. Get user (1 step)
+## 3. Get user (2 steps)
 
 | # | Step Actions | Status |
 | - | - | - |
 | 1 | Get user by id | OK |
+| 2 | Negative test: Try to get user that do not exist | OK |
 
 ### 3.1. Get user by id (1 request)
 
-### 3.1.1. Request to [Get user with id '0db3b4bc277042d490a82a2bb6ebca6c']
+### 3.1.1. Request to [Get user with id '3fc23a6e3e7f42cca8f2ca2cb054b3c2']
 
 - Request
 ```
-GET  /api/v1/users/6b4831c9b1854db8b4b8d5c76aa036b3
+GET  /api/v1/users/ab7092e90de744a69f7e5833feaee23d
 ```
 
 - Response
@@ -137,11 +138,11 @@ GET  /api/v1/users/6b4831c9b1854db8b4b8d5c76aa036b3
 HTTP/1.1 200 OK
 api-supported-versions: 1.0
 Content-Type: application/json; charset=utf-8
-Content-Length: 91
+Content-Length: 104
 {
   "user": {
-    "id": "6b4831c9b1854db8b4b8d5c76aa036b3",
-    "login": "login"
+    "id": "ab7092e90de744a69f7e5833feaee23d",
+    "login": "marcin@synergy.com"
   }
 }
 ```
@@ -152,6 +153,34 @@ Content-Length: 91
 | Convention: Returned HTTP status code is 200 (OK) | OK |
 | Convention: Returned HTTP Content-Type is "application/json" | OK |
 | Manual: User details are returned | OK |
+
+
+### 3.2. Negative test: Try to get user that do not exist (1 request)
+
+### 3.2.2. Request to [Get user with id 'user-id-that-do-not-exist']
+
+- Request
+```
+GET  /api/v1/users/user-id-that-do-not-exist
+```
+
+- Response
+```
+HTTP/1.1 404 NotFound
+api-supported-versions: 1.0
+Content-Type: application/json
+{
+  "message": "User with id user-id-that-do-not-exist does not exist",
+  "traceId": "0HLSNUFOLK6VS"
+}
+```
+
+| Expected Results  | Status |
+| - | - |
+| Convention: HTTP request method is GET | OK |
+| Convention: Returned HTTP status code is 404 (NotFound) | OK |
+| Convention: Returned HTTP Content-Type is "application/json" | OK |
+| Manual: No user details are returned and 404 error (not found) is returned instead | OK |
 
 
 
@@ -159,11 +188,11 @@ Content-Length: 91
 
 | # | Step Actions | Status |
 | - | - | - |
-| 1 | Create user with a null login | OK |
-| 2 | Create user with an empty login | OK |
-| 3 | Create user with a whitespace login | OK |
+| 1 | Negative test: Create user with a null login | OK |
+| 2 | Negative test: Create user with an empty login | OK |
+| 3 | Negative test: Create user with a whitespace login | OK |
 
-### 4.1. Create user with a null login (1 request)
+### 4.1. Negative test: Create user with a null login (1 request)
 
 ### 4.1.1. Request to [Create a new user with login null]
 
@@ -196,7 +225,7 @@ Content-Type: application/json
 | Manual: User is NOT created and error is returned | OK |
 
 
-### 4.2. Create user with an empty login (1 request)
+### 4.2. Negative test: Create user with an empty login (1 request)
 
 ### 4.2.2. Request to [Create a new user with login '']
 
@@ -229,7 +258,7 @@ Content-Type: application/json
 | Manual: User is NOT created and error is returned | OK |
 
 
-### 4.3. Create user with a whitespace login (1 request)
+### 4.3. Negative test: Create user with a whitespace login (1 request)
 
 ### 4.3.3. Request to [Create a new user with login '  ']
 
@@ -263,15 +292,16 @@ Content-Type: application/json
 
 
 
-## 5. Delete user (1 step)
+## 5. Delete user (2 steps)
 
 | # | Step Actions | Status |
 | - | - | - |
 | 1 | Delete user by id | OK |
+| 2 | Try to get the deleted user | OK |
 
 ### 5.1. Delete user by id (1 request)
 
-### 5.1.1. Request to [Delete user with id '0db3b4bc277042d490a82a2bb6ebca6c']
+### 5.1.1. Request to [Delete user with id '3fc23a6e3e7f42cca8f2ca2cb054b3c2']
 
 - Request
 ```
@@ -293,5 +323,33 @@ Content-Length: 2
 | Convention: Returned HTTP status code is 200 (OK) | OK |
 | Convention: Returned HTTP Content-Type is "application/json" | OK |
 | Manual: User is deleted and no details are returned | OK |
+
+
+### 5.2. Try to get the deleted user (1 request)
+
+### 5.2.2. Request to [Get user with id '3fc23a6e3e7f42cca8f2ca2cb054b3c2']
+
+- Request
+```
+GET  /api/v1/users/3fc23a6e3e7f42cca8f2ca2cb054b3c2
+```
+
+- Response
+```
+HTTP/1.1 404 NotFound
+api-supported-versions: 1.0
+Content-Type: application/json
+{
+  "message": "User with id 3fc23a6e3e7f42cca8f2ca2cb054b3c2 does not exist",
+  "traceId": "0HLSO0C6HE5UV"
+}
+```
+
+| Expected Results  | Status |
+| - | - |
+| Convention: HTTP request method is GET | OK |
+| Convention: Returned HTTP status code is 404 (NotFound) | OK |
+| Convention: Returned HTTP Content-Type is "application/json" | OK |
+| Manual: User is not found and error is returned | OK |
 
 

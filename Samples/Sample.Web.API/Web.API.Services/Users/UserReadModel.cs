@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Synergy.Samples.Web.API.Services.Users.Domain;
 
 namespace Synergy.Samples.Web.API.Services.Users
 {
@@ -14,6 +15,12 @@ namespace Synergy.Samples.Web.API.Services.Users
         {
             Id = id;
             Login = login;
+        }
+
+        public UserReadModel(User user)
+        {
+            this.Id = user.Id;
+            this.Login = user.Login;
         }
     }
 }

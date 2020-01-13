@@ -1,0 +1,23 @@
+{
+  "expectations": [
+    "Convention: HTTP request method is GET",
+    "Convention: Returned HTTP status code is 404 (NotFound)",
+    "Convention: Returned HTTP Content-Type is \"application/json\"",
+    "Manual: User is not found and error is returned"
+  ],
+  "request": {
+    "description": "Get user with id '3fc23a6e3e7f42cca8f2ca2cb054b3c2'",
+    "method": "GET /api/v1/users/3fc23a6e3e7f42cca8f2ca2cb054b3c2"
+  },
+  "response": {
+    "status": "404 Not Found",
+    "headers": {
+      "api-supported-versions": "1.0",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "message": "User with id 3fc23a6e3e7f42cca8f2ca2cb054b3c2 does not exist",
+      "traceId": "0HLSO0C6HE5UV"
+    }
+  }
+}

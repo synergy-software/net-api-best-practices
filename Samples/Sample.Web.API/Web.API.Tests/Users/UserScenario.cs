@@ -94,7 +94,14 @@ namespace Synergy.Samples.Web.API.Tests.Users
                          .Ignore(ResponseBody("user.id"))
                          .Expected("Manual: User details are returned"));
 
-            // TODO: Add negative step - e.g. Get user by id that do not exist
+            users.GetUser("user-id-that-do-not-exist")
+                 .InStep(scenario.Step("Negative test: Try to get user that do not exist"))
+                 .ShouldBe(ApiConventionFor.GetSingleResourceThatDoNotExist())
+                 .ShouldBe(
+                      EqualToPattern("/Patterns/S03_N02_GetUserThatDoNotExist.json")
+                         .Ignore(RequestMethod())
+                         .Ignore(errorNodes)
+                         .Expected("Manual: No user details are returned and 404 error (not found) is returned instead"));
         }
 
         private void DeleteUser(string userId)
@@ -109,13 +116,14 @@ namespace Synergy.Samples.Web.API.Tests.Users
                          .Ignore(RequestMethod())
                          .Expected("Manual: User is deleted and no details are returned"));
 
-            //users.GetUser(userId)
-            //     .InStep(scenario.Step("Try to get the deleted user"))
-            //     .ShouldBe(ApiConventionFor.TryToGetDeletedResource())
-            //     .ShouldBe(
-            //          EqualToPattern("/Patterns/S04_E02_GetDeletedUser.json")
-            //             .Ignore(RequestMethod())
-            //             .Expected("Manual: User is not found and error is returned"));
+            users.GetUser(userId)
+                 .InStep(scenario.Step("Try to get the deleted user"))
+                 .ShouldBe(ApiConventionFor.GetSingleResourceThatDoNotExist())
+                 .ShouldBe(
+                      EqualToPattern("/Patterns/S04_E02_GetDeletedUser.json")
+                         .Ignore(RequestMethod())
+                         .Ignore(errorNodes)
+                         .Expected("Manual: User is not found and error is returned"));
         }
 
         private void TryToCreateUserWithErrors()
@@ -124,7 +132,7 @@ namespace Synergy.Samples.Web.API.Tests.Users
 
 #pragma warning disable CS8625
             users.Create(null)
-                 .InStep(scenario.Step("Create user with a null login"))
+                 .InStep(scenario.Step("Negative test: Create user with a null login"))
                  .ShouldBe(ApiConventionFor.CreateWithValidationError())
                  .ShouldBe(
                       EqualToPattern("/Patterns/S02_N01_TryToCreateUserWithNullLogin.json")
@@ -133,7 +141,7 @@ namespace Synergy.Samples.Web.API.Tests.Users
 #pragma warning restore CS8625
 
             users.Create("")
-                 .InStep(scenario.Step("Create user with an empty login"))
+                 .InStep(scenario.Step("Negative test: Create user with an empty login"))
                  .ShouldBe(ApiConventionFor.CreateWithValidationError())
                  .ShouldBe(
                       EqualToPattern("/Patterns/S02_N02_TryToCreateUserWithEmptyLogin.json")
@@ -141,7 +149,7 @@ namespace Synergy.Samples.Web.API.Tests.Users
                          .Expected("Manual: User is NOT created and error is returned"));
 
             users.Create("  ")
-                 .InStep(scenario.Step("Create user with a whitespace login"))
+                 .InStep(scenario.Step("Negative test: Create user with a whitespace login"))
                  .ShouldBe(ApiConventionFor.CreateWithValidationError())
                  .ShouldBe(
                       EqualToPattern("/Patterns/S02_N03_TryToCreateUserWithWhitespaceLogin.json")

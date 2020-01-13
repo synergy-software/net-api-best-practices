@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Synergy.Samples.Web.API.Services.Users.Domain;
 
 namespace Synergy.Samples.Web.API.Services.Users.Commands.CreateUser
 {
@@ -7,9 +8,9 @@ namespace Synergy.Samples.Web.API.Services.Users.Commands.CreateUser
         [JsonProperty("user")]
         public UserReadModel User { get; }
 
-        public CreateUserCommandResult(string id, string login)
+        public CreateUserCommandResult(User user)
         {
-            User = new UserReadModel(id, login);
+            User = new UserReadModel(user);
         }
     }
 }
