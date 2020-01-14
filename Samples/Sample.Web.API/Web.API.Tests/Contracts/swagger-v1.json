@@ -182,11 +182,13 @@
         "nullable": true
       },
       "CreateUserCommand": {
+        "required": [
+          "login"
+        ],
         "type": "object",
         "properties": {
           "login": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           }
         },
         "nullable": true

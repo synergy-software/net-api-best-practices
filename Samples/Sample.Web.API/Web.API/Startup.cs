@@ -28,7 +28,7 @@ namespace Synergy.Samples.Web.API
         {
             Log.Debug("Adding controllers");
             services.AddControllers()
-                    .ConfigureApiBehaviorOptions(options => { options.SuppressModelStateInvalidFilter = true; })
+                    .ConfigureApiBehaviorOptions(options => { options.SuppressModelStateInvalidFilter = false; })
                     .AddNewtonsoftJson(
                          options =>
                          {

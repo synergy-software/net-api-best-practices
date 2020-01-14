@@ -88,7 +88,7 @@ Content-Length: 104
 
 ### 2.2. Get created user pointed by "Location" header (1 request)
 
-### 2.2.2. Request to [Get user located at http://localhost/api/v1/users/4c2738dd1ca743b49d6d17c814ee829d]
+### 2.2.2. Request to [Get user located at http://localhost/api/v1/users/61cecca6534a421980e7bac6efc9e08f]
 
 - Request
 ```
@@ -127,7 +127,7 @@ Content-Length: 104
 
 ### 3.1. Get user by id (1 request)
 
-### 3.1.1. Request to [Get user with id '4c2738dd1ca743b49d6d17c814ee829d']
+### 3.1.1. Request to [Get user with id '61cecca6534a421980e7bac6efc9e08f']
 
 - Request
 ```
@@ -249,11 +249,18 @@ Content-Type: application/json; charset=utf-8
 - Response
 ```
 HTTP/1.1 400 BadRequest
-api-supported-versions: 1.0
-Content-Type: application/json
+Content-Type: application/json; charset=utf-8
+Content-Length: 253
 {
-  "message": "'Login' is whitespace",
-  "traceId": "0HLSO8SOBK0IC"
+  "errors": {
+    "login": [
+      "The Login field is required."
+    ]
+  },
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+  "title": "One or more validation errors occurred.",
+  "status": 400,
+  "traceId": "0HLSO9AUFG21C"
 }
 ```
 
@@ -283,11 +290,18 @@ Content-Type: application/json; charset=utf-8
 - Response
 ```
 HTTP/1.1 400 BadRequest
-api-supported-versions: 1.0
-Content-Type: application/json
+Content-Type: application/json; charset=utf-8
+Content-Length: 253
 {
-  "message": "'Login' is whitespace",
-  "traceId": "0HLSO8SOBK0ID"
+  "errors": {
+    "login": [
+      "The Login field is required."
+    ]
+  },
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+  "title": "One or more validation errors occurred.",
+  "status": 400,
+  "traceId": "0HLSO9AUFG21D"
 }
 ```
 
@@ -317,11 +331,18 @@ Content-Type: application/json; charset=utf-8
 - Response
 ```
 HTTP/1.1 400 BadRequest
-api-supported-versions: 1.0
-Content-Type: application/json
+Content-Type: application/json; charset=utf-8
+Content-Length: 253
 {
-  "message": "'Login' is whitespace",
-  "traceId": "0HLSO8SOBK0IE"
+  "errors": {
+    "login": [
+      "The Login field is required."
+    ]
+  },
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+  "title": "One or more validation errors occurred.",
+  "status": 400,
+  "traceId": "0HLSO9AUFG21E"
 }
 ```
 
@@ -345,7 +366,7 @@ Content-Type: application/json
 
 ### 6.1. Delete user by id (1 request)
 
-### 6.1.1. Request to [Delete user with id '4c2738dd1ca743b49d6d17c814ee829d']
+### 6.1.1. Request to [Delete user with id '61cecca6534a421980e7bac6efc9e08f']
 
 - Request
 ```
@@ -371,7 +392,7 @@ Content-Length: 2
 
 ### 6.2. Try to get the deleted user (1 request)
 
-### 6.2.2. Request to [Get user with id '4c2738dd1ca743b49d6d17c814ee829d']
+### 6.2.2. Request to [Get user with id '61cecca6534a421980e7bac6efc9e08f']
 
 - Request
 ```

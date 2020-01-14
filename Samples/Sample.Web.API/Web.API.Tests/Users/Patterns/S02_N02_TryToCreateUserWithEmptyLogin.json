@@ -20,12 +20,19 @@
   "response": {
     "status": "400 Bad Request",
     "headers": {
-      "api-supported-versions": "1.0",
-      "Content-Type": "application/json"
+      "Content-Type": "application/json; charset=utf-8",
+      "Content-Length": "253"
     },
     "body": {
-      "message": "'Login' is whitespace",
-      "traceId": "0HLSO8SOBK0ID"
+      "errors": {
+        "login": [
+          "The Login field is required."
+        ]
+      },
+      "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+      "title": "One or more validation errors occurred.",
+      "status": 400,
+      "traceId": "0HLSO9AUFG21D"
     }
   }
 }
